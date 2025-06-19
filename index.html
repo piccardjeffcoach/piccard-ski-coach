@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz : L'IA et l'Entraîneur de Ski 2.0</title>
+    <title>L'IA au chevet de l'entraîneur 2.0 : Infographie & Quiz</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* Styles communs et spécifiques à l'infographie */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6; /* bg-gray-100 */
@@ -19,6 +21,29 @@
             margin: 2rem auto;
             padding: 1.5rem;
         }
+        .gradient-bg {
+            background: linear-gradient(135deg, #003F5C, #374C80); /* Brilliant Blues Palette */
+        }
+        .icon-style {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Max width for charts */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Styles spécifiques au quiz */
         .quiz-card {
             background-color: #ffffff;
             border-radius: 0.5rem; /* rounded-lg */
@@ -109,39 +134,454 @@
             border-radius: 9999px;
             transition: width 0.5s ease-in-out;
         }
+        .results-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+        .results-list li {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .results-list li:nth-child(odd) {
+            background-color: #ffffff;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #2563eb;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
-<body>
-    <header class="bg-blue-800 text-white text-center py-6 shadow-md">
-        <h1 class="text-3xl font-bold">Quiz : L'IA et l'Entraîneur 2.0</h1>
-        <p class="text-lg mt-2">Testez vos connaissances sur l'impact de l'IA dans l'entraînement de ski alpin !</p>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Hero Section for the entire page -->
+    <header class="gradient-bg text-white text-center p-8 md:p-12 shadow-lg">
+        <h1 class="text-4xl md:text-5xl font-black uppercase tracking-wide">L'IA au chevet de l'entraîneur 2.0</h1>
+        <p class="mt-4 text-xl md:text-2xl font-light text-amber-500">Comprendre et tester l'impact de l'IA dans l'entraînement de ski alpin</p>
     </header>
 
-    <main class="container">
-        <div class="progress-bar-container">
-            <div id="progressBar" class="progress-bar-fill" style="width: 0%;"></div>
-        </div>
-        <div id="quiz-container">
-            <!-- Questions will be loaded here -->
-        </div>
-        <div id="navigation-buttons" class="flex justify-between mt-4">
-            <button id="prevButton" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50" disabled>Précédent</button>
-            <button id="nextButton" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Suivant</button>
-            <button id="submitButton" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 hidden">Soumettre</button>
-        </div>
-        <div id="summary-section" class="summary-card hidden">
-            <h2 class="text-2xl font-bold text-blue-800 mb-4">Quiz Terminé !</h2>
-            <p class="text-xl mb-2">Votre score : <span id="scoreDisplay" class="font-bold"></span></p>
-            <p class="text-md mb-4 text-gray-600">Rejoignez-nous pour une analyse plus approfondie de vos résultats.</p>
-            <button id="restartButton" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Recommencer le quiz</button>
-        </div>
+    <main class="container mx-auto p-4 md:p-8">
+
+        <!-- Infographic Section -->
+        <section id="infographic-section" class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto mb-8">
+                <h2 class="text-3xl font-bold text-[#003F5C] mb-4 text-center">Un tournant technologique dans l’entraînement</h2>
+                <p class="text-lg text-gray-600">L’intuition et l’expérience, piliers du coaching, sont désormais augmentées par des outils numériques. L’IA s’impose comme un levier essentiel pour décortiquer la performance, anticiper les risques, personnaliser l’entraînement et optimiser la logistique, renforçant l'expertise humaine sans la remplacer.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Card 1: The "Data-Aware" Coach -->
+                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold text-[#003F5C] mb-2">1. Devenir un entraîneur "Data-Aware"</h3>
+                        <p class="text-gray-600 mb-4">L'évolution du métier impose aux entraîneurs de comprendre et d'utiliser la donnée pour guider leurs stratégies. L'objectif n'est pas de devenir un expert en algorithmes, mais de savoir poser les bonnes questions.</p>
+                    </div>
+                    <div class="chart-container h-64 md:h-72">
+                        <canvas id="coachCompositionChart"></canvas>
+                    </div>
+                    <p class="text-center text-sm text-gray-500 mt-4">Composition de la décision du coach moderne.</p>
+                </div>
+
+                <!-- Card 2: Video Analysis -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-2xl font-bold text-[#003F5C] mb-2">2. Amplifier l'œil avec l'analyse vidéo</h3>
+                    <p class="text-gray-600 mb-4">L'IA automatise l'analyse de dizaines de runs pour extraire des détails invisibles à l'œil nu, offrant un gain de temps considérable et une précision inégalée.</p>
+                    <div class="w-full h-72 bg-gray-900 rounded-lg flex items-center justify-center relative overflow-hidden">
+                        <p class="text-5xl text-gray-600">▶</p>
+                        <div class="absolute top-10 left-4 bg-[#EF5675] bg-opacity-80 text-white text-xs p-2 rounded-md">
+                            <p class="font-bold">Analyse IA :</p>
+                            <p>Centre de gravité OK</p>
+                        </div>
+                         <div class="absolute bottom-12 right-4 bg-[#FFA600] bg-opacity-80 text-white text-xs p-2 rounded-md">
+                            <p class="font-bold">Analyse IA :</p>
+                            <p>Rupture de trajectoire</p>
+                        </div>
+                        <div class="absolute top-1/2 left-1/2 w-96 h-0.5 bg-cyan-400 -translate-x-1/2 -translate-y-1/2 rotate-[-15deg]"></div>
+                        <p class="absolute bottom-4 text-white text-sm font-mono">RUN_04_ANALYSIS.mp4</p>
+                    </div>
+                     <p class="text-center text-sm text-gray-500 mt-4">Simulation d'une analyse vidéo augmentée par l'IA.</p>
+                </div>
+
+                 <!-- Card 3: Individual Load Management -->
+                <div class="bg-white rounded-lg shadow-lg p-6 md:col-span-2">
+                    <h3 class="text-2xl font-bold text-[#003F5C] mb-2">3. Prévenir les blessures par le suivi individuel</h3>
+                    <p class="text-gray-600 mb-4">Grâce aux capteurs portables, l'IA analyse en temps réel les signes de fatigue ou de déséquilibre, permettant d'ajuster la charge d'entraînement et de passer d'une approche standardisée à une approche ultra-personnalisée.</p>
+                    <div class="chart-container h-80">
+                        <canvas id="athleteLoadChart"></canvas>
+                    </div>
+                    <p class="text-center text-sm text-gray-500 mt-4">Suivi de la charge d'entraînement vs. état de récupération sur une semaine.</p>
+                </div>
+
+                 <!-- Card 4: Data Sources -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                     <h3 class="text-2xl font-bold text-[#003F5C] mb-2">4. Des données partout, une intelligence pour les trier</h3>
+                    <p class="text-gray-600 mb-4">L'IA transforme le déluge de données brutes en un tableau de bord synthétique, offrant des enseignements clairs et rapides à l'entraîneur.</p>
+                     <div class="chart-container h-80">
+                        <canvas id="dataSourcesChart"></canvas>
+                    </div>
+                    <p class="text-center text-sm text-gray-500 mt-4">Impact relatif des différentes sources de données dans l'analyse de performance.</p>
+                </div>
+
+                <!-- Card 5: Man-Machine Collaboration -->
+                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center">
+                    <h3 class="text-2xl font-bold text-center text-[#003F5C] mb-4">5. La collaboration Homme-Machine</h3>
+                    <p class="text-center text-gray-600 mb-6">L'IA est un co-pilote puissant, mais la décision finale revient toujours à l'entraîneur, qui intègre sa connaissance humaine de l'athlète.</p>
+                    <div class="space-y-4 text-center">
+                        <div class="flex items-center justify-center space-x-4">
+                            <span class="icon-style text-[#7A5195]">📊</span>
+                            <span class="icon-style text-[#BC5090]">🧠</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-500">↓</p>
+                        <div class="bg-[#374C80] text-white p-4 rounded-lg shadow-md">
+                            <p class="font-bold">L'IA PROPOSE</p>
+                            <p class="text-sm">Analyses, modèles, alertes</p>
+                        </div>
+                         <p class="text-2xl font-bold text-gray-500">↓</p>
+                         <div class="bg-white border-2 border-[#374C80] p-4 rounded-lg shadow-md">
+                            <p class="font-bold text-[#374C80]">L'ENTRAÎNEUR DISPOSE</p>
+                            <p class="text-sm">Jugement, expérience, relation humaine</p>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Card 6: Benefits -->
+                 <div class="bg-white rounded-lg shadow-lg p-6 md:col-span-2">
+                    <h3 class="text-2xl font-bold text-[#003F5C] mb-4">Un futur déjà présent : bénéfices et vigilance</h3>
+                    <p class="text-gray-600 mb-6">L'intégration de ces technologies est un enjeu clair. Si elle demande des investissements et une formation, les bénéfices sont tangibles pour une performance durable et saine.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                        <div class="border border-gray-200 p-4 rounded-lg">
+                            <p class="icon-style text-[#FF764A]">⏱️</p>
+                            <p class="font-bold mt-2">Gain de temps</p>
+                            <p class="text-sm text-gray-600">Automatisation des tâches chronophages.</p>
+                        </div>
+                        <div class="border border-gray-200 p-4 rounded-lg">
+                            <p class="icon-style text-[#EF5675]">🛡️</p>
+                            <p class="font-bold mt-2">Prévention des blessures</p>
+                            <p class="text-sm text-gray-600">Détection précoce des risques.</p>
+                        </div>
+                        <div class="border border-gray-200 p-4 rounded-lg">
+                            <p class="icon-style text-[#BC5090]">📈</p>
+                            <p class="font-bold mt-2">Amélioration des perfs</p>
+                            <p class="text-sm text-gray-600">Optimisation technique et tactique.</p>
+                        </div>
+                        <div class="border border-gray-200 p-4 rounded-lg">
+                             <p class="icon-style text-[#7A5195]">🔒</p>
+                            <p class="font-bold mt-2">Défis à relever</p>
+                            <p class="text-sm text-gray-600">Formation, coûts et protection des données (RGPD).</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <hr class="my-12 border-t-2 border-blue-200">
+
+        <!-- Quiz Section -->
+        <section id="quiz-section">
+            <h2 class="text-3xl font-bold text-blue-800 text-center mb-8">Testez vos connaissances !</h2>
+            <div class="progress-bar-container">
+                <div id="progressBar" class="progress-bar-fill" style="width: 0%;"></div>
+            </div>
+            <div id="quiz-container">
+                <!-- Questions will be loaded here -->
+            </div>
+            <div id="navigation-buttons" class="flex justify-between mt-4">
+                <button id="prevButton" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50" disabled>Précédent</button>
+                <button id="nextButton" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Suivant</button>
+                <button id="submitButton" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 hidden">Soumettre</button>
+            </div>
+
+            <div id="submission-feedback" class="feedback-message hidden"></div>
+            <div id="loadingIndicator" class="loading-spinner hidden"></div>
+
+            <div id="summary-section" class="summary-card hidden">
+                <h2 class="text-2xl font-bold text-blue-800 mb-4">Quiz Terminé !</h2>
+                <p class="text-xl mb-2">Votre score : <span id="scoreDisplay" class="font-bold"></span></p>
+                <p class="text-md mb-4 text-gray-600">Rejoignez-nous pour une analyse plus approfondie de vos résultats.</p>
+                <button id="restartButton" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Recommencer le quiz</button>
+
+                <div class="mt-8 pt-4 border-t border-gray-300">
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">Scores de la Communauté</h3>
+                    <div id="communityResults" class="results-list text-left">
+                        <p class="text-gray-500">Chargement des résultats...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer class="text-center text-gray-500 text-sm py-6 mt-8 border-t border-gray-300">
-        <p>&copy; 2024 Quiz IA et Entraînement. Tous droits réservés.</p>
+    <footer class="mt-12 p-8 bg-gray-800 text-white text-center">
+        <p class="font-bold">L'avenir du ski alpin passera par cette alliance entre tradition et innovation.</p>
+        <p class="text-sm mt-2 text-gray-400">Infographie & Quiz générés à partir de l'article "L’Intelligence Artificielle : au chevet de l’entraîneur 2.0".</p>
     </footer>
 
-    <script>
+    <script type="module">
+        // Firebase imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase configuration and initialization
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+
+        let app;
+        let db;
+        let auth;
+        let userId = 'anonymous'; // Default to anonymous
+        let isAuthReady = false;
+
+        if (Object.keys(firebaseConfig).length > 0) {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    userId = user.uid;
+                    isAuthReady = true;
+                } else {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        try {
+                            await signInWithCustomToken(auth, __initial_auth_token);
+                            userId = auth.currentUser.uid;
+                            isAuthReady = true;
+                        } catch (error) {
+                            console.error("Firebase custom token sign-in failed:", error);
+                            // Fallback to anonymous if custom token fails
+                            await signInAnonymously(auth);
+                            userId = auth.currentUser.uid;
+                            isAuthReady = true;
+                        }
+                    } else {
+                        await signInAnonymously(auth);
+                        userId = auth.currentUser.uid;
+                        isAuthReady = true;
+                    }
+                }
+                if (isAuthReady) {
+                    loadCommunityResults(); // Load results once authenticated
+                }
+            });
+        } else {
+            console.warn("Firebase configuration not provided. Quiz results cannot be saved or loaded from Firestore.");
+            isAuthReady = true; // Still allow quiz to function without saving results
+            userId = 'no-firebase-user';
+        }
+
+        // --- Infographic Chart.js Setup ---
+        const FONT_COLOR = '#374151';
+        const GRID_COLOR = '#E5E7EB';
+        const PALETTE = {
+            blue_dark: '#003F5C',
+            purple_dark: '#374C80',
+            purple: '#7A5195',
+            magenta: '#BC5090',
+            pink: '#EF5675',
+            orange: '#FF764A',
+            yellow: '#FFA600'
+        };
+
+        function wrapText(label, maxWidth) {
+            if (typeof label !== 'string' || label.length <= maxWidth) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxWidth) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) {
+                lines.push(currentLine.trim());
+            }
+            return lines;
+        }
+
+        const universalTooltipOptions = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        // Function to initialize infographic charts
+        function initInfographicCharts() {
+            // Chart 1: Coach Composition Chart
+            const ctx1 = document.getElementById('coachCompositionChart');
+            if(ctx1) {
+                new Chart(ctx1, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Analyse de Données (IA)', 'Expérience & Intuition'],
+                        datasets: [{
+                            label: 'Composition de la Décision',
+                            data: [60, 40],
+                            backgroundColor: [PALETTE.purple_dark, PALETTE.pink],
+                            borderColor: '#FFFFFF',
+                            borderWidth: 4,
+                            hoverOffset: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { color: FONT_COLOR }
+                            },
+                            tooltip: universalTooltipOptions.plugins.tooltip
+                        },
+                        cutout: '60%'
+                    }
+                });
+            }
+
+            // Chart 2: Athlete Load Chart
+            const ctx2 = document.getElementById('athleteLoadChart');
+            if(ctx2) {
+                 new Chart(ctx2, {
+                    type: 'line',
+                    data: {
+                        labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+                        datasets: [{
+                            label: 'Charge d\'entraînement',
+                            data: [65, 70, 85, 80, 50, 30, 0],
+                            borderColor: PALETTE.orange,
+                            backgroundColor: PALETTE.orange + '33',
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: PALETTE.orange,
+                            pointRadius: 5
+                        }, {
+                            label: 'État de récupération',
+                            data: [90, 80, 60, 65, 85, 95, 100],
+                            borderColor: PALETTE.purple_dark,
+                             backgroundColor: PALETTE.purple_dark + '33',
+                            fill: false,
+                            tension: 0.4,
+                            pointBackgroundColor: PALETTE.purple_dark,
+                            pointRadius: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: { color: FONT_COLOR }
+                            },
+                            tooltip: universalTooltipOptions.plugins.tooltip
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: { display: true, text: 'Niveau (%)', color: FONT_COLOR },
+                                grid: { color: GRID_COLOR },
+                                ticks: { color: FONT_COLOR }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: FONT_COLOR }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Chart 3: Data Sources Chart
+            const ctx3 = document.getElementById('dataSourcesChart');
+            if(ctx3) {
+                const rawLabels = [
+                    'Analyse Vidéo des runs',
+                    'Capteurs physiques du skieur',
+                    'Données GPS (trajectoire, vitesse)',
+                    'Données des skis (pression, flexion)',
+                    'Chronos et résultats',
+                    'Données météorologiques'
+                ];
+                const chartLabels = rawLabels.map(label => wrapText(label, 20));
+
+                new Chart(ctx3, {
+                    type: 'bar',
+                    data: {
+                        labels: chartLabels,
+                        datasets: [{
+                            label: 'Impact sur la Décision',
+                            data: [90, 85, 75, 60, 70, 50],
+                            backgroundColor: [
+                                PALETTE.blue_dark,
+                                PALETTE.purple_dark,
+                                PALETTE.purple,
+                                PALETTE.magenta,
+                                PALETTE.pink,
+                                PALETTE.orange
+                            ],
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: universalTooltipOptions.plugins.tooltip
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: { display: true, text: 'Indice d\'impact', color: FONT_COLOR },
+                                grid: { color: GRID_COLOR },
+                                ticks: { color: FONT_COLOR }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { color: FONT_COLOR }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        // --- End Infographic Chart.js Setup ---
+
+
+        // --- Quiz Logic Setup ---
         const quizData = {
           "questions": [
             {
@@ -408,7 +848,7 @@
         };
 
         let currentQuestionIndex = 0;
-        let userAnswers = new Array(quizData.questions.length).fill(null); // To store selected option index for each question
+        let userAnswers = new Array(quizData.questions.length).fill(null); // Pour stocker l'index de l'option sélectionnée pour chaque question
         let score = 0;
 
         const quizContainer = document.getElementById('quiz-container');
@@ -419,6 +859,10 @@
         const summarySection = document.getElementById('summary-section');
         const scoreDisplay = document.getElementById('scoreDisplay');
         const restartButton = document.getElementById('restartButton');
+        const submissionFeedback = document.getElementById('submission-feedback');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const communityResultsDiv = document.getElementById('communityResults');
+
 
         function loadQuestion(index) {
             const questionData = quizData.questions[index];
@@ -476,7 +920,9 @@
 
         function updateNavigationButtons() {
             prevButton.disabled = currentQuestionIndex === 0;
-            nextButton.disabled = currentQuestionIndex === quizData.questions.length - 1 && userAnswers[currentQuestionIndex] === null;
+            // Disable next if current question not answered AND it's not the last question
+            nextButton.disabled = userAnswers[currentQuestionIndex] === null && currentQuestionIndex < quizData.questions.length - 1;
+
 
             if (currentQuestionIndex === quizData.questions.length - 1) {
                 nextButton.classList.add('hidden');
@@ -491,6 +937,135 @@
             const progress = ((currentQuestionIndex + 1) / quizData.questions.length) * 100;
             progressBar.style.width = `${progress}%`;
         }
+
+        async function saveQuizResult() {
+            if (!isAuthReady || !db) {
+                console.error("Firebase n'est pas initialisé ou l'authentification n'est pas prête. Impossible de sauvegarder les résultats.");
+                submissionFeedback.textContent = "Erreur: Impossible de sauvegarder les résultats (Firebase non prêt).";
+                submissionFeedback.classList.remove('hidden', 'feedback-correct');
+                submissionFeedback.classList.add('feedback-incorrect');
+                loadingIndicator.classList.add('hidden');
+                return;
+            }
+
+            loadingIndicator.classList.remove('hidden');
+            submissionFeedback.classList.add('hidden');
+
+            const result = {
+                userId: userId,
+                score: score,
+                totalQuestions: quizData.questions.length,
+                timestamp: new Date().toISOString(),
+                answers: userAnswers.map((optionIndex, qIndex) => ({
+                    question: quizData.questions[qIndex].question,
+                    selectedOption: optionIndex !== null ? quizData.questions[qIndex].answerOptions[optionIndex].text : 'skipped',
+                    isCorrect: optionIndex !== null ? quizData.questions[qIndex].answerOptions[optionIndex].isCorrect : false
+                }))
+            };
+
+            try {
+                // Save to a public collection for community results
+                const docRef = await addDoc(collection(db, `artifacts/${appId}/public/data/quizResults`), result);
+                console.log("Document written with ID: ", docRef.id);
+                submissionFeedback.textContent = "Votre résultat a été sauvegardé avec succès !";
+                submissionFeedback.classList.remove('hidden', 'feedback-incorrect');
+                submissionFeedback.classList.add('feedback-correct');
+            } catch (e) {
+                console.error("Erreur lors de l'ajout du document: ", e);
+                submissionFeedback.textContent = "Erreur: Impossible de sauvegarder les résultats. " + e.message;
+                submissionFeedback.classList.remove('hidden', 'feedback-correct');
+                submissionFeedback.classList.add('feedback-incorrect');
+            } finally {
+                loadingIndicator.classList.add('hidden');
+            }
+        }
+
+        function loadCommunityResults() {
+             if (!isAuthReady || !db) {
+                console.warn("Firebase non prêt pour charger les résultats communautaires.");
+                communityResultsDiv.innerHTML = '<p class="text-gray-500">Impossible de charger les résultats communautaires (Firebase non prêt).</p>';
+                return;
+            }
+            // Using onSnapshot for real-time updates
+            const q = query(collection(db, `artifacts/${appId}/public/data/quizResults`));
+            onSnapshot(q, (snapshot) => {
+                const results = [];
+                snapshot.forEach((doc) => {
+                    results.push(doc.data());
+                });
+
+                // Sort results by score (descending) and then by timestamp (ascending) for consistency
+                results.sort((a, b) => {
+                    if (b.score !== a.score) {
+                        return b.score - a.score;
+                    }
+                    return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
+                });
+
+                communityResultsDiv.innerHTML = '';
+                if (results.length === 0) {
+                    communityResultsDiv.innerHTML = '<p class="text-gray-500">Aucun résultat n\'a encore été enregistré.</p>';
+                } else {
+                    const ul = document.createElement('ul');
+                    ul.className = 'results-list';
+                    results.forEach(res => {
+                        const li = document.createElement('li');
+                        // Displaying a truncated userId for brevity and common use in public lists
+                        const displayUserId = res.userId.substring(0, 8) + '...';
+                        li.innerHTML = `
+                            <span>${displayUserId}</span>
+                            <span class="font-semibold">${res.score}/${res.totalQuestions}</span>
+                        `;
+                        ul.appendChild(li);
+                    });
+                    communityResultsDiv.appendChild(ul);
+                }
+            }, (error) => {
+                console.error("Error fetching community results:", error);
+                communityResultsDiv.innerHTML = '<p class="text-red-500">Erreur lors du chargement des résultats communautaires.</p>';
+            });
+        }
+
+
+        prevButton.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (userAnswers[currentQuestionIndex] !== null && currentQuestionIndex < quizData.questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            } else if (userAnswers[currentQuestionIndex] === null) {
+                submissionFeedback.textContent = "Veuillez sélectionner une option pour continuer.";
+                submissionFeedback.classList.remove('hidden', 'feedback-correct');
+                submissionFeedback.classList.add('feedback-incorrect');
+            }
+        });
+
+        submitButton.addEventListener('click', async () => {
+            if (userAnswers[currentQuestionIndex] === null) {
+                submissionFeedback.textContent = "Veuillez sélectionner une option avant de soumettre.";
+                submissionFeedback.classList.remove('hidden', 'feedback-correct');
+                submissionFeedback.classList.add('feedback-incorrect');
+                return;
+            }
+            await saveQuizResult(); // Save result before showing summary
+            showSummary();
+        });
+
+        restartButton.addEventListener('click', () => {
+            currentQuestionIndex = 0;
+            userAnswers.fill(null);
+            score = 0;
+            summarySection.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            navigationButtons.classList.remove('hidden');
+            submissionFeedback.classList.add('hidden'); // Clear feedback on restart
+            loadQuestion(currentQuestionIndex);
+        });
 
         function showSummary() {
             quizContainer.classList.add('hidden');
@@ -507,45 +1082,15 @@
                 }
             });
             scoreDisplay.textContent = `${score}/${quizData.questions.length}`;
+            // loadCommunityResults is now called after auth is ready, so it will update automatically
         }
 
-        prevButton.addEventListener('click', () => {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                loadQuestion(currentQuestionIndex);
-            }
-        });
 
-        nextButton.addEventListener('click', () => {
-            if (currentQuestionIndex < quizData.questions.length - 1) {
-                currentQuestionIndex++;
-                loadQuestion(currentQuestionIndex);
-            }
+        // Initial load of the first question and infographic charts
+        document.addEventListener('DOMContentLoaded', () => {
+            initInfographicCharts(); // Initialize charts from infographic
+            loadQuestion(currentQuestionIndex); // Load the first quiz question
         });
-
-        submitButton.addEventListener('click', () => {
-            // Ensure the current question is answered before submitting
-            if (userAnswers[currentQuestionIndex] === null) {
-                const feedbackMessage = document.getElementById('feedback-message');
-                feedbackMessage.textContent = "Veuillez sélectionner une option avant de soumettre.";
-                feedbackMessage.classList.remove('hidden', 'feedback-correct', 'feedback-incorrect');
-                return;
-            }
-            showSummary();
-        });
-
-        restartButton.addEventListener('click', () => {
-            currentQuestionIndex = 0;
-            userAnswers.fill(null);
-            score = 0;
-            summarySection.classList.add('hidden');
-            quizContainer.classList.remove('hidden');
-            navigationButtons.classList.remove('hidden');
-            loadQuestion(currentQuestionIndex);
-        });
-
-        // Initial load
-        loadQuestion(currentQuestionIndex);
     </script>
 </body>
 </html>
