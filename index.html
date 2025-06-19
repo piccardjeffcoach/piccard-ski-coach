@@ -1,336 +1,276 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L'IA au chevet de l'entraîneur 2.0 : Infographie & Quiz</title>
+    <title>Quiz Interactif</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Styles communs et spécifiques à l'infographie */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* bg-gray-100 */
-            color: #374151; /* text-gray-700 */
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
         }
         .container {
-            max-width: 960px;
-            margin: 2rem auto;
-            padding: 1.5rem;
-        }
-        .gradient-bg {
-            background: linear-gradient(135deg, #003F5C, #374C80); /* Brilliant Blues Palette */
-        }
-        .icon-style {
-            font-size: 2.5rem;
-            line-height: 1;
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px; /* Max width for charts */
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
-        }
-
-        /* Styles spécifiques au quiz */
-        .quiz-card {
             background-color: #ffffff;
-            border-radius: 0.5rem; /* rounded-lg */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
-            padding: 1.5rem;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .question-container {
             margin-bottom: 1.5rem;
+        }
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
         }
         .option-button {
             display: block;
             width: 100%;
-            text-align: left;
             padding: 0.75rem 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: 0.375rem; /* rounded-md */
-            border: 1px solid #d1d5db; /* border-gray-300 */
-            background-color: #f9fafb; /* bg-gray-50 */
-            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+            margin-bottom: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            background-color: #f7fafc;
+            text-align: left;
+            font-size: 1rem;
+            color: #4a5568;
             cursor: pointer;
+            transition: all 0.2s ease-in-out;
         }
-        .option-button:hover {
-            background-color: #e5e7eb; /* bg-gray-200 */
+        .option-button:hover:not(:disabled) {
+            background-color: #e2e8f0;
+            border-color: #cbd5e0;
         }
         .option-button.selected {
-            border-color: #2563eb; /* border-blue-600 */
-            background-color: #eff6ff; /* bg-blue-50 */
+            background-color: #bfdbfe;
+            border-color: #60a5fa;
+            color: #1e40af;
+            font-weight: 600;
         }
         .option-button.correct {
-            background-color: #d1fae5; /* bg-green-100 */
-            border-color: #10b981; /* border-green-500 */
-            color: #065f46; /* text-green-700 */
+            background-color: #a7f3d0;
+            border-color: #34d399;
+            color: #065f46;
+            font-weight: 600;
         }
         .option-button.incorrect {
-            background-color: #fee2e2; /* bg-red-100 */
-            border-color: #ef4444; /* border-red-500 */
-            color: #b91c1c; /* text-red-700 */
+            background-color: #fecaca;
+            border-color: #ef4444;
+            color: #991b1b;
+            font-weight: 600;
         }
-        .hint-text {
-            font-style: italic;
-            color: #6b7280; /* text-gray-500 */
-            margin-top: 1rem;
-            padding-top: 0.5rem;
-            border-top: 1px dashed #d1d5db; /* border-gray-300 */
+        .option-button:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
         }
-        .rationale-text {
-            font-size: 0.875rem; /* text-sm */
-            color: #4b5563; /* text-gray-600 */
-            margin-top: 0.5rem;
-            padding-top: 0.5rem;
-            border-top: 1px dashed #d1d5db; /* border-gray-300 */
-        }
-        .hidden {
-            display: none;
-        }
-        .feedback-message {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            font-weight: bold;
-            text-align: center;
-        }
-        .feedback-correct {
-            background-color: #d1fae5;
-            color: #065f46;
-        }
-        .feedback-incorrect {
-            background-color: #fee2e2;
-            color: #b91c1c;
-        }
-        .summary-card {
-            background-color: #ffffff;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            padding: 1.5rem;
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
             margin-top: 2rem;
+        }
+        .nav-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .prev-button {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            border: none;
+        }
+        .prev-button:hover:not(:disabled) {
+            background-color: #cbd5e0;
+        }
+        .next-button, .submit-button {
+            background-color: #3b82f6;
+            color: #ffffff;
+            border: none;
+        }
+        .next-button:hover:not(:disabled), .submit-button:hover:not(:disabled) {
+            background-color: #2563eb;
+        }
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .results-container {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #f0f9ff;
+            border-radius: 0.75rem;
+            border: 1px solid #bfdbfe;
+        }
+        .results-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 1rem;
             text-align: center;
         }
-        .progress-bar-container {
-            width: 100%;
-            background-color: #e5e7eb;
-            border-radius: 9999px;
-            height: 1rem;
-            margin-bottom: 1rem;
-            overflow: hidden;
+        .score-text {
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
         }
-        .progress-bar-fill {
-            height: 100%;
-            background-color: #22c55e;
-            border-radius: 9999px;
-            transition: width 0.5s ease-in-out;
+        .summary-list li {
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+        }
+        .summary-list .correct-answer {
+            color: #065f46;
+            font-weight: 600;
+        }
+        .summary-list .incorrect-answer {
+            color: #991b1b;
+            font-weight: 600;
+        }
+        .community-scores {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed #cbd5e0;
+        }
+        .community-scores-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #4a5568;
+            margin-bottom: 1rem;
+            text-align: center;
         }
         .results-list {
             list-style: none;
             padding: 0;
-            margin-top: 1rem;
-        }
-        .results-list li {
-            background-color: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.375rem;
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .results-list li:nth-child(odd) {
+            max-height: 200px; /* Limit height for scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
             background-color: #ffffff;
         }
-        .loading-spinner {
+        .results-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .results-list li:last-child {
+            border-bottom: none;
+        }
+        .results-list li:nth-child(odd) {
+            background-color: #f7fafc;
+        }
+        .feedback {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+        .feedback-correct {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #34d399;
+        }
+        .feedback-incorrect {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+        .hidden {
+            display: none;
+        }
+        .loading-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
-            border-left: 4px solid #2563eb;
+            border-left-color: #3b82f6;
             border-radius: 50%;
             width: 24px;
             height: 24px;
             animation: spin 1s linear infinite;
-            margin: 1rem auto;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+            }
+            .question-text {
+                font-size: 1.1rem;
+            }
+            .option-button {
+                font-size: 0.95rem;
+                padding: 0.6rem 0.8rem;
+            }
+            .nav-button {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            .results-title {
+                font-size: 1.3rem;
+            }
+            .score-text {
+                font-size: 1.1rem;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body>
+    <div class="container">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Quiz de Connaissances Générales</h1>
 
-    <!-- Hero Section for the entire page -->
-    <header class="gradient-bg text-white text-center p-8 md:p-12 shadow-lg">
-        <h1 class="text-4xl md:text-5xl font-black uppercase tracking-wide">L'IA au chevet de l'entraîneur 2.0</h1>
-        <p class="mt-4 text-xl md:text-2xl font-light text-amber-500">Comprendre et tester l'impact de l'IA dans l'entraînement de ski alpin</p>
-    </header>
-
-    <main class="container mx-auto p-4 md:p-8">
-
-        <!-- Infographic Section -->
-        <section id="infographic-section" class="mb-12">
-            <div class="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto mb-8">
-                <h2 class="text-3xl font-bold text-[#003F5C] mb-4 text-center">Un tournant technologique dans l’entraînement</h2>
-                <p class="text-lg text-gray-600">L’intuition et l’expérience, piliers du coaching, sont désormais augmentées par des outils numériques. L’IA s’impose comme un levier essentiel pour décortiquer la performance, anticiper les risques, personnaliser l’entraînement et optimiser la logistique, renforçant l'expertise humaine sans la remplacer.</p>
+        <div id="quiz-section">
+            <div id="question-container" class="question-container">
+                <!-- Question and options will be loaded here by JavaScript -->
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-                <!-- Card 1: The "Data-Aware" Coach -->
-                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-2xl font-bold text-[#003F5C] mb-2">1. Devenir un entraîneur "Data-Aware"</h3>
-                        <p class="text-gray-600 mb-4">L'évolution du métier impose aux entraîneurs de comprendre et d'utiliser la donnée pour guider leurs stratégies. L'objectif n'est pas de devenir un expert en algorithmes, mais de savoir poser les bonnes questions.</p>
-                    </div>
-                    <div class="chart-container h-64 md:h-72">
-                        <canvas id="coachCompositionChart"></canvas>
-                    </div>
-                    <p class="text-center text-sm text-gray-500 mt-4">Composition de la décision du coach moderne.</p>
-                </div>
-
-                <!-- Card 2: Video Analysis -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 class="text-2xl font-bold text-[#003F5C] mb-2">2. Amplifier l'œil avec l'analyse vidéo</h3>
-                    <p class="text-gray-600 mb-4">L'IA automatise l'analyse de dizaines de runs pour extraire des détails invisibles à l'œil nu, offrant un gain de temps considérable et une précision inégalée.</p>
-                    <div class="w-full h-72 bg-gray-900 rounded-lg flex items-center justify-center relative overflow-hidden">
-                        <p class="text-5xl text-gray-600">▶</p>
-                        <div class="absolute top-10 left-4 bg-[#EF5675] bg-opacity-80 text-white text-xs p-2 rounded-md">
-                            <p class="font-bold">Analyse IA :</p>
-                            <p>Centre de gravité OK</p>
-                        </div>
-                         <div class="absolute bottom-12 right-4 bg-[#FFA600] bg-opacity-80 text-white text-xs p-2 rounded-md">
-                            <p class="font-bold">Analyse IA :</p>
-                            <p>Rupture de trajectoire</p>
-                        </div>
-                        <div class="absolute top-1/2 left-1/2 w-96 h-0.5 bg-cyan-400 -translate-x-1/2 -translate-y-1/2 rotate-[-15deg]"></div>
-                        <p class="absolute bottom-4 text-white text-sm font-mono">RUN_04_ANALYSIS.mp4</p>
-                    </div>
-                     <p class="text-center text-sm text-gray-500 mt-4">Simulation d'une analyse vidéo augmentée par l'IA.</p>
-                </div>
-
-                 <!-- Card 3: Individual Load Management -->
-                <div class="bg-white rounded-lg shadow-lg p-6 md:col-span-2">
-                    <h3 class="text-2xl font-bold text-[#003F5C] mb-2">3. Prévenir les blessures par le suivi individuel</h3>
-                    <p class="text-gray-600 mb-4">Grâce aux capteurs portables, l'IA analyse en temps réel les signes de fatigue ou de déséquilibre, permettant d'ajuster la charge d'entraînement et de passer d'une approche standardisée à une approche ultra-personnalisée.</p>
-                    <div class="chart-container h-80">
-                        <canvas id="athleteLoadChart"></canvas>
-                    </div>
-                    <p class="text-center text-sm text-gray-500 mt-4">Suivi de la charge d'entraînement vs. état de récupération sur une semaine.</p>
-                </div>
-
-                 <!-- Card 4: Data Sources -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                     <h3 class="text-2xl font-bold text-[#003F5C] mb-2">4. Des données partout, une intelligence pour les trier</h3>
-                    <p class="text-gray-600 mb-4">L'IA transforme le déluge de données brutes en un tableau de bord synthétique, offrant des enseignements clairs et rapides à l'entraîneur.</p>
-                     <div class="chart-container h-80">
-                        <canvas id="dataSourcesChart"></canvas>
-                    </div>
-                    <p class="text-center text-sm text-gray-500 mt-4">Impact relatif des différentes sources de données dans l'analyse de performance.</p>
-                </div>
-
-                <!-- Card 5: Man-Machine Collaboration -->
-                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center">
-                    <h3 class="text-2xl font-bold text-center text-[#003F5C] mb-4">5. La collaboration Homme-Machine</h3>
-                    <p class="text-center text-gray-600 mb-6">L'IA est un co-pilote puissant, mais la décision finale revient toujours à l'entraîneur, qui intègre sa connaissance humaine de l'athlète.</p>
-                    <div class="space-y-4 text-center">
-                        <div class="flex items-center justify-center space-x-4">
-                            <span class="icon-style text-[#7A5195]">📊</span>
-                            <span class="icon-style text-[#BC5090]">🧠</span>
-                        </div>
-                        <p class="text-2xl font-bold text-gray-500">↓</p>
-                        <div class="bg-[#374C80] text-white p-4 rounded-lg shadow-md">
-                            <p class="font-bold">L'IA PROPOSE</p>
-                            <p class="text-sm">Analyses, modèles, alertes</p>
-                        </div>
-                         <p class="text-2xl font-bold text-gray-500">↓</p>
-                         <div class="bg-white border-2 border-[#374C80] p-4 rounded-lg shadow-md">
-                            <p class="font-bold text-[#374C80]">L'ENTRAÎNEUR DISPOSE</p>
-                            <p class="text-sm">Jugement, expérience, relation humaine</p>
-                        </div>
-                    </div>
-                </div>
-
-                 <!-- Card 6: Benefits -->
-                 <div class="bg-white rounded-lg shadow-lg p-6 md:col-span-2">
-                    <h3 class="text-2xl font-bold text-[#003F5C] mb-4">Un futur déjà présent : bénéfices et vigilance</h3>
-                    <p class="text-gray-600 mb-6">L'intégration de ces technologies est un enjeu clair. Si elle demande des investissements et une formation, les bénéfices sont tangibles pour une performance durable et saine.</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
-                        <div class="border border-gray-200 p-4 rounded-lg">
-                            <p class="icon-style text-[#FF764A]">⏱️</p>
-                            <p class="font-bold mt-2">Gain de temps</p>
-                            <p class="text-sm text-gray-600">Automatisation des tâches chronophages.</p>
-                        </div>
-                        <div class="border border-gray-200 p-4 rounded-lg">
-                            <p class="icon-style text-[#EF5675]">🛡️</p>
-                            <p class="font-bold mt-2">Prévention des blessures</p>
-                            <p class="text-sm text-gray-600">Détection précoce des risques.</p>
-                        </div>
-                        <div class="border border-gray-200 p-4 rounded-lg">
-                            <p class="icon-style text-[#BC5090]">📈</p>
-                            <p class="font-bold mt-2">Amélioration des perfs</p>
-                            <p class="text-sm text-gray-600">Optimisation technique et tactique.</p>
-                        </div>
-                        <div class="border border-gray-200 p-4 rounded-lg">
-                             <p class="icon-style text-[#7A5195]">🔒</p>
-                            <p class="font-bold mt-2">Défis à relever</p>
-                            <p class="text-sm text-gray-600">Formation, coûts et protection des données (RGPD).</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <hr class="my-12 border-t-2 border-blue-200">
-
-        <!-- Quiz Section -->
-        <section id="quiz-section">
-            <h2 class="text-3xl font-bold text-blue-800 text-center mb-8">Testez vos connaissances !</h2>
-            <div class="progress-bar-container">
-                <div id="progressBar" class="progress-bar-fill" style="width: 0%;"></div>
-            </div>
-            <div id="quiz-container">
-                <!-- Questions will be loaded here -->
-            </div>
-            <div id="navigation-buttons" class="flex justify-between mt-4">
-                <button id="prevButton" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50" disabled>Précédent</button>
-                <button id="nextButton" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Suivant</button>
-                <button id="submitButton" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 hidden">Soumettre</button>
+            <div class="navigation-buttons">
+                <button id="prev-button" class="nav-button prev-button" disabled>Précédent</button>
+                <button id="next-button" class="nav-button next-button">Suivant</button>
+                <button id="submit-button" class="nav-button submit-button hidden" disabled>Soumettre</button>
             </div>
 
-            <div id="submission-feedback" class="feedback-message hidden"></div>
-            <div id="loadingIndicator" class="loading-spinner hidden"></div>
+            <div id="loading-indicator" class="loading-indicator hidden">
+                <div class="spinner"></div>
+                <p class="ml-2 text-gray-600">Chargement...</p>
+            </div>
+            <div id="submission-feedback" class="feedback hidden"></div>
+        </div>
 
-            <div id="summary-section" class="summary-card hidden">
-                <h2 class="text-2xl font-bold text-blue-800 mb-4">Quiz Terminé !</h2>
-                <p class="text-xl mb-2">Votre score : <span id="scoreDisplay" class="font-bold"></span></p>
-                <p class="text-md mb-4 text-gray-600">Rejoignez-nous pour une analyse plus approfondie de vos résultats.</p>
-                <button id="restartButton" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Recommencer le quiz</button>
+        <div id="results-section" class="results-container hidden">
+            <h2 class="results-title">Vos Résultats</h2>
+            <p id="final-score" class="score-text"></p>
+            <ul id="answers-summary" class="summary-list"></ul>
 
-                <div class="mt-8 pt-4 border-t border-gray-300">
-                    <h3 class="text-xl font-bold text-blue-800 mb-4">Scores de la Communauté</h3>
-                    <div id="communityResults" class="results-list text-left">
-                        <p class="text-gray-500">Chargement des résultats...</p>
-                    </div>
+            <div class="community-scores">
+                <h3 class="community-scores-title">Scores de la Communauté</h3>
+                <div id="community-results">
+                    <!-- Community scores will be loaded here -->
                 </div>
             </div>
-        </section>
-    </main>
-
-    <footer class="mt-12 p-8 bg-gray-800 text-white text-center">
-        <p class="font-bold">L'avenir du ski alpin passera par cette alliance entre tradition et innovation.</p>
-        <p class="text-sm mt-2 text-gray-400">Infographie & Quiz générés à partir de l'article "L’Intelligence Artificielle : au chevet de l’entraîneur 2.0".</p>
-    </footer>
+        </div>
+    </div>
 
     <script type="module">
         // Firebase imports
@@ -338,9 +278,112 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, query, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Firebase configuration and initialization
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        // Quiz data
+        const quizData = {
+            questions: [
+                {
+                    question: "Quelle est la capitale de la France ?",
+                    answerOptions: [
+                        { text: "Londres", isCorrect: false },
+                        { text: "Berlin", isCorrect: false },
+                        { text: "Paris", isCorrect: true },
+                        { text: "Madrid", isCorrect: false }
+                    ]
+                },
+                {
+                    question: "Quel est l'océan le plus grand du monde ?",
+                    answerOptions: [
+                        { text: "Océan Atlantique", isCorrect: false },
+                        { text: "Océan Indien", isCorrect: false },
+                        { text: "Océan Arctique", isCorrect: false },
+                        { text: "Océan Pacifique", isCorrect: true }
+                    ]
+                },
+                {
+                    question: "Qui a écrit 'Don Quichotte' ?",
+                    answerOptions: [
+                        { text: "William Shakespeare", isCorrect: false },
+                        { text: "Miguel de Cervantes", isCorrect: true },
+                        { text: "Leo Tolstoy", isCorrect: false },
+                        { text: "Victor Hugo", isCorrect: false }
+                    ]
+                },
+                {
+                    question: "Quel est le plus haut sommet du monde ?",
+                    answerOptions: [
+                        { text: "Mont Kilimandjaro", isCorrect: false },
+                        { text: "Mont Everest", isCorrect: true },
+                        { text: "Mont McKinley", isCorrect: false },
+                        { text: "Mont Blanc", isCorrect: false }
+                    ]
+                },
+                {
+                    question: "Combien de planètes compte notre système solaire ?",
+                    answerOptions: [
+                        { text: "7", isCorrect: false },
+                        { text: "8", isCorrect: true },
+                        { text: "9", isCorrect: false },
+                        { text: "10", isCorrect: false }
+                    ]
+                }
+            ]
+        };
+
+        // DOM elements
+        const questionContainer = document.getElementById('question-container');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const submitButton = document.getElementById('submit-button'); // Get submit button reference
+        const quizSection = document.getElementById('quiz-section');
+        const resultsSection = document.getElementById('results-section');
+        const finalScoreText = document.getElementById('final-score');
+        const answersSummaryList = document.getElementById('answers-summary');
+        const communityResultsDiv = document.getElementById('community-results');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const submissionFeedback = document.getElementById('submission-feedback');
+
+        // Quiz state
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(quizData.questions.length).fill(null);
+        let score = 0;
+
+        // --- DÉBUT DE LA SECTION À MODIFIER POUR GITHUB PAGES ---
+        // // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDscOWtkETdQsLxIzN-bnBq6jNcYMhiXV0",
+  authDomain: "ski-quizz-coach.firebaseapp.com",
+  projectId: "ski-quizz-coach",
+  storageBucket: "ski-quizz-coach.firebasestorage.app",
+  messagingSenderId: "245182059261",
+  appId: "1:245182059261:web:a071a7a31e6c9769ea2494",
+  measurementId: "G-J4LN878S63"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+        const firebaseConfig = {
+          apiKey: "VOTRE_API_KEY", // <--- REMPLACEZ PAR VOTRE CLÉ API
+          authDomain: "VOTRE_AUTH_DOMAIN", // <--- REMPLACEZ PAR VOTRE DOMAINE D'AUTH
+          projectId: "VOTRE_PROJECT_ID", // <--- REMPLACEZ PAR VOTRE ID DE PROJET
+          storageBucket: "VOTRE_STORAGE_BUCKET", // <--- REMPLACEZ PAR VOTRE NOM DE BUCKET DE STOCKAGE
+          messagingSenderId: "VOTRE_MESSAGING_SENDER_ID", // <--- REMPLACEZ PAR VOTRE ID D'EXPÉDITEUR
+          appId: "VOTRE_APP_ID_WEB", // <--- REMPLACEZ PAR VOTRE ID D'APP WEB
+          // measurementId: "VOTRE_MEASUREMENT_ID" // Optionnel, si vous utilisez Google Analytics
+        };
+
+        // Utilisez l'ID du projet comme appId pour le chemin Firestore sur GitHub Pages
+        const appId = firebaseConfig.projectId;
+
+        // --- FIN DE LA SECTION À MODIFIER POUR GITHUB PAGES ---
 
         let app;
         let db;
@@ -348,600 +391,170 @@
         let userId = 'anonymous'; // Default to anonymous
         let isAuthReady = false;
 
-        if (Object.keys(firebaseConfig).length > 0) {
-            app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            auth = getAuth(app);
-
-            onAuthStateChanged(auth, async (user) => {
-                if (user) {
-                    userId = user.uid;
-                    isAuthReady = true;
-                } else {
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        try {
-                            await signInWithCustomToken(auth, __initial_auth_token);
-                            userId = auth.currentUser.uid;
-                            isAuthReady = true;
-                        } catch (error) {
-                            console.error("Firebase custom token sign-in failed:", error);
-                            // Fallback to anonymous if custom token fails
-                            await signInAnonymously(auth);
-                            userId = auth.currentUser.uid;
-                            isAuthReady = true;
-                        }
-                    } else {
-                        await signInAnonymously(auth);
-                        userId = auth.currentUser.uid;
-                        isAuthReady = true;
-                    }
-                }
-                if (isAuthReady) {
-                    loadCommunityResults(); // Load results once authenticated
-                }
-            });
-        } else {
-            console.warn("Firebase configuration not provided. Quiz results cannot be saved or loaded from Firestore.");
-            isAuthReady = true; // Still allow quiz to function without saving results
-            userId = 'no-firebase-user';
-        }
-
-        // --- Infographic Chart.js Setup ---
-        const FONT_COLOR = '#374151';
-        const GRID_COLOR = '#E5E7EB';
-        const PALETTE = {
-            blue_dark: '#003F5C',
-            purple_dark: '#374C80',
-            purple: '#7A5195',
-            magenta: '#BC5090',
-            pink: '#EF5675',
-            orange: '#FF764A',
-            yellow: '#FFA600'
-        };
-
-        function wrapText(label, maxWidth) {
-            if (typeof label !== 'string' || label.length <= maxWidth) {
-                return label;
-            }
-            const words = label.split(' ');
-            const lines = [];
-            let currentLine = '';
-            for (const word of words) {
-                if ((currentLine + ' ' + word).trim().length > maxWidth) {
-                    lines.push(currentLine.trim());
-                    currentLine = word;
-                } else {
-                    currentLine = (currentLine + ' ' + word).trim();
-                }
-            }
-            if (currentLine) {
-                lines.push(currentLine.trim());
-            }
-            return lines;
-        }
-
-        const universalTooltipOptions = {
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        title: function(tooltipItems) {
-                            const item = tooltipItems[0];
-                            let label = item.chart.data.labels[item.dataIndex];
-                            if (Array.isArray(label)) {
-                              return label.join(' ');
-                            }
-                            return label;
-                        }
-                    }
-                }
-            }
-        };
-
-        // Function to initialize infographic charts
-        function initInfographicCharts() {
-            // Chart 1: Coach Composition Chart
-            const ctx1 = document.getElementById('coachCompositionChart');
-            if(ctx1) {
-                new Chart(ctx1, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Analyse de Données (IA)', 'Expérience & Intuition'],
-                        datasets: [{
-                            label: 'Composition de la Décision',
-                            data: [60, 40],
-                            backgroundColor: [PALETTE.purple_dark, PALETTE.pink],
-                            borderColor: '#FFFFFF',
-                            borderWidth: 4,
-                            hoverOffset: 8
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: { color: FONT_COLOR }
-                            },
-                            tooltip: universalTooltipOptions.plugins.tooltip
-                        },
-                        cutout: '60%'
-                    }
-                });
-            }
-
-            // Chart 2: Athlete Load Chart
-            const ctx2 = document.getElementById('athleteLoadChart');
-            if(ctx2) {
-                 new Chart(ctx2, {
-                    type: 'line',
-                    data: {
-                        labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
-                        datasets: [{
-                            label: 'Charge d\'entraînement',
-                            data: [65, 70, 85, 80, 50, 30, 0],
-                            borderColor: PALETTE.orange,
-                            backgroundColor: PALETTE.orange + '33',
-                            fill: true,
-                            tension: 0.4,
-                            pointBackgroundColor: PALETTE.orange,
-                            pointRadius: 5
-                        }, {
-                            label: 'État de récupération',
-                            data: [90, 80, 60, 65, 85, 95, 100],
-                            borderColor: PALETTE.purple_dark,
-                             backgroundColor: PALETTE.purple_dark + '33',
-                            fill: false,
-                            tension: 0.4,
-                            pointBackgroundColor: PALETTE.purple_dark,
-                            pointRadius: 5
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                                labels: { color: FONT_COLOR }
-                            },
-                            tooltip: universalTooltipOptions.plugins.tooltip
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: { display: true, text: 'Niveau (%)', color: FONT_COLOR },
-                                grid: { color: GRID_COLOR },
-                                ticks: { color: FONT_COLOR }
-                            },
-                            x: {
-                                grid: { display: false },
-                                ticks: { color: FONT_COLOR }
-                            }
-                        }
-                    }
-                });
-            }
-
-            // Chart 3: Data Sources Chart
-            const ctx3 = document.getElementById('dataSourcesChart');
-            if(ctx3) {
-                const rawLabels = [
-                    'Analyse Vidéo des runs',
-                    'Capteurs physiques du skieur',
-                    'Données GPS (trajectoire, vitesse)',
-                    'Données des skis (pression, flexion)',
-                    'Chronos et résultats',
-                    'Données météorologiques'
-                ];
-                const chartLabels = rawLabels.map(label => wrapText(label, 20));
-
-                new Chart(ctx3, {
-                    type: 'bar',
-                    data: {
-                        labels: chartLabels,
-                        datasets: [{
-                            label: 'Impact sur la Décision',
-                            data: [90, 85, 75, 60, 70, 50],
-                            backgroundColor: [
-                                PALETTE.blue_dark,
-                                PALETTE.purple_dark,
-                                PALETTE.purple,
-                                PALETTE.magenta,
-                                PALETTE.pink,
-                                PALETTE.orange
-                            ],
-                            borderRadius: 4
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false },
-                            tooltip: universalTooltipOptions.plugins.tooltip
-                        },
-                        scales: {
-                            x: {
-                                beginAtZero: true,
-                                title: { display: true, text: 'Indice d\'impact', color: FONT_COLOR },
-                                grid: { color: GRID_COLOR },
-                                ticks: { color: FONT_COLOR }
-                            },
-                            y: {
-                                grid: { display: false },
-                                ticks: { color: FONT_COLOR }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-        // --- End Infographic Chart.js Setup ---
-
-
-        // --- Quiz Logic Setup ---
-        const quizData = {
-          "questions": [
-            {
-              "question": "Selon l'article, quel est le rôle principal de l'Intelligence Artificielle (IA) dans l'entraînement de ski alpin ?",
-              "hint": "L'article insiste sur le fait que l'IA n'est pas là pour prendre la place de quelqu'un, mais pour améliorer ses capacités.",
-              "answerOptions": [
-                {
-                  "text": "Remplacer l'intuition et l'expérience de l'entraîneur par des algorithmes.",
-                  "rationale": "Cette option contredit directement le message central de l'article qui valorise la collaboration homme-machine.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "Automatiser entièrement la prise de décision tactique et stratégique.",
-                  "rationale": "L'IA est présentée comme un outil d'aide à la décision, la décision finale revenant toujours à l'humain.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "Renforcer l'expertise de l'entraîneur avec des données pertinentes pour l'aide à la décision.",
-                  "rationale": "L'article décrit l'IA comme un 'partenaire de terrain' et un 'co-pilote' qui augmente les capacités de l'entraîneur.",
-                  "isCorrect": true
-                },
-                {
-                  "text": "Se concentrer uniquement sur la logistique pour libérer du temps à l'entraîneur.",
-                  "rationale": "Bien que la logistique soit un des aspects, l'article montre que le rôle de l'IA est bien plus large, couvrant la technique, la tactique et le suivi physique.",
-                  "isCorrect": false
-                }
-              ]
-            },
-            {
-              "question": "D'après la section sur l'analyse vidéo, quel est le principal avantage de l'IA ?",
-              "hint": "Pensez à ce que l'IA peut 'voir' que l'œil humain pourrait manquer, surtout après avoir visionné de nombreuses descentes.",
-              "answerOptions": [
-                {
-                  "text": "Rendre le visionnage des vidéos plus rapide pour l'entraîneur.",
-                  "rationale": "Le gain de temps est un bénéfice, mais le principal avantage réside dans la qualité et la profondeur de l'analyse fournie.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "Mettre en lumière des détails de performance invisibles à la simple observation.",
-                  "rationale": "L'article précise que l'IA 'amplifie l’œil de l’entraîneur' en extrayant des éléments comme la position exacte du centre de gravité ou les temps morts.",
-                  "isCorrect": true
-                },
-                {
-                  "text": "Stocker les vidéos de manière plus organisée dans le cloud.",
-                  "rationale": "Le stockage n'est pas l'avantage analytique mis en avant par l'article ; il s'agit plutôt d'une question d'infrastructure.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "Fournir des commentaires audio automatiques sur la performance du skieur.",
-                  "rationale": "L'article se concentre sur l'extraction de données visuelles et quantitatives, pas sur la génération de commentaires audio.",
-                  "isCorrect": false
-                }
-              ]
-            },
-            {
-              "question": "Comment l'IA permet-elle de passer d'un plan d'entraînement standardisé à une approche personnalisée ?",
-              "hint": "Considérez comment la technologie peut suivre un athlète en continu, même en dehors des pistes.",
-              "answerOptions": [
-                {
-                  "text": "En comparant les performances du skieur à celles des champions du monde.",
-                  "rationale": "La comparaison est un outil, mais la personnalisation vient de l'analyse des données propres à chaque athlète.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "En analysant en temps réel les données des capteurs portables pour ajuster la charge de travail.",
-                  "rationale": "L'article explique que les données sur la fréquence cardiaque, le sommeil ou la fatigue permettent d'adapter l'entraînement 'au cas par cas'.",
-                  "isCorrect": true
-                },
-                {
-                  "text": "En créant des plannings identiques pour tous les membres de l'équipe pour assurer l'équité.",
-                  "rationale": "Cette approche est précisément ce que l'IA cherche à dépasser en offrant un suivi individualisé.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "En se basant uniquement sur les préférences et les ressentis déclarés par le skieur.",
-                  "rationale": "Le ressenti est important, mais l'IA y ajoute des données physiologiques objectives pour une vision complète.",
-                  "isCorrect": false
-                }
-              ]
-            },
-            {
-              "question": "Quelle est la métaphore utilisée dans l'article pour décrire la relation entre l'entraîneur et l'IA ?",
-              "hint": "Cette métaphore vient du monde de l'aviation ou du rallye automobile.",
-              "answerOptions": [
-                {
-                  "text": "Un professeur et son élève.",
-                  "rationale": "Cette métaphore implique une hiérarchie d'apprentissage, alors que l'article décrit plutôt une collaboration fonctionnelle.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "Un arbitre et un joueur.",
-                  "rationale": "L'IA ne juge pas ou ne sanctionne pas ; elle fournit des informations pour aider à la performance.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "Un co-pilote qui assiste le pilote.",
-                  "rationale": "L'article utilise explicitement le terme 'co-pilote', soulignant que l'IA assiste l'entraîneur qui reste aux commandes.",
-                  "isCorrect": true
-                },
-                {
-                  "text": "Un médecin et son patient.",
-                  "rationale": "Bien que l'IA aide à la prévention des blessures, la métaphore du 'co-pilote' englobe mieux l'ensemble des aspects (tactique, technique, etc.).",
-                  "isCorrect": false
-                }
-              ]
-            },
-            {
-              "question": "Pour la préparation tactique d'une course, que peut simuler l'IA en croisant de multiples paramètres ?",
-              "hint": "Pensez à l'élément le plus crucial pour gagner des centièmes de seconde en ski alpin.",
-              "answerOptions": [
-                {
-                  "text": "La réaction probable des supporters.",
-                  "rationale": "L'article se concentre sur les paramètres de performance directs et non sur l'environnement médiatique ou social.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "Les meilleures trajectoires possibles et le réglage optimal du matériel.",
-                  "rationale": "L'article mentionne spécifiquement la simulation de scénarios pour 'proposer les meilleures trajectoires possibles' et 'conseiller le réglage optimal du matériel'.",
-                  "isCorrect": true
-                },
-                {
-                  "text": "Les interviews d'après-course du skieur.",
-                  "rationale": "La préparation médiatique n'est pas citée comme une application de l'IA dans ce contexte.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "Le budget nécessaire pour la saison suivante.",
-                  "rationale": "La planification financière n'est pas l'objectif de l'IA dans le cadre de la préparation tactique d'une course.",
-                  "isCorrect": false
-                }
-              ]
-            },
-            {
-              "question": "Que signifie pour un entraîneur d'être 'data-aware' selon l'article ?",
-              "hint": "Il ne s'agit pas de savoir coder, mais de savoir interagir avec l'information.",
-              "answerOptions": [
-                {
-                  "text": "Savoir programmer des algorithmes d'IA complexes.",
-                  "rationale": "L'article précise que 'L’objectif n’est pas de devenir expert en algorithmes'.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "Installer et maintenir les capteurs sur le matériel des skieurs.",
-                  "rationale": "Ceci relève plus d'une compétence technique de technicien que de la compétence d'interprétation attendue de l'entraîneur.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "Comprendre, interpréter et utiliser les données pour guider ses choix.",
-                  "rationale": "C'est la définition même donnée dans l'article : être capable de 'guider leurs choix techniques, tactiques et stratégiques' grâce aux informations.",
-                  "isCorrect": true
-                },
-                {
-                  "text": "Collecter manuellement toutes les données de performance pendant l'entraînement.",
-                  "rationale": "L'IA vise justement à automatiser la collecte pour que l'entraîneur se concentre sur l'analyse et l'action.",
-                  "isCorrect": false
-                }
-              ]
-            },
-            {
-              "question": "Quel bénéfice l'IA apporte-t-elle à la gestion et la planification d'un groupe élite ?",
-              "hint": "La gestion d'un groupe implique de jongler avec de nombreux emplois du temps et contraintes.",
-              "answerOptions": [
-                {
-                  "text": "Choisir les skieurs qui participeront aux compétitions.",
-                  "rationale": "L'IA peut informer cette décision, mais l'article souligne son rôle dans la construction de plannings et non dans la sélection finale des athlètes.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "Construire des plannings automatisés en tenant compte des contraintes individuelles et collectives.",
-                  "rationale": "L'article indique que l'IA permet de 'construire des plannings automatisés, prenant en compte les objectifs individuels, les contraintes collectives et les impératifs logistiques'.",
-                  "isCorrect": true
-                },
-                {
-                  "text": "Négocier les contrats des athlètes avec les sponsors.",
-                  "rationale": "Cet aspect de la gestion sportive n'est pas mentionné comme une application de l'IA dans l'article.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "Organiser les conférences de presse pour l'équipe.",
-                  "rationale": "La communication et les relations publiques ne font pas partie des tâches logistiques que l'IA aide à simplifier selon le texte.",
-                  "isCorrect": false
-                }
-              ]
-            },
-            {
-              "question": "Parmi la liste de données pouvant être traitées par l'IA, laquelle est la plus directement liée à la biomécanique du skieur ?",
-              "hint": "La biomécanique s'intéresse aux forces et aux mouvements du corps.",
-              "answerOptions": [
-                {
-                  "text": "Les données météorologiques.",
-                  "rationale": "La météo influence les conditions, mais pas directement la mécanique du corps du skieur.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "La comparaison automatique des chronos.",
-                  "rationale": "Les chronos sont un résultat de la performance, pas une mesure directe du mouvement corporel.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "La surveillance des asymétries musculaires.",
-                  "rationale": "Les asymétries musculaires sont un indicateur biomécanique clé, révélant comment le corps du skieur gère les contraintes et le mouvement.",
-                  "isCorrect": true
-                },
-                {
-                  "text": "L'extraction des moments clés des vidéos.",
-                  "rationale": "L'extraction de moments clés est une analyse de haut niveau ; les asymétries sont une donnée biomécanique plus fondamentale.",
-                  "isCorrect": false
-                }
-              ]
-            },
-            {
-              "question": "Quelle est la conclusion principale de l'article concernant l'avenir du coaching en ski ?",
-              "hint": "L'avenir n'est pas un choix entre l'ancien et le nouveau, mais leur combinaison.",
-              "answerOptions": [
-                {
-                  "text": "Les méthodes traditionnelles basées sur l'intuition vont disparaître.",
-                  "rationale": "L'article affirme que l'avenir réside dans une 'alliance', et non dans le remplacement de la tradition.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "Seules les grandes fédérations pourront survivre à ce tournant technologique.",
-                  "rationale": "Bien que l'article mentionne des investissements, il ne conclut pas à une disparition des plus petites structures.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "L'avenir passera par une alliance entre la tradition du coaching et l'innovation technologique.",
-                  "rationale": "C'est la phrase de conclusion de l'article, qui résume parfaitement son propos sur la synergie homme-machine.",
-                  "isCorrect": true
-                },
-                {
-                  "text": "Les entraîneurs devront tous devenir des experts en science des données.",
-                  "rationale": "L'article prend soin de préciser que l'objectif n'est pas de devenir expert, mais de savoir 'poser les bonnes questions'.",
-                  "isCorrect": false
-                }
-              ]
-            },
-            {
-              "question": "Quelle condition essentielle est mentionnée pour une intégration réussie et responsable de l'IA ?",
-              "hint": "Avec la collecte de nombreuses données personnelles sur les athlètes, une question légale et éthique se pose.",
-              "answerOptions": [
-                {
-                  "text": "La mise en place de protocoles stricts pour la protection des données personnelles.",
-                  "rationale": "L'article souligne explicitement que 'la puissance de l'IA réside dans les données, mais avec cette puissance vient la responsabilité' et mentionne le RGPD.",
-                  "isCorrect": true
-                },
-                {
-                  "text": "L'obligation pour chaque skieur de posséder ses propres capteurs.",
-                  "rationale": "Il s'agit d'une question d'équipement, non d'une condition de fond pour une intégration responsable de la technologie.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "La publication de toutes les données en open source pour la transparence.",
-                  "rationale": "Cela serait en contradiction directe avec la nécessité de protéger les données personnelles et confidentielles des athlètes.",
-                  "isCorrect": false
-                },
-                {
-                  "text": "La garantie que l'IA augmentera les revenus de sponsoring.",
-                  "rationale": "L'article se concentre sur les bénéfices en termes de performance et de santé, pas directement sur les aspects financiers.",
-                  "isCorrect": false
-                }
-              ]
-            }
-          ]
-        };
-
-        let currentQuestionIndex = 0;
-        let userAnswers = new Array(quizData.questions.length).fill(null); // Pour stocker l'index de l'option sélectionnée pour chaque question
-        let score = 0;
-
-        const quizContainer = document.getElementById('quiz-container');
-        const prevButton = document.getElementById('prevButton');
-        const nextButton = document.getElementById('nextButton');
-        const submitButton = document.getElementById('submitButton');
-        const progressBar = document.getElementById('progressBar');
-        const summarySection = document.getElementById('summary-section');
-        const scoreDisplay = document.getElementById('scoreDisplay');
-        const restartButton = document.getElementById('restartButton');
-        const submissionFeedback = document.getElementById('submission-feedback');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const communityResultsDiv = document.getElementById('communityResults');
-
-
-        function loadQuestion(index) {
-            const questionData = quizData.questions[index];
-            quizContainer.innerHTML = `
-                <div class="quiz-card">
-                    <h2 class="text-xl font-bold mb-4">Question ${index + 1}/${quizData.questions.length} : ${questionData.question}</h2>
-                    <div id="options-container" class="mb-4">
-                        ${questionData.answerOptions.map((option, i) => `
-                            <button class="option-button" data-option-index="${i}">
-                                ${option.text}
-                            </button>
-                        `).join('')}
-                    </div>
-                    <div class="hint-text">
-                        <p class="font-bold">Indice :</p>
-                        <p>${questionData.hint}</p>
-                    </div>
-                    <div id="feedback-message" class="feedback-message hidden"></div>
-                    <div id="rationale-display" class="rationale-text hidden"></div>
+        // Function to render a question
+        function renderQuestion() {
+            const questionData = quizData.questions[currentQuestionIndex];
+            questionContainer.innerHTML = `
+                <p class="question-text">${currentQuestionIndex + 1}. ${questionData.question}</p>
+                <div id="options-container">
+                    ${questionData.answerOptions.map((option, index) => `
+                        <button type="button" class="option-button" data-option-index="${index}">
+                            ${option.text}
+                        </button>
+                    `).join('')}
                 </div>
             `;
 
-            const optionButtons = quizContainer.querySelectorAll('.option-button');
+            // Add event listeners to option buttons
+            const optionButtons = questionContainer.querySelectorAll('.option-button');
             optionButtons.forEach(button => {
-                button.addEventListener('click', (event) => selectOption(event.target, index));
+                button.addEventListener('click', (event) => selectOption(event.target));
             });
 
-            // Restore previous selection if any
-            if (userAnswers[index] !== null) {
-                optionButtons[userAnswers[index]].classList.add('selected');
+            // Highlight selected answer if already chosen
+            if (userAnswers[currentQuestionIndex] !== null) {
+                const selectedOptionButton = questionContainer.querySelector(`.option-button[data-option-index="${userAnswers[currentQuestionIndex]}"]`);
+                if (selectedOptionButton) {
+                    selectedOptionButton.classList.add('selected');
+                }
             }
 
             updateNavigationButtons();
-            updateProgressBar();
         }
 
-        function selectOption(selectedButton, questionIndex) {
+        // Function to handle option selection
+        function selectOption(selectedButton) {
             const optionsContainer = selectedButton.closest('#options-container');
-            const feedbackMessage = document.getElementById('feedback-message');
-            const rationaleDisplay = document.getElementById('rationale-display');
-
-            // Remove 'selected' class from all options for this question
-            optionsContainer.querySelectorAll('.option-button').forEach(btn => {
-                btn.classList.remove('selected', 'correct', 'incorrect');
+            // Remove 'selected' class from all options for the current question
+            optionsContainer.querySelectorAll('.option-button').forEach(button => {
+                button.classList.remove('selected');
             });
 
             // Add 'selected' class to the clicked button
             selectedButton.classList.add('selected');
-            userAnswers[questionIndex] = parseInt(selectedButton.dataset.optionIndex);
-
-            // Hide feedback and rationale until submission or next navigation
-            feedbackMessage.classList.add('hidden');
-            rationaleDisplay.classList.add('hidden');
-
-            // --- FIX: Call updateNavigationButtons here to enable/disable 'Suivant' ---
-            updateNavigationButtons();
-            // --- END FIX ---
+            userAnswers[currentQuestionIndex] = parseInt(selectedButton.dataset.optionIndex);
         }
 
+        // Function to update navigation button states
         function updateNavigationButtons() {
             prevButton.disabled = currentQuestionIndex === 0;
-            // Disable next if current question not answered AND it's not the last question
-            nextButton.disabled = userAnswers[currentQuestionIndex] === null && currentQuestionIndex < quizData.questions.length - 1;
-
+            nextButton.disabled = userAnswers[currentQuestionIndex] === null || currentQuestionIndex === quizData.questions.length - 1;
 
             if (currentQuestionIndex === quizData.questions.length - 1) {
                 nextButton.classList.add('hidden');
                 submitButton.classList.remove('hidden');
+                // Ensure submit button is only enabled if Firebase is ready
+                submitButton.disabled = !isAuthReady;
             } else {
                 nextButton.classList.remove('hidden');
                 submitButton.classList.add('hidden');
             }
         }
 
-        function updateProgressBar() {
-            const progress = ((currentQuestionIndex + 1) / quizData.questions.length) * 100;
-            progressBar.style.width = `${progress}%`;
+        // Event listeners for navigation
+        prevButton.addEventListener('click', () => {
+            currentQuestionIndex--;
+            renderQuestion();
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentQuestionIndex++;
+            renderQuestion();
+        });
+
+        submitButton.addEventListener('click', () => {
+            calculateScore();
+            displayResults();
+            saveQuizResult(); // Save results to Firebase
+        });
+
+        // Function to calculate score
+        function calculateScore() {
+            score = 0;
+            quizData.questions.forEach((question, index) => {
+                const selectedOptionIndex = userAnswers[index];
+                if (selectedOptionIndex !== null && question.answerOptions[selectedOptionIndex].isCorrect) {
+                    score++;
+                }
+            });
         }
 
+        // Function to display results
+        function displayResults() {
+            quizSection.classList.add('hidden');
+            resultsSection.classList.remove('hidden');
+
+            finalScoreText.textContent = `Votre score est de ${score} sur ${quizData.questions.length}.`;
+
+            answersSummaryList.innerHTML = '';
+            quizData.questions.forEach((question, index) => {
+                const li = document.createElement('li');
+                const selectedOptionIndex = userAnswers[index];
+                const correctAnswer = question.answerOptions.find(option => option.isCorrect);
+
+                let summaryText = `${index + 1}. ${question.question}<br>`;
+                if (selectedOptionIndex !== null) {
+                    const selectedOption = question.answerOptions[selectedOptionIndex];
+                    if (selectedOption.isCorrect) {
+                        li.classList.add('correct-answer');
+                        summaryText += `Votre réponse : ${selectedOption.text} (Correct)`;
+                    } else {
+                        li.classList.add('incorrect-answer');
+                        summaryText += `Votre réponse : ${selectedOption.text} (Incorrect). La bonne réponse était : ${correctAnswer.text}`;
+                    }
+                } else {
+                    li.classList.add('incorrect-answer');
+                    summaryText += `Vous avez sauté cette question. La bonne réponse était : ${correctAnswer.text}`;
+                }
+                li.innerHTML = summaryText;
+                answersSummaryList.appendChild(li);
+            });
+        }
+
+        // Firebase Initialization and Auth
+        if (Object.keys(firebaseConfig).length > 0 && firebaseConfig.projectId !== "VOTRE_PROJECT_ID") { // Check if config is actually provided
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+
+            // Disable submit button by default until Firebase is ready
+            submitButton.disabled = true;
+            loadingIndicator.classList.remove('hidden'); // Show loading indicator for Firebase
+
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    userId = user.uid;
+                    isAuthReady = true;
+                    console.log("Firebase Authenticated. User ID:", userId);
+                } else {
+                    // No initial token provided by Canvas, so sign in anonymously
+                    await signInAnonymously(auth);
+                    userId = auth.currentUser.uid;
+                    isAuthReady = true;
+                    console.log("Firebase Authenticated anonymously. User ID:", userId);
+                }
+
+                // Once auth is ready, enable submit button and load community results
+                if (isAuthReady) {
+                    submitButton.disabled = false;
+                    loadingIndicator.classList.add('hidden'); // Hide loading indicator
+                    loadCommunityResults(); // Load results once authenticated
+                } else {
+                     console.warn("Firebase n'a pas pu être authentifié.");
+                     loadingIndicator.classList.add('hidden');
+                }
+            });
+        } else {
+            console.warn("Firebase configuration not provided in index.html. Quiz results cannot be saved or loaded from Firestore.");
+            isAuthReady = false; // Firebase features are not available
+            userId = 'no-firebase-user';
+            submitButton.disabled = true; // Keep disabled as saving won't work
+            loadingIndicator.classList.add('hidden'); // Hide loading
+            submissionFeedback.textContent = "La sauvegarde des résultats est désactivée (Firebase non configuré dans le code).";
+            submissionFeedback.classList.remove('hidden');
+        }
+
+        // Function to save quiz result to Firestore
         async function saveQuizResult() {
             if (!isAuthReady || !db) {
                 console.error("Firebase n'est pas initialisé ou l'authentification n'est pas prête. Impossible de sauvegarder les résultats.");
@@ -969,6 +582,8 @@
 
             try {
                 // Save to a public collection for community results
+                // Le chemin des artifacts doit être adapté pour GitHub Pages si vous voulez un stockage commun
+                // Si vous voulez un stockage lié au projet GitHub, utilisez firebaseConfig.projectId
                 const docRef = await addDoc(collection(db, `artifacts/${appId}/public/data/quizResults`), result);
                 console.log("Document written with ID: ", docRef.id);
                 submissionFeedback.textContent = "Votre résultat a été sauvegardé avec succès !";
@@ -984,6 +599,7 @@
             }
         }
 
+        // Function to load and display community results in real-time
         function loadCommunityResults() {
              if (!isAuthReady || !db) {
                 console.warn("Firebase non prêt pour charger les résultats communautaires.");
@@ -1030,70 +646,9 @@
             });
         }
 
-
-        prevButton.addEventListener('click', () => {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                loadQuestion(currentQuestionIndex);
-            }
-        });
-
-        nextButton.addEventListener('click', () => {
-            if (userAnswers[currentQuestionIndex] !== null && currentQuestionIndex < quizData.questions.length - 1) {
-                currentQuestionIndex++;
-                loadQuestion(currentQuestionIndex);
-            } else if (userAnswers[currentQuestionIndex] === null) {
-                submissionFeedback.textContent = "Veuillez sélectionner une option pour continuer.";
-                submissionFeedback.classList.remove('hidden', 'feedback-correct');
-                submissionFeedback.classList.add('feedback-incorrect');
-            }
-        });
-
-        submitButton.addEventListener('click', async () => {
-            if (userAnswers[currentQuestionIndex] === null) {
-                submissionFeedback.textContent = "Veuillez sélectionner une option avant de soumettre.";
-                submissionFeedback.classList.remove('hidden', 'feedback-correct');
-                submissionFeedback.classList.add('feedback-incorrect');
-                return;
-            }
-            await saveQuizResult(); // Save result before showing summary
-            showSummary();
-        });
-
-        restartButton.addEventListener('click', () => {
-            currentQuestionIndex = 0;
-            userAnswers.fill(null);
-            score = 0;
-            summarySection.classList.add('hidden');
-            quizContainer.classList.remove('hidden');
-            navigationButtons.classList.remove('hidden');
-            submissionFeedback.classList.add('hidden'); // Clear feedback on restart
-            loadQuestion(currentQuestionIndex);
-        });
-
-        function showSummary() {
-            quizContainer.classList.add('hidden');
-            navigationButtons.classList.add('hidden');
-            summarySection.classList.remove('hidden');
-
-            score = 0;
-            userAnswers.forEach((selectedOptionIndex, qIndex) => {
-                if (selectedOptionIndex !== null) {
-                    const questionData = quizData.questions[qIndex];
-                    if (questionData.answerOptions[selectedOptionIndex].isCorrect) {
-                        score++;
-                    }
-                }
-            });
-            scoreDisplay.textContent = `${score}/${quizData.questions.length}`;
-            // loadCommunityResults is now called after auth is ready, so it will update automatically
-        }
-
-
-        // Initial load of the first question and infographic charts
+        // Initial render
         document.addEventListener('DOMContentLoaded', () => {
-            initInfographicCharts(); // Initialize charts from infographic
-            loadQuestion(currentQuestionIndex); // Load the first quiz question
+            renderQuestion();
         });
     </script>
 </body>
