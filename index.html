@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Interactif</title>
+    <title>Application Firebase de Base</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -26,119 +26,13 @@
             width: 100%;
             margin-top: 20px;
             margin-bottom: 20px;
+            text-align: center;
         }
-        .question-container {
-            margin-bottom: 1.5rem;
-        }
-        .question-text {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 1rem;
-        }
-        .option-button {
-            display: block;
-            width: 100%;
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.75rem;
-            border-radius: 0.5rem;
-            border: 1px solid #e2e8f0;
-            background-color: #f7fafc;
-            text-align: left;
-            font-size: 1rem;
-            color: #4a5568;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-        }
-        .option-button:hover:not(:disabled) {
-            background-color: #e2e8f0;
-            border-color: #cbd5e0;
-        }
-        .option-button.selected {
-            background-color: #bfdbfe;
-            border-color: #60a5fa;
-            color: #1e40af;
-            font-weight: 600;
-        }
-        .option-button.correct {
-            background-color: #a7f3d0;
-            border-color: #34d399;
-            color: #065f46;
-            font-weight: 600;
-        }
-        .option-button.incorrect {
-            background-color: #fecaca;
-            border-color: #ef4444;
-            color: #991b1b;
-            font-weight: 600;
-        }
-        .option-button:disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 2rem;
-        }
-        .nav-button {
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-        }
-        .prev-button {
-            background-color: #e2e8f0;
-            color: #4a5568;
-            border: none;
-        }
-        .prev-button:hover:not(:disabled) {
-            background-color: #cbd5e0;
-        }
-        .next-button, .submit-button {
-            background-color: #3b82f6;
-            color: #ffffff;
-            border: none;
-        }
-        .next-button:hover:not(:disabled), .submit-button:hover:not(:disabled) {
-            background-color: #2563eb;
-        }
-        .nav-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .results-container {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background-color: #f0f9ff;
-            border-radius: 0.75rem;
-            border: 1px solid #bfdbfe;
-        }
-        .results-title {
-            font-size: 1.5rem;
+        .section-title {
+            font-size: 1.8rem;
             font-weight: 700;
             color: #1e40af;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        .score-text {
-            font-size: 1.2rem;
-            text-align: center;
             margin-bottom: 1.5rem;
-            color: #333;
-        }
-        .summary-list li {
-            margin-bottom: 0.5rem;
-            color: #4a5568;
-        }
-        .summary-list .correct-answer {
-            color: #065f46;
-            font-weight: 600;
-        }
-        .summary-list .incorrect-answer {
-            color: #991b1b;
-            font-weight: 600;
         }
         .community-scores {
             margin-top: 2rem;
@@ -155,7 +49,7 @@
         .results-list {
             list-style: none;
             padding: 0;
-            max-height: 200px; /* Limit height for scrolling */
+            max-height: 300px; /* Limit height for scrolling */
             overflow-y: auto; /* Enable vertical scrolling */
             border: 1px solid #e2e8f0;
             border-radius: 0.5rem;
@@ -216,21 +110,10 @@
             .container {
                 padding: 1.5rem;
             }
-            .question-text {
-                font-size: 1.1rem;
+            .section-title {
+                font-size: 1.5rem;
             }
-            .option-button {
-                font-size: 0.95rem;
-                padding: 0.6rem 0.8rem;
-            }
-            .nav-button {
-                padding: 0.6rem 1.2rem;
-                font-size: 0.9rem;
-            }
-            .results-title {
-                font-size: 1.3rem;
-            }
-            .score-text {
+            .community-scores-title {
                 font-size: 1.1rem;
             }
         }
@@ -238,138 +121,50 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Quiz de Connaissances Générales</h1>
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Ma Nouvelle Application</h1>
 
-        <div id="quiz-section">
-            <div id="question-container" class="question-container">
-                <!-- Question and options will be loaded here by JavaScript -->
-            </div>
+        <p class="text-lg text-gray-600 mb-4">
+            Bienvenue ! Cette page est connectée à Firebase.
+            Les scores de la communauté affichés ci-dessous sont récupérés en temps réel.
+        </p>
 
-            <div class="navigation-buttons">
-                <button id="prev-button" class="nav-button prev-button" disabled>Précédent</button>
-                <button id="next-button" class="nav-button next-button">Suivant</button>
-                <button id="submit-button" class="nav-button submit-button hidden" disabled>Soumettre</button>
-            </div>
-
-            <div id="loading-indicator" class="loading-indicator hidden">
+        <div id="firebase-status">
+            <div id="loading-indicator" class="loading-indicator">
                 <div class="spinner"></div>
-                <p class="ml-2 text-gray-600">Chargement...</p>
+                <p class="ml-2 text-gray-600">Initialisation de Firebase...</p>
             </div>
             <div id="submission-feedback" class="feedback hidden"></div>
+            <p id="firebase-ready-message" class="text-green-600 font-semibold hidden">Firebase est prêt !</p>
         </div>
 
-        <div id="results-section" class="results-container hidden">
-            <h2 class="results-title">Vos Résultats</h2>
-            <p id="final-score" class="score-text"></p>
-            <ul id="answers-summary" class="summary-list"></ul>
 
-            <div class="community-scores">
-                <h3 class="community-scores-title">Scores de la Communauté</h3>
-                <div id="community-results">
-                    <!-- Community scores will be loaded here -->
-                </div>
+        <div class="community-scores">
+            <h3 class="community-scores-title">Scores de la Communauté (depuis Firestore)</h3>
+            <div id="community-results">
+                <p class="text-gray-500">Chargement des scores...</p>
+                <!-- Community scores will be loaded here by JavaScript -->
             </div>
         </div>
+
+        <!-- Vous pouvez ajouter plus de contenu HTML ici -->
+
     </div>
 
     <script type="module">
         // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, query, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Quiz data
-        const quizData = {
-            questions: [
-                {
-                    question: "Quelle est la capitale de la France ?",
-                    answerOptions: [
-                        { text: "Londres", isCorrect: false },
-                        { text: "Berlin", isCorrect: false },
-                        { text: "Paris", isCorrect: true },
-                        { text: "Madrid", isCorrect: false }
-                    ]
-                },
-                {
-                    question: "Quel est l'océan le plus grand du monde ?",
-                    answerOptions: [
-                        { text: "Océan Atlantique", isCorrect: false },
-                        { text: "Océan Indien", isCorrect: false },
-                        { text: "Océan Arctique", isCorrect: false },
-                        { text: "Océan Pacifique", isCorrect: true }
-                    ]
-                },
-                {
-                    question: "Qui a écrit 'Don Quichotte' ?",
-                    answerOptions: [
-                        { text: "William Shakespeare", isCorrect: false },
-                        { text: "Miguel de Cervantes", isCorrect: true },
-                        { text: "Leo Tolstoy", isCorrect: false },
-                        { text: "Victor Hugo", isCorrect: false }
-                    ]
-                },
-                {
-                    question: "Quel est le plus haut sommet du monde ?",
-                    answerOptions: [
-                        { text: "Mont Kilimandjaro", isCorrect: false },
-                        { text: "Mont Everest", isCorrect: true },
-                        { text: "Mont McKinley", isCorrect: false },
-                        { text: "Mont Blanc", isCorrect: false }
-                    ]
-                },
-                {
-                    question: "Combien de planètes compte notre système solaire ?",
-                    answerOptions: [
-                        { text: "7", isCorrect: false },
-                        { text: "8", isCorrect: true },
-                        { text: "9", isCorrect: false },
-                        { text: "10", isCorrect: false }
-                    ]
-                }
-            ]
-        };
-
         // DOM elements
-        const questionContainer = document.getElementById('question-container');
-        const prevButton = document.getElementById('prev-button');
-        const nextButton = document.getElementById('next-button');
-        const submitButton = document.getElementById('submit-button'); // Get submit button reference
-        const quizSection = document.getElementById('quiz-section');
-        const resultsSection = document.getElementById('results-section');
-        const finalScoreText = document.getElementById('final-score');
-        const answersSummaryList = document.getElementById('answers-summary');
         const communityResultsDiv = document.getElementById('community-results');
         const loadingIndicator = document.getElementById('loading-indicator');
         const submissionFeedback = document.getElementById('submission-feedback');
+        const firebaseReadyMessage = document.getElementById('firebase-ready-message');
 
-        // Quiz state
-        let currentQuestionIndex = 0;
-        let userAnswers = new Array(quizData.questions.length).fill(null);
-        let score = 0;
-
-        // --- DÉBUT DE LA SECTION À MODIFIER POUR GITHUB PAGES ---
-        // // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDscOWtkETdQsLxIzN-bnBq6jNcYMhiXV0",
-  authDomain: "ski-quizz-coach.firebaseapp.com",
-  projectId: "ski-quizz-coach",
-  storageBucket: "ski-quizz-coach.firebasestorage.app",
-  messagingSenderId: "245182059261",
-  appId: "1:245182059261:web:a071a7a31e6c9769ea2494",
-  measurementId: "G-J4LN878S63"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
+        // --- DÉBUT DE LA SECTION À MODIFIER : VOTRE CONFIGURATION FIREBASE ---
+        // Collez ici l'objet firebaseConfig que vous avez copié depuis la console Firebase
+        // Exemple (remplacez AVEC VOS VRAIES VALEURS) :
         const firebaseConfig = {
           apiKey: "VOTRE_API_KEY", // <--- REMPLACEZ PAR VOTRE CLÉ API
           authDomain: "VOTRE_AUTH_DOMAIN", // <--- REMPLACEZ PAR VOTRE DOMAINE D'AUTH
@@ -380,10 +175,10 @@ const analytics = getAnalytics(app);
           // measurementId: "VOTRE_MEASUREMENT_ID" // Optionnel, si vous utilisez Google Analytics
         };
 
-        // Utilisez l'ID du projet comme appId pour le chemin Firestore sur GitHub Pages
+        // Utilisez l'ID du projet comme appId pour le chemin Firestore (important pour la structure des données)
         const appId = firebaseConfig.projectId;
 
-        // --- FIN DE LA SECTION À MODIFIER POUR GITHUB PAGES ---
+        // --- FIN DE LA SECTION À MODIFIER : VOTRE CONFIGURATION FIREBASE ---
 
         let app;
         let db;
@@ -391,135 +186,12 @@ const analytics = getAnalytics(app);
         let userId = 'anonymous'; // Default to anonymous
         let isAuthReady = false;
 
-        // Function to render a question
-        function renderQuestion() {
-            const questionData = quizData.questions[currentQuestionIndex];
-            questionContainer.innerHTML = `
-                <p class="question-text">${currentQuestionIndex + 1}. ${questionData.question}</p>
-                <div id="options-container">
-                    ${questionData.answerOptions.map((option, index) => `
-                        <button type="button" class="option-button" data-option-index="${index}">
-                            ${option.text}
-                        </button>
-                    `).join('')}
-                </div>
-            `;
-
-            // Add event listeners to option buttons
-            const optionButtons = questionContainer.querySelectorAll('.option-button');
-            optionButtons.forEach(button => {
-                button.addEventListener('click', (event) => selectOption(event.target));
-            });
-
-            // Highlight selected answer if already chosen
-            if (userAnswers[currentQuestionIndex] !== null) {
-                const selectedOptionButton = questionContainer.querySelector(`.option-button[data-option-index="${userAnswers[currentQuestionIndex]}"]`);
-                if (selectedOptionButton) {
-                    selectedOptionButton.classList.add('selected');
-                }
-            }
-
-            updateNavigationButtons();
-        }
-
-        // Function to handle option selection
-        function selectOption(selectedButton) {
-            const optionsContainer = selectedButton.closest('#options-container');
-            // Remove 'selected' class from all options for the current question
-            optionsContainer.querySelectorAll('.option-button').forEach(button => {
-                button.classList.remove('selected');
-            });
-
-            // Add 'selected' class to the clicked button
-            selectedButton.classList.add('selected');
-            userAnswers[currentQuestionIndex] = parseInt(selectedButton.dataset.optionIndex);
-        }
-
-        // Function to update navigation button states
-        function updateNavigationButtons() {
-            prevButton.disabled = currentQuestionIndex === 0;
-            nextButton.disabled = userAnswers[currentQuestionIndex] === null || currentQuestionIndex === quizData.questions.length - 1;
-
-            if (currentQuestionIndex === quizData.questions.length - 1) {
-                nextButton.classList.add('hidden');
-                submitButton.classList.remove('hidden');
-                // Ensure submit button is only enabled if Firebase is ready
-                submitButton.disabled = !isAuthReady;
-            } else {
-                nextButton.classList.remove('hidden');
-                submitButton.classList.add('hidden');
-            }
-        }
-
-        // Event listeners for navigation
-        prevButton.addEventListener('click', () => {
-            currentQuestionIndex--;
-            renderQuestion();
-        });
-
-        nextButton.addEventListener('click', () => {
-            currentQuestionIndex++;
-            renderQuestion();
-        });
-
-        submitButton.addEventListener('click', () => {
-            calculateScore();
-            displayResults();
-            saveQuizResult(); // Save results to Firebase
-        });
-
-        // Function to calculate score
-        function calculateScore() {
-            score = 0;
-            quizData.questions.forEach((question, index) => {
-                const selectedOptionIndex = userAnswers[index];
-                if (selectedOptionIndex !== null && question.answerOptions[selectedOptionIndex].isCorrect) {
-                    score++;
-                }
-            });
-        }
-
-        // Function to display results
-        function displayResults() {
-            quizSection.classList.add('hidden');
-            resultsSection.classList.remove('hidden');
-
-            finalScoreText.textContent = `Votre score est de ${score} sur ${quizData.questions.length}.`;
-
-            answersSummaryList.innerHTML = '';
-            quizData.questions.forEach((question, index) => {
-                const li = document.createElement('li');
-                const selectedOptionIndex = userAnswers[index];
-                const correctAnswer = question.answerOptions.find(option => option.isCorrect);
-
-                let summaryText = `${index + 1}. ${question.question}<br>`;
-                if (selectedOptionIndex !== null) {
-                    const selectedOption = question.answerOptions[selectedOptionIndex];
-                    if (selectedOption.isCorrect) {
-                        li.classList.add('correct-answer');
-                        summaryText += `Votre réponse : ${selectedOption.text} (Correct)`;
-                    } else {
-                        li.classList.add('incorrect-answer');
-                        summaryText += `Votre réponse : ${selectedOption.text} (Incorrect). La bonne réponse était : ${correctAnswer.text}`;
-                    }
-                } else {
-                    li.classList.add('incorrect-answer');
-                    summaryText += `Vous avez sauté cette question. La bonne réponse était : ${correctAnswer.text}`;
-                }
-                li.innerHTML = summaryText;
-                answersSummaryList.appendChild(li);
-            });
-        }
-
         // Firebase Initialization and Auth
-        if (Object.keys(firebaseConfig).length > 0 && firebaseConfig.projectId !== "VOTRE_PROJECT_ID") { // Check if config is actually provided
+        // Vérifie si la configuration Firebase est fournie et n'est pas celle par défaut
+        if (Object.keys(firebaseConfig).length > 0 && firebaseConfig.projectId !== "VOTRE_PROJECT_ID") {
             app = initializeApp(firebaseConfig);
             db = getFirestore(app);
             auth = getAuth(app);
-
-            // Disable submit button by default until Firebase is ready
-            submitButton.disabled = true;
-            loadingIndicator.classList.remove('hidden'); // Show loading indicator for Firebase
 
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
@@ -527,71 +199,74 @@ const analytics = getAnalytics(app);
                     isAuthReady = true;
                     console.log("Firebase Authenticated. User ID:", userId);
                 } else {
-                    // No initial token provided by Canvas, so sign in anonymously
-                    await signInAnonymously(auth);
-                    userId = auth.currentUser.uid;
-                    isAuthReady = true;
-                    console.log("Firebase Authenticated anonymously. User ID:", userId);
+                    // Sur GitHub Pages, il n'y a pas de __initial_auth_token, donc on se connecte anonymement
+                    try {
+                        await signInAnonymously(auth);
+                        userId = auth.currentUser.uid;
+                        isAuthReady = true;
+                        console.log("Firebase Authenticated anonymously. User ID:", userId);
+                    } catch (error) {
+                        console.error("Erreur lors de l'authentification anonyme Firebase:", error);
+                        isAuthReady = false;
+                        submissionFeedback.textContent = `Erreur d'authentification Firebase: ${error.message}`;
+                        submissionFeedback.classList.remove('hidden', 'feedback-correct');
+                        submissionFeedback.classList.add('feedback-incorrect');
+                    }
                 }
 
-                // Once auth is ready, enable submit button and load community results
+                // Une fois que l'authentification est prête, masque l'indicateur de chargement et charge les résultats de la communauté
                 if (isAuthReady) {
-                    submitButton.disabled = false;
-                    loadingIndicator.classList.add('hidden'); // Hide loading indicator
-                    loadCommunityResults(); // Load results once authenticated
+                    loadingIndicator.classList.add('hidden'); // Masque l'indicateur de chargement
+                    firebaseReadyMessage.classList.remove('hidden'); // Affiche le message "Firebase est prêt !"
+                    loadCommunityResults(); // Charge les résultats une fois authentifié
                 } else {
-                     console.warn("Firebase n'a pas pu être authentifié.");
+                     console.warn("Firebase n'a pas pu être authentifié ou configuré correctement.");
                      loadingIndicator.classList.add('hidden');
+                     // Le message d'erreur est déjà mis à jour si l'authentification a échoué
                 }
             });
         } else {
-            console.warn("Firebase configuration not provided in index.html. Quiz results cannot be saved or loaded from Firestore.");
-            isAuthReady = false; // Firebase features are not available
+            console.warn("La configuration Firebase n'est pas fournie dans index.html ou est celle par défaut. Les fonctionnalités Firebase sont désactivées.");
+            isAuthReady = false; // Les fonctionnalités Firebase ne sont pas disponibles
             userId = 'no-firebase-user';
-            submitButton.disabled = true; // Keep disabled as saving won't work
-            loadingIndicator.classList.add('hidden'); // Hide loading
-            submissionFeedback.textContent = "La sauvegarde des résultats est désactivée (Firebase non configuré dans le code).";
+            loadingIndicator.classList.add('hidden'); // Masque le chargement
+            submissionFeedback.textContent = "La connexion à Firebase est désactivée (configuration manquante ou incorrecte).";
             submissionFeedback.classList.remove('hidden');
         }
 
-        // Function to save quiz result to Firestore
-        async function saveQuizResult() {
+        // Fonction pour sauvegarder un résultat (exemple, non appelée automatiquement ici)
+        // Vous pouvez appeler cette fonction à partir de votre propre logique.
+        async function saveExampleResult(exampleScore, exampleTotalQuestions) {
             if (!isAuthReady || !db) {
                 console.error("Firebase n'est pas initialisé ou l'authentification n'est pas prête. Impossible de sauvegarder les résultats.");
-                submissionFeedback.textContent = "Erreur: Impossible de sauvegarder les résultats (Firebase non prêt).";
+                submissionFeedback.textContent = "Erreur: Impossible de sauvegarder (Firebase non prêt).";
                 submissionFeedback.classList.remove('hidden', 'feedback-correct');
                 submissionFeedback.classList.add('feedback-incorrect');
-                loadingIndicator.classList.add('hidden');
                 return;
             }
 
+            // Afficher l'indicateur de chargement
             loadingIndicator.classList.remove('hidden');
-            submissionFeedback.classList.add('hidden');
+            submissionFeedback.classList.add('hidden'); // Masquer les anciens messages de feedback
 
             const result = {
                 userId: userId,
-                score: score,
-                totalQuestions: quizData.questions.length,
+                score: exampleScore,
+                totalQuestions: exampleTotalQuestions,
                 timestamp: new Date().toISOString(),
-                answers: userAnswers.map((optionIndex, qIndex) => ({
-                    question: quizData.questions[qIndex].question,
-                    selectedOption: optionIndex !== null ? quizData.questions[qIndex].answerOptions[optionIndex].text : 'skipped',
-                    isCorrect: optionIndex !== null ? quizData.questions[qIndex].answerOptions[optionIndex].isCorrect : false
-                }))
+                // Ajoutez d'autres données si nécessaire
             };
 
             try {
-                // Save to a public collection for community results
-                // Le chemin des artifacts doit être adapté pour GitHub Pages si vous voulez un stockage commun
-                // Si vous voulez un stockage lié au projet GitHub, utilisez firebaseConfig.projectId
+                // Sauvegarde dans une collection publique pour les résultats de la communauté
                 const docRef = await addDoc(collection(db, `artifacts/${appId}/public/data/quizResults`), result);
-                console.log("Document written with ID: ", docRef.id);
-                submissionFeedback.textContent = "Votre résultat a été sauvegardé avec succès !";
+                console.log("Document écrit avec l'ID: ", docRef.id);
+                submissionFeedback.textContent = "Exemple de résultat sauvegardé avec succès !";
                 submissionFeedback.classList.remove('hidden', 'feedback-incorrect');
                 submissionFeedback.classList.add('feedback-correct');
             } catch (e) {
                 console.error("Erreur lors de l'ajout du document: ", e);
-                submissionFeedback.textContent = "Erreur: Impossible de sauvegarder les résultats. " + e.message;
+                submissionFeedback.textContent = "Erreur: Impossible de sauvegarder l'exemple de résultat. " + e.message;
                 submissionFeedback.classList.remove('hidden', 'feedback-correct');
                 submissionFeedback.classList.add('feedback-incorrect');
             } finally {
@@ -599,14 +274,15 @@ const analytics = getAnalytics(app);
             }
         }
 
-        // Function to load and display community results in real-time
+
+        // Fonction pour charger et afficher les résultats de la communauté en temps réel
         function loadCommunityResults() {
              if (!isAuthReady || !db) {
                 console.warn("Firebase non prêt pour charger les résultats communautaires.");
                 communityResultsDiv.innerHTML = '<p class="text-gray-500">Impossible de charger les résultats communautaires (Firebase non prêt).</p>';
                 return;
             }
-            // Using onSnapshot for real-time updates
+            // Utilise onSnapshot pour les mises à jour en temps réel
             const q = query(collection(db, `artifacts/${appId}/public/data/quizResults`));
             onSnapshot(q, (snapshot) => {
                 const results = [];
@@ -614,12 +290,15 @@ const analytics = getAnalytics(app);
                     results.push(doc.data());
                 });
 
-                // Sort results by score (descending) and then by timestamp (ascending) for consistency
+                // Trie les résultats par score (décroissant) puis par horodatage (croissant) pour la cohérence
                 results.sort((a, b) => {
                     if (b.score !== a.score) {
                         return b.score - a.score;
                     }
-                    return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
+                    // S'assurer que 'timestamp' est une chaîne valide pour la conversion en Date
+                    const dateA = new Date(a.timestamp);
+                    const dateB = new Date(b.timestamp);
+                    return dateA.getTime() - dateB.getTime();
                 });
 
                 communityResultsDiv.innerHTML = '';
@@ -630,25 +309,27 @@ const analytics = getAnalytics(app);
                     ul.className = 'results-list';
                     results.forEach(res => {
                         const li = document.createElement('li');
-                        // Displaying a truncated userId for brevity and common use in public lists
-                        const displayUserId = res.userId.substring(0, 8) + '...';
+                        // Affiche un userId tronqué pour la concision
+                        const displayUserId = res.userId ? res.userId.substring(0, 8) + '...' : 'Inconnu';
                         li.innerHTML = `
                             <span>${displayUserId}</span>
-                            <span class="font-semibold">${res.score}/${res.totalQuestions}</span>
+                            <span class="font-semibold">${res.score !== undefined ? res.score : 'N/A'}/${res.totalQuestions !== undefined ? res.totalQuestions : 'N/A'}</span>
                         `;
                         ul.appendChild(li);
                     });
                     communityResultsDiv.appendChild(ul);
                 }
             }, (error) => {
-                console.error("Error fetching community results:", error);
+                console.error("Erreur lors du chargement des résultats communautaires:", error);
                 communityResultsDiv.innerHTML = '<p class="text-red-500">Erreur lors du chargement des résultats communautaires.</p>';
             });
         }
 
-        // Initial render
+        // Rendu initial - démarre la connexion Firebase et le chargement des résultats
         document.addEventListener('DOMContentLoaded', () => {
-            renderQuestion();
+            // Pas de renderQuestion() car il n'y a plus de quiz.
+            // La logique Firebase au-dessus gère déjà l'appel à loadCommunityResults()
+            // une fois l'authentification terminée.
         });
     </script>
 </body>
