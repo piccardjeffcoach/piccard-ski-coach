@@ -1,335 +1,364 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application Firebase de Base</title>
+    <title>Infographie : L'IA au chevet de l'entraîneur 2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
         }
-        .container {
-            background-color: #ffffff;
-            padding: 2.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+        .chart-container {
+            position: relative;
             width: 100%;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            text-align: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
         }
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #1e40af;
-            margin-bottom: 1.5rem;
-        }
-        .community-scores {
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px dashed #cbd5e0;
-        }
-        .community-scores-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #4a5568;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        .results-list {
-            list-style: none;
-            padding: 0;
-            max-height: 300px; /* Limit height for scrolling */
-            overflow-y: auto; /* Enable vertical scrolling */
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            background-color: #ffffff;
-        }
-        .results-list li {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .results-list li:last-child {
-            border-bottom: none;
-        }
-        .results-list li:nth-child(odd) {
-            background-color: #f7fafc;
-        }
-        .feedback {
-            margin-top: 1rem;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            font-weight: 600;
-        }
-        .feedback-correct {
-            background-color: #d1fae5;
-            color: #065f46;
-            border: 1px solid #34d399;
-        }
-        .feedback-incorrect {
-            background-color: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #ef4444;
-        }
-        .hidden {
-            display: none;
-        }
-        .loading-indicator {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 1rem;
-        }
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-left-color: #3b82f6;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        /* Mobile Responsiveness */
-        @media (max-width: 600px) {
-            .container {
-                padding: 1.5rem;
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
             }
-            .section-title {
-                font-size: 1.5rem;
-            }
-            .community-scores-title {
-                font-size: 1.1rem;
-            }
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #003F5C, #374C80);
+        }
+        .icon-style {
+            font-size: 2.5rem;
+            line-height: 1;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Ma Nouvelle Application</h1>
+<body class="bg-gray-100 text-gray-800">
 
-        <p class="text-lg text-gray-600 mb-4">
-            Bienvenue ! Cette page est connectée à Firebase.
-            Les scores de la communauté affichés ci-dessous sont récupérés en temps réel.
-        </p>
+    <!-- Hero Section -->
+    <header class="gradient-bg text-white text-center p-8 md:p-12 shadow-lg">
+        <h1 class="text-4xl md:text-5xl font-black uppercase tracking-wide">L'Entraîneur 2.0</h1>
+        <p class="mt-4 text-xl md:text-2xl font-light text-amber-500">Comment l'IA révolutionne le coaching en ski alpin</p>
+    </header>
 
-        <div id="firebase-status">
-            <div id="loading-indicator" class="loading-indicator">
-                <div class="spinner"></div>
-                <p class="ml-2 text-gray-600">Initialisation de Firebase...</p>
+    <main class="container mx-auto p-4 md:p-8">
+
+        <!-- Introduction Section -->
+        <section class="text-center mb-12">
+             <div class="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-[#003F5C] mb-4">Un tournant technologique dans l’entraînement</h2>
+                <p class="text-lg text-gray-600">L’intuition et l’expérience, piliers du coaching, sont désormais augmentées par des outils numériques. L’IA s’impose comme un levier essentiel pour décortiquer la performance, anticiper les risques, personnaliser l’entraînement et optimiser la logistique, renforçant l'expertise humaine sans la remplacer.</p>
             </div>
-            <div id="submission-feedback" class="feedback hidden"></div>
-            <p id="firebase-ready-message" class="text-green-600 font-semibold hidden">Firebase est prêt !</p>
-        </div>
+        </section>
 
 
-        <div class="community-scores">
-            <h3 class="community-scores-title">Scores de la Communauté (depuis Firestore)</h3>
-            <div id="community-results">
-                <p class="text-gray-500">Chargement des scores...</p>
-                <!-- Community scores will be loaded here by JavaScript -->
+        <!-- Grid Layout for Visualizations -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <!-- Card 1: The "Data-Aware" Coach -->
+            <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-2xl font-bold text-[#003F5C] mb-2">1. Devenir un entraîneur "Data-Aware"</h3>
+                    <p class="text-gray-600 mb-4">L'évolution du métier impose aux entraîneurs de comprendre et d'utiliser la donnée pour guider leurs stratégies. L'objectif n'est pas de devenir un expert en algorithmes, mais de savoir poser les bonnes questions.</p>
+                </div>
+                <div class="chart-container h-64 md:h-72">
+                    <canvas id="coachCompositionChart"></canvas>
+                </div>
+                <p class="text-center text-sm text-gray-500 mt-4">Composition de la décision du coach moderne.</p>
             </div>
+
+            <!-- Card 2: Video Analysis -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-2xl font-bold text-[#003F5C] mb-2">2. Amplifier l'œil avec l'analyse vidéo</h3>
+                <p class="text-gray-600 mb-4">L'IA automatise l'analyse de dizaines de runs pour extraire des détails invisibles à l'œil nu, offrant un gain de temps considérable et une précision inégalée.</p>
+                <div class="w-full h-72 bg-gray-900 rounded-lg flex items-center justify-center relative overflow-hidden">
+                    <p class="text-5xl text-gray-600">▶</p>
+                    <div class="absolute top-10 left-4 bg-[#EF5675] bg-opacity-80 text-white text-xs p-2 rounded-md">
+                        <p class="font-bold">Analyse IA :</p>
+                        <p>Centre de gravité OK</p>
+                    </div>
+                     <div class="absolute bottom-12 right-4 bg-[#FFA600] bg-opacity-80 text-white text-xs p-2 rounded-md">
+                        <p class="font-bold">Analyse IA :</p>
+                        <p>Rupture de trajectoire</p>
+                    </div>
+                    <div class="absolute top-1/2 left-1/2 w-96 h-0.5 bg-cyan-400 -translate-x-1/2 -translate-y-1/2 rotate-[-15deg]"></div>
+                    <p class="absolute bottom-4 text-white text-sm font-mono">RUN_04_ANALYSIS.mp4</p>
+                </div>
+                 <p class="text-center text-sm text-gray-500 mt-4">Simulation d'une analyse vidéo augmentée par l'IA.</p>
+            </div>
+
+             <!-- Card 3: Individual Load Management -->
+            <div class="bg-white rounded-lg shadow-lg p-6 md:col-span-2">
+                <h3 class="text-2xl font-bold text-[#003F5C] mb-2">3. Prévenir les blessures par le suivi individuel</h3>
+                <p class="text-gray-600 mb-4">Grâce aux capteurs portables, l'IA analyse en temps réel les signes de fatigue ou de déséquilibre, permettant d'ajuster la charge d'entraînement et de passer d'une approche standardisée à une approche ultra-personnalisée.</p>
+                <div class="chart-container h-80">
+                    <canvas id="athleteLoadChart"></canvas>
+                </div>
+                <p class="text-center text-sm text-gray-500 mt-4">Suivi de la charge d'entraînement vs. état de récupération sur une semaine.</p>
+            </div>
+
+             <!-- Card 4: Data Sources -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                 <h3 class="text-2xl font-bold text-[#003F5C] mb-2">4. Des données partout, une intelligence pour les trier</h3>
+                <p class="text-gray-600 mb-4">L'IA transforme le déluge de données brutes en un tableau de bord synthétique, offrant des enseignements clairs et rapides à l'entraîneur.</p>
+                 <div class="chart-container h-80">
+                    <canvas id="dataSourcesChart"></canvas>
+                </div>
+                <p class="text-center text-sm text-gray-500 mt-4">Impact relatif des différentes sources de données dans l'analyse de performance.</p>
+            </div>
+
+            <!-- Card 5: Man-Machine Collaboration -->
+            <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center">
+                <h3 class="text-2xl font-bold text-center text-[#003F5C] mb-4">5. La collaboration Homme-Machine</h3>
+                <p class="text-center text-gray-600 mb-6">L'IA est un co-pilote puissant, mais la décision finale revient toujours à l'entraîneur, qui intègre sa connaissance humaine de l'athlète.</p>
+                <div class="space-y-4 text-center">
+                    <div class="flex items-center justify-center space-x-4">
+                        <span class="icon-style text-[#7A5195]">📊</span>
+                        <span class="icon-style text-[#BC5090]">🧠</span>
+                    </div>
+                    <p class="text-2xl font-bold text-gray-500">↓</p>
+                    <div class="bg-[#374C80] text-white p-4 rounded-lg shadow-md">
+                        <p class="font-bold">L'IA PROPOSE</p>
+                        <p class="text-sm">Analyses, modèles, alertes</p>
+                    </div>
+                     <p class="text-2xl font-bold text-gray-500">↓</p>
+                     <div class="bg-white border-2 border-[#374C80] p-4 rounded-lg shadow-md">
+                        <p class="font-bold text-[#374C80]">L'ENTRAÎNEUR DISPOSE</p>
+                        <p class="text-sm">Jugement, expérience, relation humaine</p>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Card 6: Benefits -->
+             <div class="bg-white rounded-lg shadow-lg p-6 md:col-span-2">
+                <h3 class="text-2xl font-bold text-[#003F5C] mb-4">Un futur déjà présent : bénéfices et vigilance</h3>
+                <p class="text-gray-600 mb-6">L'intégration de ces technologies est un enjeu clair. Si elle demande des investissements et une formation, les bénéfices sont tangibles pour une performance durable et saine.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                    <div class="border border-gray-200 p-4 rounded-lg">
+                        <p class="icon-style text-[#FF764A]">⏱️</p>
+                        <p class="font-bold mt-2">Gain de temps</p>
+                        <p class="text-sm text-gray-600">Automatisation des tâches chronophages.</p>
+                    </div>
+                    <div class="border border-gray-200 p-4 rounded-lg">
+                        <p class="icon-style text-[#EF5675]">🛡️</p>
+                        <p class="font-bold mt-2">Prévention des blessures</p>
+                        <p class="text-sm text-gray-600">Détection précoce des risques.</p>
+                    </div>
+                    <div class="border border-gray-200 p-4 rounded-lg">
+                        <p class="icon-style text-[#BC5090]">📈</p>
+                        <p class="font-bold mt-2">Amélioration des perfs</p>
+                        <p class="text-sm text-gray-600">Optimisation technique et tactique.</p>
+                    </div>
+                    <div class="border border-gray-200 p-4 rounded-lg">
+                         <p class="icon-style text-[#7A5195]">🔒</p>
+                        <p class="font-bold mt-2">Défis à relever</p>
+                        <p class="text-sm text-gray-600">Formation, coûts et protection des données (RGPD).</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
+    </main>
 
-        <!-- Vous pouvez ajouter plus de contenu HTML ici -->
+    <footer class="mt-12 p-8 bg-gray-800 text-white text-center">
+        <p class="font-bold">L'avenir du ski alpin passera par cette alliance entre tradition et innovation.</p>
+        <p class="text-sm mt-2 text-gray-400">Infographie générée à partir de l'article "L’Intelligence Artificielle : au chevet de l’entraîneur 2.0".</p>
+    </footer>
 
-    </div>
-
-    <script type="module">
-        // Firebase imports
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // DOM elements
-        const communityResultsDiv = document.getElementById('community-results');
-        const loadingIndicator = document.getElementById('loading-indicator');
-        const submissionFeedback = document.getElementById('submission-feedback');
-        const firebaseReadyMessage = document.getElementById('firebase-ready-message');
-
-        // --- DÉBUT DE LA SECTION À MODIFIER : VOTRE CONFIGURATION FIREBASE ---
-        // Collez ici l'objet firebaseConfig que vous avez copié depuis la console Firebase
-        // Exemple (remplacez AVEC VOS VRAIES VALEURS) :
-        const firebaseConfig = {
-          apiKey: "VOTRE_API_KEY", // <--- REMPLACEZ PAR VOTRE CLÉ API
-          authDomain: "VOTRE_AUTH_DOMAIN", // <--- REMPLACEZ PAR VOTRE DOMAINE D'AUTH
-          projectId: "VOTRE_PROJECT_ID", // <--- REMPLACEZ PAR VOTRE ID DE PROJET
-          storageBucket: "VOTRE_STORAGE_BUCKET", // <--- REMPLACEZ PAR VOTRE NOM DE BUCKET DE STOCKAGE
-          messagingSenderId: "VOTRE_MESSAGING_SENDER_ID", // <--- REMPLACEZ PAR VOTRE ID D'EXPÉDITEUR
-          appId: "VOTRE_APP_ID_WEB", // <--- REMPLACEZ PAR VOTRE ID D'APP WEB
-          // measurementId: "VOTRE_MEASUREMENT_ID" // Optionnel, si vous utilisez Google Analytics
+    <script>
+        const FONT_COLOR = '#374151'; 
+        const GRID_COLOR = '#E5E7EB'; 
+        const PALETTE = {
+            blue_dark: '#003F5C',
+            purple_dark: '#374C80',
+            purple: '#7A5195',
+            magenta: '#BC5090',
+            pink: '#EF5675',
+            orange: '#FF764A',
+            yellow: '#FFA600'
         };
 
-        // Utilisez l'ID du projet comme appId pour le chemin Firestore (important pour la structure des données)
-        const appId = firebaseConfig.projectId;
-
-        // --- FIN DE LA SECTION À MODIFIER : VOTRE CONFIGURATION FIREBASE ---
-
-        let app;
-        let db;
-        let auth;
-        let userId = 'anonymous'; // Default to anonymous
-        let isAuthReady = false;
-
-        // Firebase Initialization and Auth
-        // Vérifie si la configuration Firebase est fournie et n'est pas celle par défaut
-        if (Object.keys(firebaseConfig).length > 0 && firebaseConfig.projectId !== "VOTRE_PROJECT_ID") {
-            app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            auth = getAuth(app);
-
-            onAuthStateChanged(auth, async (user) => {
-                if (user) {
-                    userId = user.uid;
-                    isAuthReady = true;
-                    console.log("Firebase Authenticated. User ID:", userId);
+        function wrapText(label, maxWidth) {
+            if (typeof label !== 'string' || label.length <= maxWidth) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxWidth) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
                 } else {
-                    // Sur GitHub Pages, il n'y a pas de __initial_auth_token, donc on se connecte anonymement
-                    try {
-                        await signInAnonymously(auth);
-                        userId = auth.currentUser.uid;
-                        isAuthReady = true;
-                        console.log("Firebase Authenticated anonymously. User ID:", userId);
-                    } catch (error) {
-                        console.error("Erreur lors de l'authentification anonyme Firebase:", error);
-                        isAuthReady = false;
-                        submissionFeedback.textContent = `Erreur d'authentification Firebase: ${error.message}`;
-                        submissionFeedback.classList.remove('hidden', 'feedback-correct');
-                        submissionFeedback.classList.add('feedback-incorrect');
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) {
+                lines.push(currentLine.trim());
+            }
+            return lines;
+        }
+
+        const universalTooltipOptions = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            }
+                            return label;
+                        }
                     }
                 }
-
-                // Une fois que l'authentification est prête, masque l'indicateur de chargement et charge les résultats de la communauté
-                if (isAuthReady) {
-                    loadingIndicator.classList.add('hidden'); // Masque l'indicateur de chargement
-                    firebaseReadyMessage.classList.remove('hidden'); // Affiche le message "Firebase est prêt !"
-                    loadCommunityResults(); // Charge les résultats une fois authentifié
-                } else {
-                     console.warn("Firebase n'a pas pu être authentifié ou configuré correctement.");
-                     loadingIndicator.classList.add('hidden');
-                     // Le message d'erreur est déjà mis à jour si l'authentification a échoué
-                }
-            });
-        } else {
-            console.warn("La configuration Firebase n'est pas fournie dans index.html ou est celle par défaut. Les fonctionnalités Firebase sont désactivées.");
-            isAuthReady = false; // Les fonctionnalités Firebase ne sont pas disponibles
-            userId = 'no-firebase-user';
-            loadingIndicator.classList.add('hidden'); // Masque le chargement
-            submissionFeedback.textContent = "La connexion à Firebase est désactivée (configuration manquante ou incorrecte).";
-            submissionFeedback.classList.remove('hidden');
-        }
-
-        // Fonction pour sauvegarder un résultat (exemple, non appelée automatiquement ici)
-        // Vous pouvez appeler cette fonction à partir de votre propre logique.
-        async function saveExampleResult(exampleScore, exampleTotalQuestions) {
-            if (!isAuthReady || !db) {
-                console.error("Firebase n'est pas initialisé ou l'authentification n'est pas prête. Impossible de sauvegarder les résultats.");
-                submissionFeedback.textContent = "Erreur: Impossible de sauvegarder (Firebase non prêt).";
-                submissionFeedback.classList.remove('hidden', 'feedback-correct');
-                submissionFeedback.classList.add('feedback-incorrect');
-                return;
             }
+        };
 
-            // Afficher l'indicateur de chargement
-            loadingIndicator.classList.remove('hidden');
-            submissionFeedback.classList.add('hidden'); // Masquer les anciens messages de feedback
-
-            const result = {
-                userId: userId,
-                score: exampleScore,
-                totalQuestions: exampleTotalQuestions,
-                timestamp: new Date().toISOString(),
-                // Ajoutez d'autres données si nécessaire
-            };
-
-            try {
-                // Sauvegarde dans une collection publique pour les résultats de la communauté
-                const docRef = await addDoc(collection(db, `artifacts/${appId}/public/data/quizResults`), result);
-                console.log("Document écrit avec l'ID: ", docRef.id);
-                submissionFeedback.textContent = "Exemple de résultat sauvegardé avec succès !";
-                submissionFeedback.classList.remove('hidden', 'feedback-incorrect');
-                submissionFeedback.classList.add('feedback-correct');
-            } catch (e) {
-                console.error("Erreur lors de l'ajout du document: ", e);
-                submissionFeedback.textContent = "Erreur: Impossible de sauvegarder l'exemple de résultat. " + e.message;
-                submissionFeedback.classList.remove('hidden', 'feedback-correct');
-                submissionFeedback.classList.add('feedback-incorrect');
-            } finally {
-                loadingIndicator.classList.add('hidden');
-            }
-        }
-
-
-        // Fonction pour charger et afficher les résultats de la communauté en temps réel
-        function loadCommunityResults() {
-             if (!isAuthReady || !db) {
-                console.warn("Firebase non prêt pour charger les résultats communautaires.");
-                communityResultsDiv.innerHTML = '<p class="text-gray-500">Impossible de charger les résultats communautaires (Firebase non prêt).</p>';
-                return;
-            }
-            // Utilise onSnapshot pour les mises à jour en temps réel
-            const q = query(collection(db, `artifacts/${appId}/public/data/quizResults`));
-            onSnapshot(q, (snapshot) => {
-                const results = [];
-                snapshot.forEach((doc) => {
-                    results.push(doc.data());
-                });
-
-                // Trie les résultats par score (décroissant) puis par horodatage (croissant) pour la cohérence
-                results.sort((a, b) => {
-                    if (b.score !== a.score) {
-                        return b.score - a.score;
-                    }
-                    // S'assurer que 'timestamp' est une chaîne valide pour la conversion en Date
-                    const dateA = new Date(a.timestamp);
-                    const dateB = new Date(b.timestamp);
-                    return dateA.getTime() - dateB.getTime();
-                });
-
-                communityResultsDiv.innerHTML = '';
-                if (results.length === 0) {
-                    communityResultsDiv.innerHTML = '<p class="text-gray-500">Aucun résultat n\'a encore été enregistré.</p>';
-                } else {
-                    const ul = document.createElement('ul');
-                    ul.className = 'results-list';
-                    results.forEach(res => {
-                        const li = document.createElement('li');
-                        // Affiche un userId tronqué pour la concision
-                        const displayUserId = res.userId ? res.userId.substring(0, 8) + '...' : 'Inconnu';
-                        li.innerHTML = `
-                            <span>${displayUserId}</span>
-                            <span class="font-semibold">${res.score !== undefined ? res.score : 'N/A'}/${res.totalQuestions !== undefined ? res.totalQuestions : 'N/A'}</span>
-                        `;
-                        ul.appendChild(li);
-                    });
-                    communityResultsDiv.appendChild(ul);
-                }
-            }, (error) => {
-                console.error("Erreur lors du chargement des résultats communautaires:", error);
-                communityResultsDiv.innerHTML = '<p class="text-red-500">Erreur lors du chargement des résultats communautaires.</p>';
-            });
-        }
-
-        // Rendu initial - démarre la connexion Firebase et le chargement des résultats
         document.addEventListener('DOMContentLoaded', () => {
-            // Pas de renderQuestion() car il n'y a plus de quiz.
-            // La logique Firebase au-dessus gère déjà l'appel à loadCommunityResults()
-            // une fois l'authentification terminée.
+
+            // Chart 1: Coach Composition Chart
+            const ctx1 = document.getElementById('coachCompositionChart');
+            if(ctx1) {
+                new Chart(ctx1, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Analyse de Données (IA)', 'Expérience & Intuition'],
+                        datasets: [{
+                            label: 'Composition de la Décision',
+                            data: [60, 40],
+                            backgroundColor: [PALETTE.purple_dark, PALETTE.pink],
+                            borderColor: '#FFFFFF',
+                            borderWidth: 4,
+                            hoverOffset: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { color: FONT_COLOR }
+                            },
+                            tooltip: universalTooltipOptions.plugins.tooltip
+                        },
+                        cutout: '60%'
+                    }
+                });
+            }
+
+            // Chart 2: Athlete Load Chart
+            const ctx2 = document.getElementById('athleteLoadChart');
+            if(ctx2) {
+                 new Chart(ctx2, {
+                    type: 'line',
+                    data: {
+                        labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+                        datasets: [{
+                            label: 'Charge d\'entraînement',
+                            data: [65, 70, 85, 80, 50, 30, 0],
+                            borderColor: PALETTE.orange,
+                            backgroundColor: PALETTE.orange + '33',
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: PALETTE.orange,
+                            pointRadius: 5
+                        }, {
+                            label: 'État de récupération',
+                            data: [90, 80, 60, 65, 85, 95, 100],
+                            borderColor: PALETTE.purple_dark,
+                             backgroundColor: PALETTE.purple_dark + '33',
+                            fill: false,
+                            tension: 0.4,
+                            pointBackgroundColor: PALETTE.purple_dark,
+                            pointRadius: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: { color: FONT_COLOR }
+                            },
+                            tooltip: universalTooltipOptions.plugins.tooltip
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: { display: true, text: 'Niveau (%)', color: FONT_COLOR },
+                                grid: { color: GRID_COLOR },
+                                ticks: { color: FONT_COLOR }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: FONT_COLOR }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Chart 3: Data Sources Chart
+            const ctx3 = document.getElementById('dataSourcesChart');
+            if(ctx3) {
+                const rawLabels = [
+                    'Analyse Vidéo des runs', 
+                    'Capteurs physiques du skieur', 
+                    'Données GPS (trajectoire, vitesse)', 
+                    'Données des skis (pression, flexion)',
+                    'Chronos et résultats',
+                    'Données météorologiques'
+                ];
+                const chartLabels = rawLabels.map(label => wrapText(label, 20));
+
+                new Chart(ctx3, {
+                    type: 'bar',
+                    data: {
+                        labels: chartLabels,
+                        datasets: [{
+                            label: 'Impact sur la Décision',
+                            data: [90, 85, 75, 60, 70, 50],
+                            backgroundColor: [
+                                PALETTE.blue_dark, 
+                                PALETTE.purple_dark, 
+                                PALETTE.purple, 
+                                PALETTE.magenta, 
+                                PALETTE.pink, 
+                                PALETTE.orange
+                            ],
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: universalTooltipOptions.plugins.tooltip
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: { display: true, text: 'Indice d\'impact', color: FONT_COLOR },
+                                grid: { color: GRID_COLOR },
+                                ticks: { color: FONT_COLOR }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { color: FONT_COLOR }
+                            }
+                        }
+                    }
+                });
+            }
         });
     </script>
 </body>
