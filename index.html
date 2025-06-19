@@ -916,6 +916,10 @@
             // Hide feedback and rationale until submission or next navigation
             feedbackMessage.classList.add('hidden');
             rationaleDisplay.classList.add('hidden');
+
+            // --- FIX: Call updateNavigationButtons here to enable/disable 'Suivant' ---
+            updateNavigationButtons();
+            // --- END FIX ---
         }
 
         function updateNavigationButtons() {
