@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz : L'IA et l'Entraîneur de Ski 2.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* bg-gray-100 */
+            color: #374151; /* text-gray-700 */
+        }
+        .container {
+            max-width: 960px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+        }
+        .quiz-card {
+            background-color: #ffffff;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .option-button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.375rem; /* rounded-md */
+            border: 1px solid #d1d5db; /* border-gray-300 */
+            background-color: #f9fafb; /* bg-gray-50 */
+            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .option-button:hover {
+            background-color: #e5e7eb; /* bg-gray-200 */
+        }
+        .option-button.selected {
+            border-color: #2563eb; /* border-blue-600 */
+            background-color: #eff6ff; /* bg-blue-50 */
+        }
+        .option-button.correct {
+            background-color: #d1fae5; /* bg-green-100 */
+            border-color: #10b981; /* border-green-500 */
+            color: #065f46; /* text-green-700 */
+        }
+        .option-button.incorrect {
+            background-color: #fee2e2; /* bg-red-100 */
+            border-color: #ef4444; /* border-red-500 */
+            color: #b91c1c; /* text-red-700 */
+        }
+        .hint-text {
+            font-style: italic;
+            color: #6b7280; /* text-gray-500 */
+            margin-top: 1rem;
+            padding-top: 0.5rem;
+            border-top: 1px dashed #d1d5db; /* border-gray-300 */
+        }
+        .rationale-text {
+            font-size: 0.875rem; /* text-sm */
+            color: #4b5563; /* text-gray-600 */
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px dashed #d1d5db; /* border-gray-300 */
+        }
+        .hidden {
+            display: none;
+        }
+        .feedback-message {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            text-align: center;
+        }
+        .feedback-correct {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .feedback-incorrect {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        .summary-card {
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            height: 1rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #22c55e;
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-blue-800 text-white text-center py-6 shadow-md">
+        <h1 class="text-3xl font-bold">Quiz : L'IA et l'Entraîneur 2.0</h1>
+        <p class="text-lg mt-2">Testez vos connaissances sur l'impact de l'IA dans l'entraînement de ski alpin !</p>
+    </header>
+
+    <main class="container">
+        <div class="progress-bar-container">
+            <div id="progressBar" class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+        <div id="quiz-container">
+            <!-- Questions will be loaded here -->
+        </div>
+        <div id="navigation-buttons" class="flex justify-between mt-4">
+            <button id="prevButton" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50" disabled>Précédent</button>
+            <button id="nextButton" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Suivant</button>
+            <button id="submitButton" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 hidden">Soumettre</button>
+        </div>
+        <div id="summary-section" class="summary-card hidden">
+            <h2 class="text-2xl font-bold text-blue-800 mb-4">Quiz Terminé !</h2>
+            <p class="text-xl mb-2">Votre score : <span id="scoreDisplay" class="font-bold"></span></p>
+            <p class="text-md mb-4 text-gray-600">Rejoignez-nous pour une analyse plus approfondie de vos résultats.</p>
+            <button id="restartButton" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Recommencer le quiz</button>
+        </div>
+    </main>
+
+    <footer class="text-center text-gray-500 text-sm py-6 mt-8 border-t border-gray-300">
+        <p>&copy; 2024 Quiz IA et Entraînement. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        const quizData = {
+          "questions": [
+            {
+              "question": "Selon l'article, quel est le rôle principal de l'Intelligence Artificielle (IA) dans l'entraînement de ski alpin ?",
+              "hint": "L'article insiste sur le fait que l'IA n'est pas là pour prendre la place de quelqu'un, mais pour améliorer ses capacités.",
+              "answerOptions": [
+                {
+                  "text": "Remplacer l'intuition et l'expérience de l'entraîneur par des algorithmes.",
+                  "rationale": "Cette option contredit directement le message central de l'article qui valorise la collaboration homme-machine.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "Automatiser entièrement la prise de décision tactique et stratégique.",
+                  "rationale": "L'IA est présentée comme un outil d'aide à la décision, la décision finale revenant toujours à l'humain.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "Renforcer l'expertise de l'entraîneur avec des données pertinentes pour l'aide à la décision.",
+                  "rationale": "L'article décrit l'IA comme un 'partenaire de terrain' et un 'co-pilote' qui augmente les capacités de l'entraîneur.",
+                  "isCorrect": true
+                },
+                {
+                  "text": "Se concentrer uniquement sur la logistique pour libérer du temps à l'entraîneur.",
+                  "rationale": "Bien que la logistique soit un des aspects, l'article montre que le rôle de l'IA est bien plus large, couvrant la technique, la tactique et le suivi physique.",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "question": "D'après la section sur l'analyse vidéo, quel est le principal avantage de l'IA ?",
+              "hint": "Pensez à ce que l'IA peut 'voir' que l'œil humain pourrait manquer, surtout après avoir visionné de nombreuses descentes.",
+              "answerOptions": [
+                {
+                  "text": "Rendre le visionnage des vidéos plus rapide pour l'entraîneur.",
+                  "rationale": "Le gain de temps est un bénéfice, mais le principal avantage réside dans la qualité et la profondeur de l'analyse fournie.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "Mettre en lumière des détails de performance invisibles à la simple observation.",
+                  "rationale": "L'article précise que l'IA 'amplifie l’œil de l’entraîneur' en extrayant des éléments comme la position exacte du centre de gravité ou les temps morts.",
+                  "isCorrect": true
+                },
+                {
+                  "text": "Stocker les vidéos de manière plus organisée dans le cloud.",
+                  "rationale": "Le stockage n'est pas l'avantage analytique mis en avant par l'article ; il s'agit plutôt d'une question d'infrastructure.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "Fournir des commentaires audio automatiques sur la performance du skieur.",
+                  "rationale": "L'article se concentre sur l'extraction de données visuelles et quantitatives, pas sur la génération de commentaires audio.",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "question": "Comment l'IA permet-elle de passer d'un plan d'entraînement standardisé à une approche personnalisée ?",
+              "hint": "Considérez comment la technologie peut suivre un athlète en continu, même en dehors des pistes.",
+              "answerOptions": [
+                {
+                  "text": "En comparant les performances du skieur à celles des champions du monde.",
+                  "rationale": "La comparaison est un outil, mais la personnalisation vient de l'analyse des données propres à chaque athlète.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "En analysant en temps réel les données des capteurs portables pour ajuster la charge de travail.",
+                  "rationale": "L'article explique que les données sur la fréquence cardiaque, le sommeil ou la fatigue permettent d'adapter l'entraînement 'au cas par cas'.",
+                  "isCorrect": true
+                },
+                {
+                  "text": "En créant des plannings identiques pour tous les membres de l'équipe pour assurer l'équité.",
+                  "rationale": "Cette approche est précisément ce que l'IA cherche à dépasser en offrant un suivi individualisé.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "En se basant uniquement sur les préférences et les ressentis déclarés par le skieur.",
+                  "rationale": "Le ressenti est important, mais l'IA y ajoute des données physiologiques objectives pour une vision complète.",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "question": "Quelle est la métaphore utilisée dans l'article pour décrire la relation entre l'entraîneur et l'IA ?",
+              "hint": "Cette métaphore vient du monde de l'aviation ou du rallye automobile.",
+              "answerOptions": [
+                {
+                  "text": "Un professeur et son élève.",
+                  "rationale": "Cette métaphore implique une hiérarchie d'apprentissage, alors que l'article décrit plutôt une collaboration fonctionnelle.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "Un arbitre et un joueur.",
+                  "rationale": "L'IA ne juge pas ou ne sanctionne pas ; elle fournit des informations pour aider à la performance.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "Un co-pilote qui assiste le pilote.",
+                  "rationale": "L'article utilise explicitement le terme 'co-pilote', soulignant que l'IA assiste l'entraîneur qui reste aux commandes.",
+                  "isCorrect": true
+                },
+                {
+                  "text": "Un médecin et son patient.",
+                  "rationale": "Bien que l'IA aide à la prévention des blessures, la métaphore du 'co-pilote' englobe mieux l'ensemble des aspects (tactique, technique, etc.).",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "question": "Pour la préparation tactique d'une course, que peut simuler l'IA en croisant de multiples paramètres ?",
+              "hint": "Pensez à l'élément le plus crucial pour gagner des centièmes de seconde en ski alpin.",
+              "answerOptions": [
+                {
+                  "text": "La réaction probable des supporters.",
+                  "rationale": "L'article se concentre sur les paramètres de performance directs et non sur l'environnement médiatique ou social.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "Les meilleures trajectoires possibles et le réglage optimal du matériel.",
+                  "rationale": "L'article mentionne spécifiquement la simulation de scénarios pour 'proposer les meilleures trajectoires possibles' et 'conseiller le réglage optimal du matériel'.",
+                  "isCorrect": true
+                },
+                {
+                  "text": "Les interviews d'après-course du skieur.",
+                  "rationale": "La préparation médiatique n'est pas citée comme une application de l'IA dans ce contexte.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "Le budget nécessaire pour la saison suivante.",
+                  "rationale": "La planification financière n'est pas l'objectif de l'IA dans le cadre de la préparation tactique d'une course.",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "question": "Que signifie pour un entraîneur d'être 'data-aware' selon l'article ?",
+              "hint": "Il ne s'agit pas de savoir coder, mais de savoir interagir avec l'information.",
+              "answerOptions": [
+                {
+                  "text": "Savoir programmer des algorithmes d'IA complexes.",
+                  "rationale": "L'article précise que 'L’objectif n’est pas de devenir expert en algorithmes'.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "Installer et maintenir les capteurs sur le matériel des skieurs.",
+                  "rationale": "Ceci relève plus d'une compétence technique de technicien que de la compétence d'interprétation attendue de l'entraîneur.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "Comprendre, interpréter et utiliser les données pour guider ses choix.",
+                  "rationale": "C'est la définition même donnée dans l'article : être capable de 'guider leurs choix techniques, tactiques et stratégiques' grâce aux informations.",
+                  "isCorrect": true
+                },
+                {
+                  "text": "Collecter manuellement toutes les données de performance pendant l'entraînement.",
+                  "rationale": "L'IA vise justement à automatiser la collecte pour que l'entraîneur se concentre sur l'analyse et l'action.",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "question": "Quel bénéfice l'IA apporte-t-elle à la gestion et la planification d'un groupe élite ?",
+              "hint": "La gestion d'un groupe implique de jongler avec de nombreux emplois du temps et contraintes.",
+              "answerOptions": [
+                {
+                  "text": "Choisir les skieurs qui participeront aux compétitions.",
+                  "rationale": "L'IA peut informer cette décision, mais l'article souligne son rôle dans la construction de plannings et non dans la sélection finale des athlètes.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "Construire des plannings automatisés en tenant compte des contraintes individuelles et collectives.",
+                  "rationale": "L'article indique que l'IA permet de 'construire des plannings automatisés, prenant en compte les objectifs individuels, les contraintes collectives et les impératifs logistiques'.",
+                  "isCorrect": true
+                },
+                {
+                  "text": "Négocier les contrats des athlètes avec les sponsors.",
+                  "rationale": "Cet aspect de la gestion sportive n'est pas mentionné comme une application de l'IA dans l'article.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "Organiser les conférences de presse pour l'équipe.",
+                  "rationale": "La communication et les relations publiques ne font pas partie des tâches logistiques que l'IA aide à simplifier selon le texte.",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "question": "Parmi la liste de données pouvant être traitées par l'IA, laquelle est la plus directement liée à la biomécanique du skieur ?",
+              "hint": "La biomécanique s'intéresse aux forces et aux mouvements du corps.",
+              "answerOptions": [
+                {
+                  "text": "Les données météorologiques.",
+                  "rationale": "La météo influence les conditions, mais pas directement la mécanique du corps du skieur.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "La comparaison automatique des chronos.",
+                  "rationale": "Les chronos sont un résultat de la performance, pas une mesure directe du mouvement corporel.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "La surveillance des asymétries musculaires.",
+                  "rationale": "Les asymétries musculaires sont un indicateur biomécanique clé, révélant comment le corps du skieur gère les contraintes et le mouvement.",
+                  "isCorrect": true
+                },
+                {
+                  "text": "L'extraction des moments clés des vidéos.",
+                  "rationale": "L'extraction de moments clés est une analyse de haut niveau ; les asymétries sont une donnée biomécanique plus fondamentale.",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "question": "Quelle est la conclusion principale de l'article concernant l'avenir du coaching en ski ?",
+              "hint": "L'avenir n'est pas un choix entre l'ancien et le nouveau, mais leur combinaison.",
+              "answerOptions": [
+                {
+                  "text": "Les méthodes traditionnelles basées sur l'intuition vont disparaître.",
+                  "rationale": "L'article affirme que l'avenir réside dans une 'alliance', et non dans le remplacement de la tradition.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "Seules les grandes fédérations pourront survivre à ce tournant technologique.",
+                  "rationale": "Bien que l'article mentionne des investissements, il ne conclut pas à une disparition des plus petites structures.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "L'avenir passera par une alliance entre la tradition du coaching et l'innovation technologique.",
+                  "rationale": "C'est la phrase de conclusion de l'article, qui résume parfaitement son propos sur la synergie homme-machine.",
+                  "isCorrect": true
+                },
+                {
+                  "text": "Les entraîneurs devront tous devenir des experts en science des données.",
+                  "rationale": "L'article prend soin de préciser que l'objectif n'est pas de devenir expert, mais de savoir 'poser les bonnes questions'.",
+                  "isCorrect": false
+                }
+              ]
+            },
+            {
+              "question": "Quelle condition essentielle est mentionnée pour une intégration réussie et responsable de l'IA ?",
+              "hint": "Avec la collecte de nombreuses données personnelles sur les athlètes, une question légale et éthique se pose.",
+              "answerOptions": [
+                {
+                  "text": "La mise en place de protocoles stricts pour la protection des données personnelles.",
+                  "rationale": "L'article souligne explicitement que 'la puissance de l'IA réside dans les données, mais avec cette puissance vient la responsabilité' et mentionne le RGPD.",
+                  "isCorrect": true
+                },
+                {
+                  "text": "L'obligation pour chaque skieur de posséder ses propres capteurs.",
+                  "rationale": "Il s'agit d'une question d'équipement, non d'une condition de fond pour une intégration responsable de la technologie.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "La publication de toutes les données en open source pour la transparence.",
+                  "rationale": "Cela serait en contradiction directe avec la nécessité de protéger les données personnelles et confidentielles des athlètes.",
+                  "isCorrect": false
+                },
+                {
+                  "text": "La garantie que l'IA augmentera les revenus de sponsoring.",
+                  "rationale": "L'article se concentre sur les bénéfices en termes de performance et de santé, pas directement sur les aspects financiers.",
+                  "isCorrect": false
+                }
+              ]
+            }
+          ]
+        };
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(quizData.questions.length).fill(null); // To store selected option index for each question
+        let score = 0;
+
+        const quizContainer = document.getElementById('quiz-container');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const submitButton = document.getElementById('submitButton');
+        const progressBar = document.getElementById('progressBar');
+        const summarySection = document.getElementById('summary-section');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const restartButton = document.getElementById('restartButton');
+
+        function loadQuestion(index) {
+            const questionData = quizData.questions[index];
+            quizContainer.innerHTML = `
+                <div class="quiz-card">
+                    <h2 class="text-xl font-bold mb-4">Question ${index + 1}/${quizData.questions.length} : ${questionData.question}</h2>
+                    <div id="options-container" class="mb-4">
+                        ${questionData.answerOptions.map((option, i) => `
+                            <button class="option-button" data-option-index="${i}">
+                                ${option.text}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div class="hint-text">
+                        <p class="font-bold">Indice :</p>
+                        <p>${questionData.hint}</p>
+                    </div>
+                    <div id="feedback-message" class="feedback-message hidden"></div>
+                    <div id="rationale-display" class="rationale-text hidden"></div>
+                </div>
+            `;
+
+            const optionButtons = quizContainer.querySelectorAll('.option-button');
+            optionButtons.forEach(button => {
+                button.addEventListener('click', (event) => selectOption(event.target, index));
+            });
+
+            // Restore previous selection if any
+            if (userAnswers[index] !== null) {
+                optionButtons[userAnswers[index]].classList.add('selected');
+            }
+
+            updateNavigationButtons();
+            updateProgressBar();
+        }
+
+        function selectOption(selectedButton, questionIndex) {
+            const optionsContainer = selectedButton.closest('#options-container');
+            const feedbackMessage = document.getElementById('feedback-message');
+            const rationaleDisplay = document.getElementById('rationale-display');
+
+            // Remove 'selected' class from all options for this question
+            optionsContainer.querySelectorAll('.option-button').forEach(btn => {
+                btn.classList.remove('selected', 'correct', 'incorrect');
+            });
+
+            // Add 'selected' class to the clicked button
+            selectedButton.classList.add('selected');
+            userAnswers[questionIndex] = parseInt(selectedButton.dataset.optionIndex);
+
+            // Hide feedback and rationale until submission or next navigation
+            feedbackMessage.classList.add('hidden');
+            rationaleDisplay.classList.add('hidden');
+        }
+
+        function updateNavigationButtons() {
+            prevButton.disabled = currentQuestionIndex === 0;
+            nextButton.disabled = currentQuestionIndex === quizData.questions.length - 1 && userAnswers[currentQuestionIndex] === null;
+
+            if (currentQuestionIndex === quizData.questions.length - 1) {
+                nextButton.classList.add('hidden');
+                submitButton.classList.remove('hidden');
+            } else {
+                nextButton.classList.remove('hidden');
+                submitButton.classList.add('hidden');
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / quizData.questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function showSummary() {
+            quizContainer.classList.add('hidden');
+            navigationButtons.classList.add('hidden');
+            summarySection.classList.remove('hidden');
+
+            score = 0;
+            userAnswers.forEach((selectedOptionIndex, qIndex) => {
+                if (selectedOptionIndex !== null) {
+                    const questionData = quizData.questions[qIndex];
+                    if (questionData.answerOptions[selectedOptionIndex].isCorrect) {
+                        score++;
+                    }
+                }
+            });
+            scoreDisplay.textContent = `${score}/${quizData.questions.length}`;
+        }
+
+        prevButton.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < quizData.questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            }
+        });
+
+        submitButton.addEventListener('click', () => {
+            // Ensure the current question is answered before submitting
+            if (userAnswers[currentQuestionIndex] === null) {
+                const feedbackMessage = document.getElementById('feedback-message');
+                feedbackMessage.textContent = "Veuillez sélectionner une option avant de soumettre.";
+                feedbackMessage.classList.remove('hidden', 'feedback-correct', 'feedback-incorrect');
+                return;
+            }
+            showSummary();
+        });
+
+        restartButton.addEventListener('click', () => {
+            currentQuestionIndex = 0;
+            userAnswers.fill(null);
+            score = 0;
+            summarySection.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            navigationButtons.classList.remove('hidden');
+            loadQuestion(currentQuestionIndex);
+        });
+
+        // Initial load
+        loadQuestion(currentQuestionIndex);
+    </script>
+</body>
+</html>
