@@ -9,8 +9,8 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f9fafb; /* Lighter background for a cleaner look */
-            color: #1a202c; /* Darker text for contrast */
+            background-color: #F8F9FA; /* Très léger gris pour un fond clair */
+            color: #343A40; /* Gris foncé pour le texte */
         }
         .container {
             max-width: 1200px;
@@ -19,75 +19,75 @@
         }
         .card {
             background-color: #ffffff;
-            border-radius: 1.5rem; /* More rounded */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Stronger shadow */
-            padding: 2.5rem; /* More padding */
-            margin-bottom: 2.5rem; /* More margin */
-            border: 1px solid #e2e8f0; /* Subtle border */
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid #e2e8f0;
         }
         .section-title {
-            font-size: 2.5rem; /* Larger */
-            font-weight: 800; /* Extra bold */
-            color: #dc2626; /* ESF Red */
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #FF6B6B; /* Rouge corail vibrant */
             margin-bottom: 2rem;
             text-align: center;
-            letter-spacing: -0.025em; /* Tighten letter spacing */
+            letter-spacing: -0.025em;
         }
         .subsection-title {
-            font-size: 1.75rem; /* Larger */
-            font-weight: 700; /* Bold */
-            color: #007BFF; /* ESF Blue */
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #2EC4B6; /* Bleu sarcelle/turquoise */
             margin-bottom: 1.25rem;
             display: flex;
             align-items: center;
         }
         .icon {
-            font-size: 2.8rem; /* Larger icon */
+            font-size: 2.8rem;
             margin-right: 1rem;
-            color: #dc2626; /* Red for icons */
+            color: #FF6B6B; /* Rouge corail pour les icônes */
         }
         .point {
             margin-bottom: 0.85rem;
             padding-left: 1.25rem;
             position: relative;
-            font-size: 1.05rem; /* Slightly larger text */
+            font-size: 1.05rem;
             color: #4a5568;
         }
         .point::before {
             content: '•';
             position: absolute;
             left: 0;
-            color: #007BFF; /* Blue bullet points */
+            color: #2EC4B6; /* Bleu sarcelle pour les puces */
             font-weight: bold;
             font-size: 1.2rem;
         }
         .phase-step {
-            background-color: #e0f2fe; /* Lightest blue */
-            border-left: 5px solid #007BFF; /* Thicker blue border */
+            background-color: #E6F7F5; /* Fond très léger bleu sarcelle */
+            border-left: 5px solid #2EC4B6; /* Bordure bleu sarcelle */
             padding: 1.25rem;
             border-radius: 0.75rem;
             margin-bottom: 1.25rem;
-            transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+            transition: transform 0.2s ease-in-out;
         }
         .phase-step:hover {
-            transform: translateY(-5px); /* Lift on hover */
+            transform: translateY(-5px);
         }
         .phase-step-title {
             font-weight: 700;
-            color: #0056b3; /* Darker blue */
+            color: #1A7E74; /* Bleu sarcelle plus foncé */
             font-size: 1.35rem;
             margin-bottom: 0.6rem;
         }
         .key-concept {
-            background-color: #ffed8d; /* Yellow for key concepts */
+            background-color: #FFD166; /* Jaune doux pour les concepts clés */
             padding: 0.3rem 0.8rem;
-            border-radius: 1rem; /* More rounded pills */
+            border-radius: 1rem;
             font-weight: 600;
-            color: #a06e00; /* Darker yellow text */
+            color: #CC9D00; /* Texte jaune plus foncé */
             display: inline-block;
             margin-right: 0.6rem;
             margin-bottom: 0.6rem;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
         /* Responsive adjustments for smaller screens */
@@ -112,36 +112,38 @@
             text-align: left;
             font-weight: 600;
             font-size: 0.95rem;
+            color: white; /* Texte blanc pour un meilleur contraste sur les fonds colorés */
         }
         .difficulty-table th {
             background-color: #f2f6fa;
-            color: #2d3748;
+            color: #2d3748; /* Texte gris foncé pour les en-têtes */
             border-bottom: 2px solid #cbd5e0;
         }
         .difficulty-table tr:nth-child(even) {
-            background-color: #f7fafc;
+            /* Pas de fond spécifique pour les lignes paires, les couleurs de code prime */
         }
-        .difficulty-table .bg-green-400 { background-color: #48bb78; color: white; }
-        .difficulty-table .bg-blue-400 { background-color: #63b3ed; color: white; }
-        .difficulty-table .bg-red-400 { background-color: #f56565; color: white; }
-        .difficulty-table .bg-gray-700 { background-color: #4a5568; color: white; }
+        /* Updated colors for difficulty codes for better contrast */
+        .difficulty-table .bg-green-400 { background-color: #28A745; } /* Vert Bootstrap */
+        .difficulty-table .bg-blue-400 { background-color: #007BFF; } /* Bleu Bootstrap */
+        .difficulty-table .bg-red-400 { background-color: #DC3545; } /* Rouge Bootstrap */
+        .difficulty-table .bg-gray-700 { background-color: #343A40; } /* Noir très foncé, presque noir */
 
         /* SVG specific colors */
-        .svg-path-main { stroke: #007BFF; } /* Blue for main path */
-        .svg-phase-1 { fill: #dc2626; } /* Red for Funnel */
-        .svg-phase-2 { fill: #FFC107; } /* Yellow for Chute */
-        .svg-phase-3 { fill: #28a745; } /* Green for Impulse */
-        .svg-phase-line { stroke: #007BFF; } /* Blue dashed lines */
-        .svg-arrowhead { fill: #007BFF; } /* Blue arrowheads */
+        .svg-path-main { stroke: #2EC4B6; } /* Bleu sarcelle pour le chemin principal */
+        .svg-phase-1 { fill: #FF6B6B; } /* Rouge corail pour l'Entonnoir */
+        .svg-phase-2 { fill: #FFD166; } /* Jaune pour la Glissière */
+        .svg-phase-3 { fill: #66CC99; } /* Vert doux pour l'Impulsion */
+        .svg-phase-line { stroke: #2EC4B6; } /* Bleu sarcelle pour les lignes pointillées */
+        .svg-arrowhead { fill: #2EC4B6; } /* Bleu sarcelle pour les flèches */
 
     </style>
-    <!-- Font Awesome for icons -->
+    <!-- Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <h1 class="text-5xl font-extrabold text-center mb-8 mt-4">
-            <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-red-600">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-red-500">
                 Infographie : Analyse Fonctionnelle du Virage de Ski
             </span>
         </h1>
@@ -172,7 +174,7 @@
                 </ul>
                 <div class="flex justify-center my-6">
                     <!-- Placeholder for the triangle diagram -->
-                    <img src="https://placehold.co/220x220/007BFF/FFFFFF?text=Exploration+Extremes" alt="Diagramme d'exploration des extrêmes" class="rounded-lg shadow-xl border-4 border-blue-500">
+                    <img src="https://placehold.co/220x220/2EC4B6/FFFFFF?text=Exploration+Extremes" alt="Diagramme d'exploration des extrêmes" class="rounded-lg shadow-xl border-4 border-emerald-500">
                 </div>
             </div>
         </div>
@@ -186,7 +188,7 @@
             <p class="point">Notion de "<span class="key-concept">Surdétermination du Milieu</span>" : Diminuer l'incertitude liée aux informations (neige, pente, tracé) par l'expérience.</p>
             <div class="flex justify-center my-6">
                 <!-- Placeholder for the triangle diagram -->
-                <img src="https://placehold.co/220x220/dc2626/FFFFFF?text=Individu+Milieu+But" alt="Diagramme Individu Milieu But" class="rounded-lg shadow-xl border-4 border-red-500">
+                <img src="https://placehold.co/220x220/FF6B6B/FFFFFF?text=Individu+Milieu+But" alt="Diagramme Individu Milieu But" class="rounded-lg shadow-xl border-4 border-rose-500">
             </div>
             <p class="point">La technique est un <span class="key-concept">outil</span> pour atteindre un but, non une finalité.</p>
         </div>
@@ -224,17 +226,17 @@
 
                     <!-- Phase 1: Funnel -->
                     <circle cx="50" cy="20" r="12" class="svg-phase-1"/>
-                    <text x="68" y="27" fill="#dc2626" font-size="16" font-weight="bold">1. Entonnoir</text>
+                    <text x="68" y="27" fill="#FF6B6B" font-size="16" font-weight="bold">1. Entonnoir</text>
                     <path d="M50 20 Q70 45, 95 70" class="svg-phase-line" stroke-width="2" stroke-dasharray="4 4"/>
 
                     <!-- Phase 2: Chute -->
                     <circle cx="270" cy="170" r="12" class="svg-phase-2"/>
-                    <text x="190" y="180" fill="#FFC107" font-size="16" font-weight="bold">2. Glissière</text>
+                    <text x="190" y="180" fill="#FFD166" font-size="16" font-weight="bold">2. Glissière</text>
                     <path d="M95 70 L250 160" class="svg-phase-line" stroke-width="2" stroke-dasharray="4 4"/>
 
                     <!-- Phase 3: Impulse -->
                     <circle cx="50" cy="250" r="12" class="svg-phase-3"/>
-                    <text x="68" y="257" fill="#28a745" font-size="16" font-weight="bold">3. Impulsion</text>
+                    <text x="68" y="257" fill="#66CC99" font-size="16" font-weight="bold">3. Impulsion</text>
                     <path d="M250 160 Q170 220, 50 250" class="svg-phase-line" stroke-width="2" stroke-dasharray="4 4"/>
 
                     <!-- Arrows indicating flow -->
@@ -326,7 +328,7 @@
                             <td class="py-3 px-5 border-b border-gray-200">CODE ROUGE</td>
                             <td class="py-3 px-5 border-b border-gray-200">Neige dure (préparée avec de l'eau ?), Pistes variées, Tracé nat-FIS et Courses</td>
                         </tr>
-                        <tr class="bg-gray-700 text-white">
+                        <tr class="bg-gray-700">
                             <td class="py-3 px-5 border-b border-gray-200 rounded-bl-lg">CODE NOIR</td>
                             <td class="py-3 px-5 border-b border-gray-200 rounded-br-lg">Neige qui tape, Piste noire, Tracé FIS-CE en course de référence</td>
                         </tr>
