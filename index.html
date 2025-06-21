@@ -357,6 +357,7 @@
 
         // Code pour les graphes de l'infographie IA
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM Content Loaded. Initializing charts and quiz.');
 
             // Chart 1: Coach Composition Chart
             const ctx1 = document.getElementById('coachCompositionChart');
@@ -498,6 +499,7 @@
             }
 
             // --- Code pour le Quiz ---
+            console.log('Initializing quiz...');
             const questions = [
                 {
                     question: "Quel est le rôle principal de l'IA dans le coaching, selon l'introduction de l'infographie ?",
@@ -594,7 +596,9 @@
             const finalScoreElement = document.getElementById('final-score');
             const restartButton = document.getElementById('restart-button');
 
+            // Function to display the current question
             function displayQuestion() {
+                console.log('Displaying question:', currentQuestionIndex);
                 feedbackElement.textContent = '';
                 nextButton.textContent = 'Question Suivante';
                 nextButton.disabled = true;
@@ -619,12 +623,14 @@
                         optionsContainer.appendChild(label);
                     });
                     resultsArea.classList.add('hidden');
-                    questionArea.classList.remove('hidden');
+                    questionArea.classList.remove('hidden'); // Ensure question area is visible
+                    console.log('Question area should be visible now.');
                 } else {
                     showResults();
                 }
             }
 
+            // Function to check the selected answer
             function checkAnswer() {
                 if (selectedOption === null) {
                     feedbackElement.textContent = 'Veuillez sélectionner une réponse.';
@@ -649,6 +655,7 @@
                 nextButton.disabled = false;
             }
 
+            // Function to advance to the next question
             function goToNextQuestion() {
                 if (feedbackElement.textContent !== '') {
                     currentQuestionIndex++;
@@ -656,21 +663,24 @@
                 }
             }
 
+            // Function to show final results
             function showResults() {
                 questionArea.classList.add('hidden');
                 resultsArea.classList.remove('hidden');
                 finalScoreElement.textContent = score;
             }
 
+            // Function to restart the quiz
             function restartQuiz() {
                 currentQuestionIndex = 0;
                 score = 0;
                 displayQuestion();
             }
 
+            // Event Listeners
             nextButton.addEventListener('click', () => {
                 if (currentQuestionIndex < questions.length) {
-                    checkAnswer();
+                    checkAnswer(); // First, check the answer for the current question
                     // Ajout d'un délai pour que l'utilisateur puisse voir le feedback avant de passer à la question suivante
                     if (currentQuestionIndex < questions.length -1) { // Si ce n'est pas la dernière question
                         setTimeout(goToNextQuestion, 1500);
@@ -682,7 +692,9 @@
 
             restartButton.addEventListener('click', restartQuiz);
 
-            document.addEventListener('DOMContentLoaded', displayQuestion);
+            // Initialize the quiz when the page loads
+            displayQuestion(); // Initial call
+            console.log('Quiz initialization complete.');
         });
     </script>
 </body>
