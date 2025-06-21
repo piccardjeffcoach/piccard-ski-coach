@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographie : Analyse Fonctionnelle du Virage de Ski</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* Lighter background for a cleaner look */
+            color: #1a202c; /* Darker text for contrast */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 1.5rem; /* More rounded */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Stronger shadow */
+            padding: 2.5rem; /* More padding */
+            margin-bottom: 2.5rem; /* More margin */
+            border: 1px solid #e2e8f0; /* Subtle border */
+        }
+        .section-title {
+            font-size: 2.5rem; /* Larger */
+            font-weight: 800; /* Extra bold */
+            color: #dc2626; /* ESF Red */
+            margin-bottom: 2rem;
+            text-align: center;
+            letter-spacing: -0.025em; /* Tighten letter spacing */
+        }
+        .subsection-title {
+            font-size: 1.75rem; /* Larger */
+            font-weight: 700; /* Bold */
+            color: #007BFF; /* ESF Blue */
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+        }
+        .icon {
+            font-size: 2.8rem; /* Larger icon */
+            margin-right: 1rem;
+            color: #dc2626; /* Red for icons */
+        }
+        .point {
+            margin-bottom: 0.85rem;
+            padding-left: 1.25rem;
+            position: relative;
+            font-size: 1.05rem; /* Slightly larger text */
+            color: #4a5568;
+        }
+        .point::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #007BFF; /* Blue bullet points */
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .phase-step {
+            background-color: #e0f2fe; /* Lightest blue */
+            border-left: 5px solid #007BFF; /* Thicker blue border */
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.25rem;
+            transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+        }
+        .phase-step:hover {
+            transform: translateY(-5px); /* Lift on hover */
+        }
+        .phase-step-title {
+            font-weight: 700;
+            color: #0056b3; /* Darker blue */
+            font-size: 1.35rem;
+            margin-bottom: 0.6rem;
+        }
+        .key-concept {
+            background-color: #ffed8d; /* Yellow for key concepts */
+            padding: 0.3rem 0.8rem;
+            border-radius: 1rem; /* More rounded pills */
+            font-weight: 600;
+            color: #a06e00; /* Darker yellow text */
+            display: inline-block;
+            margin-right: 0.6rem;
+            margin-bottom: 0.6rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+            .subsection-title {
+                font-size: 1.5rem;
+            }
+            .icon {
+                font-size: 2.2rem;
+            }
+            .card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Table specific styles for difficulty codes */
+        .difficulty-table th, .difficulty-table td {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .difficulty-table th {
+            background-color: #f2f6fa;
+            color: #2d3748;
+            border-bottom: 2px solid #cbd5e0;
+        }
+        .difficulty-table tr:nth-child(even) {
+            background-color: #f7fafc;
+        }
+        .difficulty-table .bg-green-400 { background-color: #48bb78; color: white; }
+        .difficulty-table .bg-blue-400 { background-color: #63b3ed; color: white; }
+        .difficulty-table .bg-red-400 { background-color: #f56565; color: white; }
+        .difficulty-table .bg-gray-700 { background-color: #4a5568; color: white; }
+
+        /* SVG specific colors */
+        .svg-path-main { stroke: #007BFF; } /* Blue for main path */
+        .svg-phase-1 { fill: #dc2626; } /* Red for Funnel */
+        .svg-phase-2 { fill: #FFC107; } /* Yellow for Chute */
+        .svg-phase-3 { fill: #28a745; } /* Green for Impulse */
+        .svg-phase-line { stroke: #007BFF; } /* Blue dashed lines */
+        .svg-arrowhead { fill: #007BFF; } /* Blue arrowheads */
+
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-5xl font-extrabold text-center mb-8 mt-4">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-red-600">
+                Infographie : Analyse Fonctionnelle du Virage de Ski
+            </span>
+        </h1>
+        <p class="text-center text-xl mb-10 text-gray-700 font-medium">
+            Comprendre les mécanismes clés et les phases d'un virage de ski de compétition.
+        </p>
+
+        <!-- Section 1: Introduction -->
+        <div class="card">
+            <h2 class="section-title"><i class="fas fa-ski-lift icon"></i> I. Introduction à l'Analyse Fonctionnelle</h2>
+
+            <div class="mb-8">
+                <h3 class="subsection-title"><i class="fas fa-bullseye icon"></i> Objectif de la Démarche</h3>
+                <p class="point">Comprendre les éléments techniques et les mécanismes du geste sportif.</p>
+                <p class="point">Résoudre des problèmes étape par étape pour construire une "vérité".</p>
+                <p class="point">Développer l'<span class="key-concept">Intelligence Motrice</span> : Capacité à résoudre des problèmes liés au milieu en fonction d'un but.</p>
+            </div>
+
+            <div>
+                <h3 class="subsection-title"><i class="fas fa-chalkboard-teacher icon"></i> Rôle de l'Éducateur Sportif</h3>
+                <p class="point">Accompagner l'élève sans imposer de modèle unique.</p>
+                <p class="point">Explorer les extrêmes pour développer la motricité.</p>
+                <p class="point">L'apprentissage respecte 3 principes:</p>
+                <ul class="list-disc pl-8 text-gray-700 font-medium text-lg">
+                    <li>Partir de ce que l'on sait faire.</li>
+                    <li>Explorer les extrêmes (Force vs Vitesse).</li>
+                    <li>Éliminer ce qu'il ne faut pas faire.</li>
+                </ul>
+                <div class="flex justify-center my-6">
+                    <!-- Placeholder for the triangle diagram -->
+                    <img src="https://placehold.co/220x220/007BFF/FFFFFF?text=Exploration+Extremes" alt="Diagramme d'exploration des extrêmes" class="rounded-lg shadow-xl border-4 border-blue-500">
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Technique as a Tool -->
+        <div class="card">
+            <h2 class="section-title"><i class="fas fa-tools icon"></i> II. La Technique comme Outil</h2>
+
+            <h3 class="subsection-title"><i class="fas fa-cogs icon"></i> Définition</h3>
+            <p class="point">Interaction entre l'individu et le milieu en fonction d'un but.</p>
+            <p class="point">Notion de "<span class="key-concept">Surdétermination du Milieu</span>" : Diminuer l'incertitude liée aux informations (neige, pente, tracé) par l'expérience.</p>
+            <div class="flex justify-center my-6">
+                <!-- Placeholder for the triangle diagram -->
+                <img src="https://placehold.co/220x220/dc2626/FFFFFF?text=Individu+Milieu+But" alt="Diagramme Individu Milieu But" class="rounded-lg shadow-xl border-4 border-red-500">
+            </div>
+            <p class="point">La technique est un <span class="key-concept">outil</span> pour atteindre un but, non une finalité.</p>
+        </div>
+
+        <!-- Section 3: Functional Analysis of Competition Turn -->
+        <div class="card">
+            <h2 class="section-title"><i class="fas fa-dharmachakra icon"></i> III. Analyse Fonctionnelle du Virage de Compétition</h2>
+
+            <h3 class="subsection-title"><i class="fas fa-route icon"></i> Présentation Globale</h3>
+            <p class="point">Skieur lancé dans une direction, doit faire le tour d'une porte et aller vers la suivante avec un objectif de vitesse.</p>
+
+            <h3 class="subsection-title"><i class="fas fa-sync-alt icon"></i> Les 3 Phases du Virage</h3>
+            <div class="grid md:grid-cols-3 gap-8 mt-6">
+                <div class="phase-step">
+                    <div class="phase-step-title">1. L'Entonnoir</div>
+                    <p class="text-base italic text-gray-600">(Phase de Déclenchement)</p>
+                    <p class="text-base mt-3 text-gray-700">Orientation des appuis et des skis. Déploiement et alignement sur la future jambe d'appui. Solidité autour de la ligne de pression. Transfert d'appui.</p>
+                </div>
+                <div class="phase-step">
+                    <div class="phase-step-title">2. La Glissière</div>
+                    <p class="text-base italic text-gray-600">(Phase de Franchissement de Porte)</p>
+                    <p class="text-base mt-3 text-gray-700">Changement de direction ("accident"). Mise en tension et déviation. Résister à l'écrasement, repousser, avancer. Nécessite un gainage efficace.</p>
+                </div>
+                <div class="phase-step">
+                    <div class="phase-step-title">3. L'Impulsion</div>
+                    <p class="text-base italic text-gray-600">(Phase de Glissement/Restitution)</p>
+                    <p class="text-base mt-3 text-gray-700">Projetter le skieur vers le futur entonnoir. Redistribuer l'énergie emmagasinée. Rebond vers l'avant, pas vers le haut. Pilotage essentiel, notion de timing.</p>
+                </div>
+            </div>
+            <div class="flex justify-center my-6">
+                <!-- Simple SVG representation of the turn phases with updated colors -->
+                <svg width="320" height="270" viewBox="0 0 320 270" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Path of the turn -->
+                    <path d="M50 20 C100 0, 270 50, 270 170 S170 260, 50 250" class="svg-path-main" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+                    <!-- Phase 1: Funnel -->
+                    <circle cx="50" cy="20" r="12" class="svg-phase-1"/>
+                    <text x="68" y="27" fill="#dc2626" font-size="16" font-weight="bold">1. Entonnoir</text>
+                    <path d="M50 20 Q70 45, 95 70" class="svg-phase-line" stroke-width="2" stroke-dasharray="4 4"/>
+
+                    <!-- Phase 2: Chute -->
+                    <circle cx="270" cy="170" r="12" class="svg-phase-2"/>
+                    <text x="190" y="180" fill="#FFC107" font-size="16" font-weight="bold">2. Glissière</text>
+                    <path d="M95 70 L250 160" class="svg-phase-line" stroke-width="2" stroke-dasharray="4 4"/>
+
+                    <!-- Phase 3: Impulse -->
+                    <circle cx="50" cy="250" r="12" class="svg-phase-3"/>
+                    <text x="68" y="257" fill="#28a745" font-size="16" font-weight="bold">3. Impulsion</text>
+                    <path d="M250 160 Q170 220, 50 250" class="svg-phase-line" stroke-width="2" stroke-dasharray="4 4"/>
+
+                    <!-- Arrows indicating flow -->
+                    <defs>
+                        <marker id="arrowhead-sport" markerWidth="12" markerHeight="8" refX="0" refY="4" orient="auto">
+                            <polygon points="0 0, 12 4, 0 8" class="svg-arrowhead" />
+                        </marker>
+                    </defs>
+                    <path d="M50 20 C100 0, 270 50, 270 170" class="svg-path-main" stroke-width="5" fill="none" marker-end="url(#arrowhead-sport)"/>
+                    <path d="M270 170 S170 260, 50 250" class="svg-path-main" stroke-width="5" fill="none" marker-end="url(#arrowhead-sport)"/>
+                </svg>
+            </div>
+            <h3 class="subsection-title mt-8"><i class="fas fa-list-ul icon"></i> Résumé des Actions</h3>
+            <p class="point">Je me prépare, je m'oriente.</p>
+            <p class="point">Je me gaine, je résiste, je reste grand.</p>
+            <p class="point">Je me projette ou j'utilise le renvoi.</p>
+        </div>
+
+        <!-- Section 4: Complementary Technical Factors -->
+        <div class="card">
+            <h2 class="section-title"><i class="fas fa-dumbbell icon"></i> IV. Facteurs Techniques Complémentaires</h2>
+
+            <div class="mb-8">
+                <h3 class="subsection-title"><i class="fas fa-hand-rock icon"></i> Rôle des Membres Libres (Bras)</h3>
+                <p class="point">Rôle d'<span class="key-concept">équilibration</span> (principal chez les jeunes).</p>
+                <p class="point">Rôle d'<span class="key-concept">amplification de l'appui/renvoi</span> (augmentent les pressions au sol).</p>
+                <p class="point">Rôle de <span class="key-concept">retardateur ou accélérateur des rotations</span> du haut du corps (principe du moment d'inertie).</p>
+                <p class="point">Participent activement à chaque phase du virage.</p>
+            </div>
+
+            <div>
+                <h3 class="subsection-title"><i class="fas fa-object-ungroup icon"></i> Rôle des Dissociations</h3>
+                <p class="point">Utilisées pour conserver ou générer de la vitesse.</p>
+                <p class="point">La mobilité segmentaire entre haut et bas du corps aide à contenir le renvoi ou à servir l'appui.</p>
+                <p class="point">Doivent rester attentives à ne pas nuire à l'alignement autour de la ligne de pression.</p>
+            </div>
+        </div>
+
+        <!-- Section 5: Conclusion & Exercise Families -->
+        <div class="card">
+            <h2 class="section-title"><i class="fas fa-award icon"></i> V. Conclusion & Familles d'Exercices</h2>
+
+            <p class="point mb-4">Le virage de compétition est une séquence construite et anticipée, non un geste figé.</p>
+            <p class="point mb-6">L'analyse fonctionnelle permet de construire des réponses motrices adaptées, intelligentes et efficaces.</p>
+
+            <h3 class="subsection-title"><i class="fas fa-users-cog icon"></i> Familles de Mises en Situation Liées à l'Appui</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8 mt-6">
+                <div class="phase-step">
+                    <div class="phase-step-title">Famille des "Pas"</div>
+                    <p class="text-base mt-1 text-gray-700">Critère: <span class="key-concept">Transfert du poids de corps</span>. Projection essentielle. (Combinés, divergents, courts/longs).</p>
+                </div>
+                <div class="phase-step">
+                    <div class="phase-step-title">Famille des "Placements"</div>
+                    <p class="text-base mt-1 text-gray-700">Critère: <span class="key-concept">Qualité de gainage</span> et justesse de la raideur engagée. (Complets, demi-chaîne de force).</p>
+                </div>
+                <div class="phase-step">
+                    <div class="phase-step-title">Famille des "Orientations"</div>
+                    <p class="text-base mt-1 text-gray-700">Critère: Aboutir à un <span class="key-concept">"butoir"</span> et finesse limitant les frictions. (Pivotement, allègement, inscription par la taille).</p>
+                </div>
+                <div class="phase-step">
+                    <div class="phase-step-title">Famille des "Pressions et Dépressions"</div>
+                    <p class="text-base mt-1 text-gray-700">Critère: Notions de <span class="key-concept">rythme</span> et d'adaptation aux longueurs d'appui. (Mises en tension courtes/allongées, renvois).</p>
+                </div>
+            </div>
+
+            <h3 class="subsection-title mt-8"><i class="fas fa-chart-line icon"></i> Codes de Difficulté (Neige & Piste)</h3>
+            <div class="overflow-x-auto mt-6">
+                <table class="min-w-full bg-white rounded-lg shadow-xl difficulty-table">
+                    <thead>
+                        <tr>
+                            <th class="py-3 px-5 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-bold text-gray-700 uppercase tracking-wider rounded-tl-lg">
+                                Code
+                            </th>
+                            <th class="py-3 px-5 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-bold text-gray-700 uppercase tracking-wider rounded-tr-lg">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-green-400">
+                            <td class="py-3 px-5 border-b border-gray-200 rounded-bl-lg">CODE VERT</td>
+                            <td class="py-3 px-5 border-b border-gray-200">Neige artificielle, Piste bleue, Tracé simple ou Ski libre</td>
+                        </tr>
+                        <tr class="bg-blue-400">
+                            <td class="py-3 px-5 border-b border-gray-200">CODE BLEU</td>
+                            <td class="py-3 px-5 border-b border-gray-200">Neige variée, Piste rouge, Tracé couloir de portes et Changement de rythme</td>
+                        </tr>
+                        <tr class="bg-red-400">
+                            <td class="py-3 px-5 border-b border-gray-200">CODE ROUGE</td>
+                            <td class="py-3 px-5 border-b border-gray-200">Neige dure (préparée avec de l'eau ?), Pistes variées, Tracé nat-FIS et Courses</td>
+                        </tr>
+                        <tr class="bg-gray-700 text-white">
+                            <td class="py-3 px-5 border-b border-gray-200 rounded-bl-lg">CODE NOIR</td>
+                            <td class="py-3 px-5 border-b border-gray-200 rounded-br-lg">Neige qui tape, Piste noire, Tracé FIS-CE en course de référence</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <p class="text-center text-gray-600 mt-8 mb-4 text-base font-medium">
+            Cette infographie synthétise l'analyse fonctionnelle de l'appui et du virage de ski, en mettant en lumière les concepts clés et les phases techniques.<br>Réalisation Jeff Piccard
+        </p>
+    </div>
+</body>
+</html>
