@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographie : La Sphère Familiale et la Réussite en Ski</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Palette Name: Deep Sea Hues -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #2B3B4B; /* Dark Teal-Blue Background */
+            color: #E0F2F7; /* Light Cyan-Blue Text */
+        }
+        h1, h2, h3, h4 {
+            font-weight: 700;
+        }
+        .text-primary-header { color: #8FD3F4; } /* Sky Blue */
+        .text-accent-orange { color: #FF9F1C; }   /* Vibrant Orange */
+        .text-highlight-yellow { color: #FCBF49; } /* Golden Yellow */
+        .text-subtle-light { color: #B0DDE5; }     /* Slightly darker Light Cyan-Blue Text */
+
+        .card {
+            background-color: #3A4C5F; /* Card background, slightly lighter than body */
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.2s ease-in-out;
+            border: 1px solid #5A7085; /* Subtle border */
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.35), 0 6px 10px -3px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-separator {
+            width: 80px;
+            height: 8px;
+            background-color: #FF9F1C; /* Vibrant Orange */
+            border-radius: 4px;
+            margin: 2.5rem auto;
+        }
+
+        .timeline-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding: 1rem 0;
+        }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: 2px;
+            background-color: #FCBF49; /* Golden Yellow line */
+            height: 90%;
+            transform: translateX(-50%);
+            top: 5%;
+        }
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        .timeline-marker {
+            width: 24px;
+            height: 24px;
+            background-color: #8FD3F4; /* Sky Blue */
+            border-radius: 50%;
+            border: 3px solid #3A4C5F; /* Card background color for contrast */
+            flex-shrink: 0;
+            z-index: 10;
+            margin: 0 1rem;
+        }
+        .timeline-content {
+            flex-grow: 1;
+            background-color: #3A4C5F;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .timeline-content h4 {
+            color: #FF9F1C; /* Vibrant Orange */
+            margin-bottom: 0.5rem;
+        }
+        @media (max-width: 767px) {
+            .timeline-container::before { left: 12px; transform: translateX(0); }
+            .timeline-item { flex-direction: row !important; justify-content: flex-start; }
+            .timeline-marker { margin-left: 0; margin-right: 1rem; }
+            .timeline-content { margin-left: 0; }
+        }
+
+
+        .facet-item {
+            background-color: #3A4C5F;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            border-bottom: 3px solid #FCBF49; /* Golden Yellow accent */
+        }
+        .facet-icon {
+            font-size: 2.5rem;
+            color: #8FD3F4; /* Sky Blue */
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+        .facet-item h4 {
+            font-weight: 600;
+            color: #FCBF49; /* Golden Yellow */
+            font-size: 1.1rem;
+        }
+
+        .ski-family-example {
+            background-color: #3A4C5F;
+            border-left: 4px solid #FF9F1C; /* Vibrant Orange */
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+        .ski-family-example h4 {
+            color: #8FD3F4; /* Sky Blue */
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .ski-family-example p {
+            color: #B0DDE5;
+            font-size: 0.95rem;
+        }
+
+        /* Quiz specific styles */
+        .quiz-container {
+            background-color: #3A4C5F;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        .quiz-question-wrapper {
+            display: none; /* Hidden by default */
+        }
+        .quiz-question-wrapper.active {
+            display: block; /* Show active question */
+        }
+        .quiz-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #5A7085;
+        }
+        .quiz-question:last-child {
+            border-bottom: none;
+        }
+        .quiz-question p {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #FCBF49; /* Golden Yellow */
+        }
+        .quiz-options label {
+            display: block;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease-in-out;
+            color: #E0F2F7;
+        }
+        .quiz-options label:hover {
+            background-color: #5A7085;
+        }
+        .quiz-options input[type="radio"] {
+            margin-right: 0.5rem;
+            accent-color: #8FD3F4; /* Sky Blue */
+        }
+        .quiz-navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+        .quiz-nav-btn {
+            background-color: #FF9F1C; /* Vibrant Orange */
+            color: #2B3B4B; /* Dark Teal-Blue */
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .quiz-nav-btn:hover {
+            background-color: #FCBF49; /* Golden Yellow */
+        }
+        .quiz-nav-btn:disabled {
+            background-color: #5A7085;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .quiz-results {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #5A7085;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #8FD3F4; /* Sky Blue */
+        }
+        .quiz-results span.correct {
+            color: #2ECC71; /* Green for correct */
+        }
+        .quiz-results span.incorrect {
+            color: #E74C3C; /* Red for incorrect */
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <main class="container mx-auto p-4 sm:p-6 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-black text-primary-header mb-2">La Sphère Familiale en Ski Alpin</h1>
+            <p class="text-lg md:text-xl text-accent-orange">Un pilier indispensable pour la réussite des jeunes skieurs</p>
+        </header>
+
+        <!-- Introduction -->
+        <section class="mb-12">
+            <div class="card">
+                <h2 class="text-2xl font-bold text-primary-header mb-4">I. Introduction : Le Rôle Clé du Soutien Familial</h2>
+                <p class="text-subtle-light mb-4">De nombreux sportifs de haut niveau soulignent l'importance du soutien bienveillant d'un proche dans la construction de leur carrière. La sphère familiale est un atout indispensable pour la réussite sportive de l'athlète.</p>
+                <p class="text-subtle-light mb-4">Contrairement aux "coachs d'un autre temps" qui préfèrent les "orphelins", nous pensons que la famille est un support fondamental. Sans famille, pas d'accompagnement, pas de réussite durable.</p>
+                <p class="text-subtle-light">Le soutien parental va au-delà de l'encouragement ; c'est un accompagnement global qui impacte motivation, confiance en soi et performances. Bien qu'il manque d'études directes sur l'influence parentale sur la réussite, l'implication positive des parents est largement observée (Gould et al., 2006 ; Shields et al., 2005).</p>
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- Soutien Parental : Positif vs Négatif -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-center text-primary-header mb-8">II. Le Spectre du Soutien Parental</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card" style="border-left: 5px solid #2ECC71;">
+                    <h3 class="text-xl font-bold text-accent-orange mb-3">Impact Positif : Valorisation et Plaisir</h3>
+                    <ul class="list-none space-y-2 text-subtle-light">
+                        <li class="flex items-start"><span class="text-xl mr-2 text-[#2ECC71]">✅</span> Parents qui valorisent l'apprentissage et le plaisir.</li>
+                        <li class="flex items-start"><span class="text-xl mr-2 text-[#2ECC71]">✅</span> Expression de satisfaction envers les performances.</li>
+                        <li class="flex items-start"><span class="text-xl mr-2 text-[#2ECC71]">✅</span> Effets positifs sur la motivation et la confiance (Blom et al., 2013).</li>
+                        <li class="flex items-start"><span class="text-xl mr-2 text-[#2ECC71]">✅</span> Facilitation d'une carrière sportive d'élite.</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-left: 5px solid #E74C3C;">
+                    <h3 class="text-xl font-bold text-accent-orange mb-3">Impact Négatif : Pression Excessive</h3>
+                    <ul class="list-none space-y-2 text-subtle-light">
+                        <li class="flex items-start"><span class="text-xl mr-2 text-[#E74C3C]">❌</span> Parents accordant trop d'importance à la victoire.</li>
+                        <li class="flex items-start"><span class="text-xl mr-2 text-[#E74C3C]">❌</span> Amour et attention subordonnés aux performances.</li>
+                        <li class="flex items-start"><span class="text-xl mr-2 text-[#E74C3C]">❌</span> Pression intense pour réussir.</li>
+                        <li class="flex items-start"><span class="text-xl mr-2 text-[#E74C3C]">❌</span> Conséquences néfastes et abandon prématuré (Gould et al., 1982).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- Les Étapes du Soutien Parental -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-center text-primary-header mb-8">III. Les Étapes Clés du Soutien Parental</h2>
+            <p class="max-w-3xl mx-auto text-center text-subtle-light mb-8">Le soutien parental évolue avec l'âge de l'athlète et influence des moments clés de sa carrière vers le haut niveau.</p>
+
+            <div class="timeline-container">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h4 class="text-xl font-bold">L'Étape de Formation (6-13 ans)</h4>
+                        <p class="text-subtle-light">Les parents encouragent le jeu libre, le plaisir et l'apprentissage des compétences. Ils sont émotionnellement disponibles et discutent des expériences sportives.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h4 class="text-xl font-bold">L'Étape de Spécialisation (13-15 ans)</h4>
+                        <p class="text-subtle-light">Les parents encouragent l'autonomie des athlètes et augmentent leur investissement financier et le soutien émotionnel.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h4 class="text-xl font-bold">L'Étape de Concrétisation (15 ans & +)</h4>
+                        <p class="text-subtle-light">Les parents agissent plutôt en arrière-plan, tenant compte des préférences individuelles pour apporter leur soutien.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- Spécificités du soutien en ski alpin -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-center text-primary-header mb-8">IV. Les Spécificités du Soutien en Ski Alpin</h2>
+            <p class="max-w-3xl mx-auto text-center text-subtle-light mb-8">Les sports d'hiver présentent des défis uniques pour la sphère familiale.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="facet-item">
+                    <span class="facet-icon">💰</span>
+                    <h4 class="mt-2">Investissement Financier</h4>
+                    <p class="text-subtle-light text-sm">Coût élevé de l'équipement, des déplacements et des frais d'entraînement.</p>
+                </div>
+                <div class="facet-item">
+                    <span class="facet-icon">⏰</span>
+                    <h4 class="mt-2">Gestion du Temps</h4>
+                    <p class="text-subtle-light text-sm">Pratique hivernale intensive nécessitant une organisation familiale particulière.</p>
+                </div>
+                <div class="facet-item">
+                    <span class="facet-icon">⚠️</span>
+                    <h4 class="mt-2">Gestion des Risques</h4>
+                    <p class="text-subtle-light text-sm">Acceptation des risques de blessures inhérents aux sports d'hiver.</p>
+                </div>
+                <div class="facet-item">
+                    <span class="facet-icon">📚</span>
+                    <h4 class="mt-2">Suivi Scolaire</h4>
+                    <p class="text-subtle-light text-sm">Adaptation à un système scolaire souvent inadapté, surtout au collège et lycée.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- Différentes Facettes du Soutien Parental -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-center text-primary-header mb-8">V. Les Multiples Facettes du Soutien Parental</h2>
+            <p class="max-w-3xl mx-auto text-center text-subtle-light mb-8">Un engagement diversifié pour accompagner l'athlète vers le succès.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="facet-item" style="border-bottom: 3px solid #8FD3F4;">
+                    <span class="facet-icon">👀</span>
+                    <h4 class="mt-2">Être Présent</h4>
+                    <p class="text-subtle-light text-sm">Assister aux compétitions et entraînements.</p>
+                </div>
+                <div class="facet-item" style="border-bottom: 3px solid #8FD3F4;">
+                    <span class="facet-icon">🤝</span>
+                    <h4 class="mt-2">S'Impliquer & Aider</h4>
+                    <p class="text-subtle-light text-sm">Participer à l'organisation des activités du club.</p>
+                </div>
+                <div class="facet-item" style="border-bottom: 3px solid #8FD3F4;">
+                    <span class="facet-icon">🧠</span>
+                    <h4 class="mt-2">Encourager l'Autonomie</h4>
+                    <p class="text-subtle-light text-sm">Donner aux enfants la possibilité de prendre des initiatives et des choix.</p>
+                </div>
+                <div class="facet-item" style="border-bottom: 3px solid #8FD3F4;">
+                    <span class="facet-icon">📏</span>
+                    <h4 class="mt-2">Fixer des Limites</h4>
+                    <p class="text-subtle-light text-sm">Établir des règles claires et cohérentes pour favoriser la discipline.</p>
+                </div>
+                <div class="facet-item" style="border-bottom: 3px solid #8FD3F4;">
+                    <span class="facet-icon">🏆</span>
+                    <h4 class="mt-2">Célébrer les Réussites</h4>
+                    <p class="text-subtle-light text-sm">Valoriser les efforts et les progrès, pas seulement les victoires.</p>
+                </div>
+                <div class="facet-item" style="border-bottom: 3px solid #8FD3F4;">
+                    <span class="facet-icon">💪</span>
+                    <h4 class="mt-2">Soutenir dans les Défaites</h4>
+                    <p class="text-subtle-light text-sm">Les aider à surmonter les échecs et se remettre au travail après une victoire.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- Parents-Entraîneurs et Environnement Familial -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-center text-primary-header mb-8">VI. Défis Spécifiques & Héritage Familial</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card" style="border-left: 5px solid #FF9F1C;">
+                    <h3 class="text-xl font-bold text-accent-orange mb-3">Le Défi du Parent-Entraîneur</h3>
+                    <p class="text-subtle-light mb-4">Concilier les multiples rôles (coach, préparateur physique/mental, skiman) sans saturer la relation parent-enfant, surtout dans le ski alpin exigeant.</p>
+                    <div class="p-3 rounded-md bg-gray-700 border border-gray-600 mt-4">
+                        <p class="font-bold text-highlight-yellow mb-2">Exemple : Richard Williams (Père des Sœurs Williams)</p>
+                        <ul class="list-none space-y-1 text-subtle-light text-sm">
+                            <li><span class="text-base mr-2">▪️</span> Vision précoce, entraîneur et mentor.</li>
+                            <li><span class="text-base mr-2">▪️</span> Encouragement de la résilience et protection.</li>
+                            <li><span class="text-base mr-2">▪️</span> Défenseur de l'égalité. Rôle déterminant dans leur succès.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card" style="border-left: 5px solid #FCBF49;">
+                    <h3 class="text-xl font-bold text-highlight-yellow mb-3">Environnement Familial Favorable à la Compétition</h3>
+                    <p class="text-subtle-light mb-4">Avoir un lien de parenté avec un médaillé olympique augmente la probabilité de remporter une médaille (~20%).</p>
+                    <p class="text-subtle-light mb-4">Les familles de champions offrent un milieu très favorable : entraînement, suivi médical, gestion de carrière, soutien, moyens économiques.</p>
+                    <p class="text-subtle-light italic text-sm">L'effet d'entraînement est maximal à court terme si le délai entre les participations aux JO se raccourcit.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- Exemples Emblématiques -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-center text-primary-header mb-8">VII. Exemples Emblématiques en Ski Alpin</h2>
+            <p class="max-w-3xl mx-auto text-center text-subtle-light mb-8">Ces champions ont tous bénéficié d'un soutien familial solide, crucial à leur parcours.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="ski-family-example">
+                    <h4>Marcel Hirscher & Ferdinand Hirscher (Père)</h4>
+                    <p>Transmission de la passion, des bases techniques et de la discipline.</p>
+                </div>
+                <div class="ski-family-example">
+                    <h4>Marc Girardelli & Helmut Girardelli (Père)</h4>
+                    <p>Un duo père-fils inséparable : entraîneur, manager, confident.</p>
+                </div>
+                <div class="ski-family-example">
+                    <h4>Mikaela Shiffrin & Eileen Shiffrin (Mère)</h4>
+                    <p>Ancienne skieuse elle-même, rôle fondamental dans la réussite de sa fille.</p>
+                </div>
+                <div class="ski-family-example">
+                    <h4>Lara Colturi & Daniela Ceccarelli (Mère)</h4>
+                    <p>Un tandem unique mère-fille, héritage et passion transmis de génération en génération.</p>
+                </div>
+                <div class="ski-family-example md:col-span-2">
+                    <h4>Janica Kostelić & Ante Kostelić (Père)</h4>
+                    <p>Histoire familiale forte derrière une championne multiple, avec l'implication de son père, puis de son frère Ivica.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-subtle-light text-sm mt-12 pt-8 border-t border-gray-700">
+            <h2 class="text-xl font-bold text-primary-header mb-4">Conclusion Générale</h2>
+            <p class="mb-4 max-w-3xl mx-auto">La sphère familiale est un élément clé du succès des athlètes de haut niveau, en apportant un soutien émotionnel, psychologique et pratique indispensable. Ce soutien est d'autant plus crucial dans les sports d'hiver, exigeants physiquement et mentalement.</p>
+            <p class="italic">De nombreux exemples, connus ou moins connus, attestent de cette vérité chaque hiver.</p>
+        </footer>
+
+        <div class="section-separator"></div>
+
+        <!-- Quiz Section -->
+        <section class="quiz-container">
+            <h2 class="text-3xl font-bold text-center text-primary-header mb-8">VIII. Quiz : Testez Vos Connaissances !</h2>
+            <form id="skiQuizForm">
+                <!-- Question 1 -->
+                <div class="quiz-question-wrapper" id="q1-wrapper">
+                    <div class="quiz-question">
+                        <p>1. Quel est le rôle clé de la sphère familiale selon l'introduction ?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q1" value="A"> A) Gérer les finances.</label>
+                            <label><input type="radio" name="q1" value="B"> B) Accompagner et soutenir l'athlète.</label>
+                            <label><input type="radio" name="q1" value="C"> C) Fixer les entraînements.</label>
+                            <label><input type="radio" name="q1" value="D"> D) Choisir les compétitions.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="quiz-question-wrapper" id="q2-wrapper">
+                    <div class="quiz-question">
+                        <p>2. Quel est un impact négatif du soutien parental excessif ?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q2" value="A"> A) Augmentation de la motivation.</label>
+                            <label><input type="radio" name="q2" value="B"> B) Pression intense pour réussir.</label>
+                            <label><input type="radio" name="q2" value="C"> C) Meilleures performances.</label>
+                            <label><input type="radio" name="q2" value="D"> D) Renforcement de la confiance.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="quiz-question-wrapper" id="q3-wrapper">
+                    <div class="quiz-question">
+                        <p>3. À quelle étape les parents encouragent-ils le jeu libre et le plaisir ?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q3" value="A"> A) L'Étape de Concrétisation (15 ans & +).</label>
+                            <label><input type="radio" name="q3" value="B"> B) L'Étape de Spécialisation (13-15 ans).</label>
+                            <label><input type="radio" name="q3" value="C"> C) L'Étape de Formation (6-13 ans).</label>
+                            <label><input type="radio" name="q3" value="D"> D) Toutes les étapes.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="quiz-question-wrapper" id="q4-wrapper">
+                    <div class="quiz-question">
+                        <p>4. Quel est l'un des défis spécifiques du soutien en ski alpin mentionné ?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q4" value="A"> A) Le manque de neige.</label>
+                            <label><input type="radio" name="q4" value="B"> B) L'investissement financier.</label>
+                            <label><input type="radio" name="q4" value="C"> C) L'absence de compétitions.</label>
+                            <label><input type="radio" name="q4" value="D"> D) La faible durée de la saison.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="quiz-question-wrapper" id="q5-wrapper">
+                    <div class="quiz-question">
+                        <p>5. Quelle facette du soutien parental consiste à "Valoriser les efforts et les progrès, pas seulement les victoires" ?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q5" value="A"> A) Être Présent.</label>
+                            <label><input type="radio" name="q5" value="B"> B) Fixer des Limites.</label>
+                            <label><input type="radio" name="q5" value="C"> C) Célébrer les Réussites.</label>
+                            <label><input type="radio" name="q5" value="D"> D) Encourager l'Autonomie.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="quiz-question-wrapper" id="q6-wrapper">
+                    <div class="quiz-question">
+                        <p>6. Selon l'infographie, qu'est-ce qui augmente la probabilité de remporter une médaille (~20%) ?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q6" value="A"> A) Avoir un parent entraîneur.</label>
+                            <label><input type="radio" name="q6" value="B"> B) Avoir un lien de parenté avec un médaillé olympique.</label>
+                            <label><input type="radio" name="q6" value="C"> C) S'entraîner tous les jours.</label>
+                            <label><input type="radio" name="q6" value="D"> D) Participer à de nombreuses compétitions.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 7 -->
+                <div class="quiz-question-wrapper" id="q7-wrapper">
+                    <div class="quiz-question">
+                        <p>7. Quel champion de ski alpin est cité avec son père, Ferdinand Hirscher, pour la transmission de la passion et des bases techniques ?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q7" value="A"> A) Mikaela Shiffrin.</label>
+                            <label><input type="radio" name="q7" value="B"> B) Marc Girardelli.</label>
+                            <label><input type="radio" name="q7" value="C"> C) Marcel Hirscher.</label>
+                            <label><input type="radio" name="q7" value="D"> D) Janica Kostelić.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 8 -->
+                <div class="quiz-question-wrapper" id="q8-wrapper">
+                    <div class="quiz-question">
+                        <p>8. La mère de Mikaela Shiffrin, Eileen Shiffrin, est décrite comme ayant quel rôle ?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q8" value="A"> A) Juste une spectatrice.</label>
+                            <label><input type="radio" name="q8" value="B"> B) Ancienne skieuse et rôle fondamental dans la réussite de sa fille.</label>
+                            <label><input type="radio" name="q8" value="C"> C) Sa manager uniquement.</label>
+                            <label><input type="radio" name="q8" value="D"> D) Son préparateur physique.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-navigation-buttons">
+                    <button type="button" id="prevBtn" class="quiz-nav-btn">Précédent</button>
+                    <button type="button" id="nextBtn" class="quiz-nav-btn">Suivant</button>
+                    <button type="submit" id="submitQuizBtn" class="quiz-nav-btn hidden">Soumettre le Quiz</button>
+                </div>
+            </form>
+            <div id="quizResults" class="quiz-results hidden"></div>
+        </section>
+    </main>
+
+    <script>
+        // Array of correct answers
+        const correctAnswers = {
+            q1: 'B',
+            q2: 'B',
+            q3: 'C',
+            q4: 'B',
+            q5: 'C',
+            q6: 'B',
+            q7: 'C',
+            q8: 'B'
+        };
+
+        const quizForm = document.getElementById('skiQuizForm');
+        const quizResultsDiv = document.getElementById('quizResults');
+        const questionWrappers = document.querySelectorAll('.quiz-question-wrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitQuizBtn = document.getElementById('submitQuizBtn');
+
+        let currentQuestionIndex = 0;
+
+        // Function to display the current question
+        function showQuestion(index) {
+            questionWrappers.forEach((wrapper, i) => {
+                wrapper.classList.toggle('active', i === index);
+            });
+
+            // Manage button visibility
+            prevBtn.disabled = index === 0;
+            nextBtn.classList.toggle('hidden', index === questionWrappers.length - 1);
+            submitQuizBtn.classList.toggle('hidden', index !== questionWrappers.length - 1);
+            quizResultsDiv.classList.add('hidden'); // Hide results when navigating questions
+        }
+
+        // Function to go to the next question
+        function nextQuestion() {
+            if (currentQuestionIndex < questionWrappers.length - 1) {
+                currentQuestionIndex++;
+                showQuestion(currentQuestionIndex);
+            }
+        }
+
+        // Function to go to the previous question
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion(currentQuestionIndex);
+            }
+        }
+
+        // Event listeners for navigation buttons
+        nextBtn.addEventListener('click', nextQuestion);
+        prevBtn.addEventListener('click', prevQuestion);
+
+        // Event listener for quiz submission (only on the last question)
+        quizForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            let score = 0;
+            const totalQuestions = Object.keys(correctAnswers).length;
+
+            // Loop through each question to check the answer
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionName = `q${i}`;
+                const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+
+                // Check if an option was selected for the current question and if it's correct
+                if (selectedOption && selectedOption.value === correctAnswers[questionName]) {
+                    score++;
+                }
+            }
+
+            // Display results
+            quizResultsDiv.classList.remove('hidden');
+            quizResultsDiv.innerHTML = `<p>Votre score : <span class="${score >= totalQuestions / 2 ? 'correct' : 'incorrect'}">${score} / ${totalQuestions}</span> questions correctes.</p>`;
+        });
+
+        // Initialize the quiz by showing the first question
+        document.addEventListener('DOMContentLoaded', () => {
+            showQuestion(currentQuestionIndex);
+        });
+    </script>
+</body>
+</html>
