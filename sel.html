@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographie : Préparation des Pistes au NaCl (Flat Design)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Palette de couleurs "Flat Blue & Green":
+           Bleus: #2196F3 (principal), #0D47A1 (foncé), #64B5F6 (clair), #E3F2FD (très clair)
+           Vert: #4CAF50 (succès), #388E3C (succès foncé)
+           Rouge: #F44336 (danger), #D32F2F (danger foncé)
+           Gris: #424242 (texte), #FAFAFA (fond)
+        */
+        :root {
+            --color-primary: #2196F3;
+            --color-primary-dark: #0D47A1;
+            --color-primary-light: #64B5F6;
+            --color-background: #FAFAFA;
+            --color-text: #424242;
+            --color-success: #4CAF50;
+            --color-success-dark: #388E3C;
+            --color-danger: #F44336;
+            --color-danger-dark: #D32F2F;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, .font-bold, .font-extrabold, .font-black {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+        }
+        h1 { font-weight: 900; }
+
+        .section-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .text-primary { color: var(--color-primary); }
+        .bg-primary { background-color: var(--color-primary); }
+        .text-primary-dark { color: var(--color-primary-dark); }
+        .bg-primary-dark { background-color: var(--color-primary-dark); }
+        .text-success { color: var(--color-success); }
+        .bg-success { background-color: var(--color-success); }
+        .text-danger { color: var(--color-danger); }
+        .bg-danger { background-color: var(--color-danger); }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px; /* Taille fixe pour tous les graphiques */
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .flowchart-step {
+            background-color: var(--color-primary-light);
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: background-color 0.2s;
+        }
+        .flowchart-step:hover { background-color: var(--color-primary); }
+        .flowchart-arrow {
+            font-size: 2rem;
+            color: var(--color-primary);
+            align-self: center;
+            margin: 0.5rem;
+            font-weight: 700;
+        }
+
+        /* Quiz Specific Styles */
+        .quiz-option {
+            background-color: #E3F2FD; /* Lightest blue */
+            color: var(--color-text);
+            border: 1px solid var(--color-primary-light);
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .quiz-option:hover:not(.quiz-correct):not(.quiz-wrong) {
+            background-color: var(--color-primary-light);
+            color: white;
+        }
+        .quiz-option.selected {
+            background-color: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary-dark);
+            font-weight: 500;
+        }
+        .quiz-option.quiz-correct {
+            background-color: var(--color-success);
+            border-color: var(--color-success-dark);
+            color: white;
+            font-weight: 500;
+        }
+        .quiz-option.quiz-wrong {
+            background-color: var(--color-danger);
+            border-color: var(--color-danger-dark);
+            color: white;
+            font-weight: 500;
+        }
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .quiz-feedback.correct {
+            background-color: #E8F5E9; /* Vert très clair */
+            color: var(--color-success-dark);
+        }
+        .quiz-feedback.wrong {
+            background-color: #FFEBEE; /* Rouge très clair */
+            color: var(--color-danger-dark);
+        }
+        .quiz-navigation-btn {
+            background-color: var(--color-primary-dark);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .quiz-navigation-btn:hover:not(:disabled) {
+            background-color: var(--color-primary);
+        }
+        .quiz-navigation-btn:disabled {
+            background-color: #BDBDBD; /* Gris désactivé */
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="bg-primary-dark text-white py-6 shadow-md">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">Maîtrise du Salage des Pistes de Ski</h1>
+            <p class="text-xl font-light opacity-90 mt-2">Guide interactif pour une préparation optimale avec le NaCl</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-10">
+
+        <section class="section-card">
+            <h2 class="text-3xl font-bold text-center mb-8 text-primary-dark">1. Les Fondamentaux : Conditions Cruciales</h2>
+            <p class="text-lg text-center max-w-4xl mx-auto mb-10">Le salage n'est pas universel. Son efficacité dépend entièrement de la présence d'eau liquide dans la neige. Comprendre ces conditions est la première étape vers le succès.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-primary text-white rounded-lg p-6 text-center shadow-lg transform hover:scale-102 transition-transform">
+                    <p class="text-6xl font-black mb-1">≥2-3 %</p>
+                    <p class="text-lg font-medium border-t-2 border-white/50 pt-2">Humidité Neige</p>
+                    <p class="text-sm opacity-90 mt-1">Nécessaire pour dissoudre le sel.</p>
+                </div>
+                <div class="bg-primary text-white rounded-lg p-6 text-center shadow-lg transform hover:scale-102 transition-transform">
+                    <p class="text-6xl font-black mb-1">-2°C / +2°C</p>
+                    <p class="text-lg font-medium border-t-2 border-white/50 pt-2">Température Neige</p>
+                    <p class="text-sm opacity-90 mt-1">Plage optimale pour l'échange thermique.</p>
+                </div>
+                <div class="bg-primary text-white rounded-lg p-6 text-center shadow-lg transform hover:scale-102 transition-transform">
+                    <p class="text-6xl font-black mb-1">≥300 kg/m³</p>
+                    <p class="text-lg font-medium border-t-2 border-white/50 pt-2">Densité Neige</p>
+                    <p class="text-sm opacity-90 mt-1">Garantit une bonne cohésion et structure.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mt-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-primary-dark">Adéquation des Types de Neige au Salage</h3>
+                    <p class="text-base mb-4">Ce graphique montre clairement pourquoi la neige humide et artificielle sont idéales, tandis que la neige poudreuse est à proscrire. L'eau libre est la clé !</p>
+                    <p class="text-base text-danger font-medium">Attention: La neige poudreuse est 0% efficace, le sel restera inerte.</p>
+                </div>
+                <div class="chart-container flex items-center justify-center">
+                    <canvas id="suitabilityChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-3xl font-bold text-center mb-8 text-primary-dark">2. Le Mécanisme : Science du Durcissement</h2>
+            <p class="text-lg text-center max-w-4xl mx-auto mb-10">Le salage déclenche un cycle précis de fonte et de regel, abaissant le point de congélation et extrayant la chaleur pour transformer la neige en une couche de glace plus dure.</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="chart-container flex items-center justify-center">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-primary-dark">Chronologie de l'Effet sur la Dureté</h3>
+                    <p class="text-base mb-4">Initialement, la neige s'adoucit (phase critique). C'est le moment idéal pour le lissage par les skieurs glisseurs. Ensuite, le regel durcit progressivement la piste.</p>
+                    <ul class="list-disc list-inside space-y-2 text-base">
+                        <li>**T=0-15 min:** Dissolution du sel & Ramollissement. <strong class="text-danger">(Phase critique!)</strong></li>
+                        <li>**T=15-45 min:** Fonte maximale, début du regel.</li>
+                        <li>**T=45-90 min:** Regel et solidification complète.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-3xl font-bold text-center mb-8 text-primary-dark">3. Application Pratique : Dosage et Granulométrie</h2>
+            <p class="text-lg text-center max-w-4xl mx-auto mb-10">Un épandage uniforme et un dosage correct sont essentiels. Le choix de la granulométrie impacte directement la vitesse et la profondeur d'action.</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+                <div class="chart-container lg:col-span-2 flex items-center justify-center">
+                    <canvas id="grainChart"></canvas>
+                </div>
+                <div class="chart-container flex items-center justify-center">
+                    <canvas id="mixChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-primary text-white rounded-lg p-8 text-center mt-12 shadow-lg">
+                <p class="text-xl font-medium opacity-90">Dosage Standard Recommandé</p>
+                <span class="text-6xl md:text-7xl font-black block my-2">100-200 <span class="text-4xl font-bold">g/m²</span></span>
+                <p class="text-lg opacity-90">À ajuster en fonction de l'humidité de la neige et des températures.</p>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="text-3xl font-bold text-center mb-8 text-primary-dark">4. Protocole d'Action : Le Flux de Travail</h2>
+            <p class="text-lg text-center max-w-4xl mx-auto mb-10">La réussite d'un salage réside dans un timing et une exécution rigoureux. Suivez ces étapes pour une piste parfaitement préparée.</p>
+
+            <div class="bg-gray-50 p-6 rounded-lg shadow-inner">
+                <h3 class="text-2xl font-bold mb-6 text-primary-dark text-center">Étapes Clés du Salage des Pistes</h3>
+                <div class="flex flex-col md:flex-row justify-center items-stretch flex-wrap gap-4">
+                    <div class="flowchart-step md:w-1/5">T-60: Vérification & Préparation</div>
+                    <div class="flowchart-arrow hidden md:block">&rarr;</div>
+                    <div class="flowchart-step md:w-1/5">T-45: Épandage Uniforme du Sel</div>
+                    <div class="flowchart-arrow hidden md:block">&rarr;</div>
+                    <div class="flowchart-step md:w-1/5">T-30: Lissage Actif (Skieurs Glisseurs)</div>
+                    <div class="flowchart-arrow hidden md:block">&rarr;</div>
+                    <div class="flowchart-step md:w-1/5">T-0: Contrôle Final & Ouverture</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz-section" class="section-card bg-primary-dark text-white shadow-xl">
+            <h2 class="text-3xl font-bold text-center mb-6">5. Testez Vos Connaissances !</h2>
+            <p class="text-lg text-center max-w-3xl mx-auto mb-8 opacity-90">Question <span id="current-q-number">1</span> sur 10</p>
+
+            <div id="quiz-card" class="bg-white p-6 rounded-lg shadow-lg text-gray-800">
+                
+
+</div>
+            
+            <div id="quiz-feedback-container" class="mt-4"></div>
+
+            <div class="mt-8 flex justify-between gap-4">
+                <button id="prev-btn" class="quiz-navigation-btn" onclick="prevQuestion()" disabled>
+                    &larr; Précédent
+                </button>
+                <button id="next-btn" class="quiz-navigation-btn" onclick="nextQuestion()">
+                    Suivant &rarr;
+                </button>
+                <button id="show-score-btn" class="quiz-navigation-btn hidden bg-success hover:bg-success-dark" onclick="showResults()">
+                    Afficher le Score
+                </button>
+            </div>
+
+            <div id="quiz-result" class="mt-6 text-center text-3xl font-bold p-4 rounded-lg hidden"></div>
+        </section>
+
+    </main>
+
+    <footer class="bg-primary-dark text-white py-6 mt-10 shadow-inner">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm opacity-80">Source des données et expertise : Osi Inglin, 2024.</p>
+            <p class="text-xs opacity-70 mt-1">Infographie interactive générée sans SVG ni Mermaid JS.</p>
+        </div>
+    </footer>
+
+    <script>
+        const colors = {
+            primary: '#2196F3', primaryDark: '#0D47A1', primaryLight: '#64B5F6',
+            background: '#FAFAFA', text: '#424242',
+            success: '#4CAF50', successDark: '#388E3C',
+            danger: '#F44336', dangerDark: '#D32F2F',
+            lightBackground: '#E3F2FD' // Very light blue for quiz options
+        };
+        const gridColor = '#ECEFF1'; // Light gray for charts
+
+        const quizQuestions = [
+            { question: "Quelle est la plage de température idéale pour la neige lors du salage ?", options: ["-10°C / -5°C", "-2°C / +2°C", "+3°C / +7°C", "Moins de -15°C"], answer: "-2°C / +2°C" },
+            { question: "Quelle unité est utilisée pour le dosage standard de sel ?", options: ["kg/km²", "g/m²", "kg/h", "Litres/m"], answer: "g/m²" },
+            { question: "Combien de temps dure approximativement la 'phase critique' de ramollissement après épandage ?", options: ["5 minutes", "15 minutes", "1 heure", "3 heures"], answer: "15 minutes" },
+            { question: "Quand doit idéalement être effectué le lissage par skieurs glisseurs ?", options: ["Avant le salage", "Dès l'ouverture de la piste", "Entre T=5 et T=10 min après épandage", "Après 2 heures de regel"], answer: "Entre T=5 et T=10 min après épandage" },
+            { question: "Quelle est la densité minimale de neige requise pour un salage réussi ?", options: ["100 kg/m³", "300+ kg/m³", "500 kg/m³", "La densité n'est pas pertinente"], answer: "300+ kg/m³" },
+            { question: "Quel type de sel est privilégié pour une pénétration profonde ?", options: ["Sel liquide (saumure)", "Gros sel (2-5mm)", "Sel fin (0.1-1mm)", "Sel de cuisine"], answer: "Gros sel (2-5mm)" },
+            { question: "Quelle est l'efficacité du salage sur la neige poudreuse sèche ?", options: ["Très élevée", "Moyenne, mais possible", "Faible ou nulle", "Maximale"], answer: "Faible ou nulle" },
+            { question: "Quel pourcentage de gros grains est recommandé dans le mélange granulométrique standard ?", options: ["10 %", "40 %", "60 %", "100 %"], answer: "60 %" },
+            { question: "Combien de temps faut-il pour atteindre la dureté maximale de la piste après salage ?", options: ["Moins de 30 minutes", "Environ 90 minutes", "Plus de 4 heures", "24 heures"], answer: "Environ 90 minutes" },
+            { question: "Quel est l'objectif principal du salage des pistes ?", options: ["Réduire l'épaisseur de neige", "Empêcher la neige de fondre", "Durcir et stabiliser la surface de la piste", "Améliorer la glisse des skis"], answer: "Durcir et stabiliser la surface de la piste" }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(quizQuestions.length).fill(null);
+        let quizSubmitted = false;
+
+        function wrapLabel(label) {
+            const maxLength = 16;
+            if (typeof label !== 'string' || label.length <= maxLength) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).trim().length > maxLength && currentLine !== '') {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            });
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        }
+
+        function tooltipTitleCallback(tooltipItems) {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            return Array.isArray(label) ? label.join(' ') : label;
+        }
+        
+        const defaultChartOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: { title: tooltipTitleCallback },
+                    backgroundColor: colors.primaryDark,
+                    titleFont: { size: 14, weight: 'bold' },
+                    bodyFont: { size: 12 },
+                    padding: 10,
+                    cornerRadius: 4
+                },
+                legend: {
+                    labels: { color: colors.text, font: { size: 12 } }
+                }
+            },
+            scales: {
+                y: {
+                    ticks: { color: colors.text, font: { size: 12 } },
+                    grid: { color: gridColor, drawTicks: false },
+                    title: { display: true, color: colors.text, font: { size: 14, weight: '500' } }
+                },
+                x: {
+                    ticks: { color: colors.text, font: { size: 12 } },
+                    grid: { display: false }
+                }
+            }
+        };
+
+        function initializeCharts() {
+            const suitabilityCtx = document.getElementById('suitabilityChart').getContext('2d');
+            const suitabilityLabels = ['Neige Poudreuse (Sèche)', 'Neige Artificielle', 'Neige Humide (Mouillée)'];
+            new Chart(suitabilityCtx, {
+                type: 'bar',
+                data: {
+                    labels: suitabilityLabels.map(wrapLabel),
+                    datasets: [{
+                        label: 'Adéquation au Salage (Score / 10)',
+                        data: [0, 8, 10],
+                        backgroundColor: [colors.danger, colors.primaryLight, colors.primary],
+                        borderColor: [colors.danger, colors.primaryLight, colors.primaryDark],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    ...defaultChartOptions,
+                    scales: {
+                        y: { ...defaultChartOptions.scales.y, title: { ...defaultChartOptions.scales.y.title, text: 'Adéquation (Score / 10)' }, max: 10, beginAtZero: true },
+                        x: defaultChartOptions.scales.x
+                    },
+                    plugins: { ...defaultChartOptions.plugins, legend: { display: false } }
+                }
+            });
+
+            const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+            new Chart(timelineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['T=0', 'T=15 min', 'T=45 min', 'T=90 min'],
+                    datasets: [{
+                        label: 'Dureté de la Piste (Arbitraire)',
+                        data: [3, 1, 8, 10],
+                        fill: true,
+                        backgroundColor: 'rgba(33, 150, 243, 0.2)', // primary color with transparency
+                        borderColor: colors.primary,
+                        pointBackgroundColor: colors.primaryDark,
+                        pointRadius: 5,
+                        tension: 0.2
+                    }]
+                },
+                options: {
+                    ...defaultChartOptions,
+                    scales: {
+                        y: { ...defaultChartOptions.scales.y, title: { ...defaultChartOptions.scales.y.title, text: 'Dureté (1=Molle, 10=Dure)' }, min: 0, max: 10 },
+                        x: { ...defaultChartOptions.scales.x, title: { display: true, text: 'Temps après Épandage', color: colors.text, font: { size: 14, weight: '500' } } }
+                    },
+                    plugins: { ...defaultChartOptions.plugins, legend: { display: false } }
+                }
+            });
+
+            // CHART 3: Granulométrie - Mise à jour des labels pour la clarté (Temps d'Action)
+            const grainCtx = document.getElementById('grainChart').getContext('2d');
+            const grainLabels = ['Sel Fin (0.1-1mm)', 'Sel Gros (2-5mm)'];
+            new Chart(grainCtx, {
+                type: 'bar',
+                data: {
+                    labels: grainLabels.map(wrapLabel),
+                    datasets: [
+                        {
+                            label: 'Temps d\'Action Initial (min)', // MODIFIÉ
+                            data: [15, 45],
+                            backgroundColor: colors.primary,
+                            yAxisID: 'yMin'
+                        },
+                        {
+                            label: 'Profondeur d\'Effet Maximale (cm)', // MODIFIÉ
+                            data: [1.5, 4.5],
+                            backgroundColor: colors.primaryLight,
+                            yAxisID: 'yCm'
+                        }
+                    ]
+                },
+                options: {
+                    ...defaultChartOptions,
+                    scales: {
+                        yMin: {
+                            type: 'linear', position: 'left',
+                            title: { display: true, text: 'Temps d\'Action (min)', color: colors.primary, font: { size: 14, weight: '500' } }, // MODIFIÉ
+                            ticks: { color: colors.primary, beginAtZero: true }, grid: { color: gridColor }
+                        },
+                        yCm: {
+                            type: 'linear', position: 'right',
+                            title: { display: true, text: 'Profondeur d\'Effet (cm)', color: colors.primaryLight, font: { size: 14, weight: '500' } }, // MODIFIÉ
+                            ticks: { color: colors.primaryLight, beginAtZero: true }, grid: { display: false }
+                        },
+                        x: defaultChartOptions.scales.x
+                    },
+                    plugins: { ...defaultChartOptions.plugins, legend: { position: 'bottom' } }
+                }
+            });
+            // FIN DE LA MISE À JOUR DU CHART 3
+
+            const mixCtx = document.getElementById('mixChart').getContext('2d');
+            new Chart(mixCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Grains Gros (60%)', 'Sel Fin (40%)'],
+                    datasets: [{
+                        label: 'Mélange Recommandé',
+                        data: [60, 40],
+                        backgroundColor: [colors.primaryDark, colors.primary],
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    ...defaultChartOptions,
+                    scales: { y: { display: false }, x: { display: false } },
+                    plugins: { ...defaultChartOptions.plugins, legend: { position: 'bottom' } }
+                }
+            });
+        }
+
+        function renderQuestion() {
+            const q = quizQuestions[currentQuestionIndex];
+            const container = document.getElementById('quiz-card');
+            const questionNumberSpan = document.getElementById('current-q-number');
+            questionNumberSpan.textContent = currentQuestionIndex + 1;
+
+            container.innerHTML = `
+                <p class="text-xl font-medium mb-5 text-primary-dark">${q.question}</p>
+                <div class="space-y-3">
+                    ${q.options.map((option, oIndex) => {
+                        let classes = 'quiz-option';
+                        const isAnswered = userAnswers[currentQuestionIndex] !== null;
+
+                        if (isAnswered) {
+                            // Si le quiz est soumis ou la question est répondue
+                            if (option === q.answer) {
+                                classes += ' quiz-correct';
+                            } else if (userAnswers[currentQuestionIndex] === option) {
+                                classes += ' quiz-wrong';
+                            }
+                        } else if (userAnswers[currentQuestionIndex] === option) {
+                            classes += ' selected';
+                        }
+                        
+                        const onClickAttr = isAnswered ? '' : `onclick="handleSelection('${option}')"`;
+
+                        return `
+                            <div class="${classes}" data-option-value="${option}" ${onClickAttr}>
+                                ${option}
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+            
+            // Clear previous feedback
+            document.getElementById('quiz-feedback-container').innerHTML = '';
+            
+            // If an answer was already selected for this question, show text feedback and disable options
+            if (userAnswers[currentQuestionIndex] !== null) {
+                showFeedback(userAnswers[currentQuestionIndex]);
+                document.querySelectorAll('#quiz-card .quiz-option').forEach(opt => opt.onclick = null);
+            }
+
+            updateNavigationButtons();
+        }
+
+        function handleSelection(selectedOption) {
+            if (quizSubmitted) return; // Prevent changing answers after quiz submission
+            
+            userAnswers[currentQuestionIndex] = selectedOption;
+            
+            showFeedback(selectedOption);
+
+            // Visually update selection AND mark correct/wrong
+            const options = document.querySelectorAll('#quiz-card .quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'quiz-correct', 'quiz-wrong');
+                opt.onclick = null; // Disable future clicks
+                
+                const optionValue = opt.dataset.optionValue;
+                const currentQuestion = quizQuestions[currentQuestionIndex];
+
+                if (optionValue === currentQuestion.answer) {
+                    opt.classList.add('quiz-correct');
+                } else if (optionValue === selectedOption) {
+                    opt.classList.add('quiz-wrong');
+                }
+            });
+        }
+
+        function showFeedback(selectedOption) {
+            const feedbackContainer = document.getElementById('quiz-feedback-container');
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            feedbackContainer.innerHTML = ''; // Clear previous feedback
+
+            if (selectedOption === currentQuestion.answer) {
+                feedbackContainer.innerHTML = `<div class="quiz-feedback correct">Correct ! Bien joué.</div>`;
+            } else {
+                feedbackContainer.innerHTML = `<div class="quiz-feedback wrong">Faux. La bonne réponse était : "${currentQuestion.answer}".</div>`;
+            }
+        }
+
+
+        function nextQuestion() {
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            } else if (currentQuestionIndex === quizQuestions.length - 1) {
+                // If it's the last question and 'Next' is clicked, show results
+                showResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function updateNavigationButtons() {
+            const nextBtn = document.getElementById('next-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const showScoreBtn = document.getElementById('show-score-btn');
+
+            prevBtn.disabled = currentQuestionIndex === 0;
+
+            if (quizSubmitted) {
+                nextBtn.classList.add('hidden');
+                showScoreBtn.classList.add('hidden');
+                prevBtn.textContent = 'Réviser &larr;';
+                prevBtn.disabled = false;
+                return;
+            }
+
+            // If on the last question, show "Show Score" button, hide "Next"
+            if (currentQuestionIndex === quizQuestions.length - 1) {
+                nextBtn.classList.add('hidden');
+                showScoreBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                showScoreBtn.classList.add('hidden');
+            }
+        }
+
+        function showResults() {
+            quizSubmitted = true;
+            let correctCount = 0;
+            quizQuestions.forEach((q, index) => {
+                if (userAnswers[index] === q.answer) {
+                    correctCount++;
+                }
+            });
+
+            const totalQuestions = quizQuestions.length;
+            const scorePercentage = (correctCount / totalQuestions) * 100;
+            const resultDiv = document.getElementById('quiz-result');
+
+            resultDiv.innerHTML = `Votre score final: ${correctCount} / ${totalQuestions} (${scorePercentage.toFixed(0)}%)`;
+            resultDiv.classList.remove('hidden');
+
+            // Apply styling based on score
+            if (scorePercentage >= 75) {
+                resultDiv.classList.add('bg-success', 'text-white');
+                resultDiv.classList.remove('bg-danger', 'bg-yellow-500', 'text-dark');
+            } else if (scorePercentage >= 50) {
+                resultDiv.classList.add('bg-yellow-500', 'text-dark'); // Yellow for medium scores
+                resultDiv.classList.remove('bg-success', 'bg-danger', 'text-white');
+            } else {
+                resultDiv.classList.add('bg-danger', 'text-white');
+                resultDiv.classList.remove('bg-success', 'bg-yellow-500', 'text-dark');
+            }
+            
+            // Re-render the current question to show final correction
+            renderQuestion();
+            updateNavigationButtons();
+            
+            // To ensure navigation is for review, not advancing
+            document.getElementById('prev-btn').textContent = 'Réviser &larr;';
+            document.getElementById('prev-btn').disabled = false; // Always enabled for review
+        }
+
+        window.onload = function () {
+            initializeCharts();
+            renderQuestion();
+        };
+    </script>
+</body>
+</html>
