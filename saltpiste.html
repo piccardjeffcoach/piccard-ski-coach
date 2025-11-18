@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-pt-20">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographie | Préparation des Pistes au NaCl</title>
+    
+    <!-- Méta-données pour le référencement et le partage social (Open Graph) -->
+    <meta name="description" content="Guide interactif pour la préparation des pistes de ski de compétition au sel (NaCl). Inclut un calculateur de dosage basé sur la température et l'humidité.">
+    <meta property="og:title" content="Préparation des Pistes au NaCl - Guide Interactif">
+    <meta property="og:description" content="Calculateur de dosage et chronologie optimale pour la préparation des pistes de ski de compétition.">
+    <meta property="og:type" content="website">
+    
+    <!-- Tailwind CSS via CDN pour un déploiement rapide sans build step -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Polices Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Styles pour la chronologie (Flow) */
+        .flow-step {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: #eff6ff;
+        }
+        .flow-arrow {
+            font-size: 2.5rem;
+            color: #2563eb;
+            align-self: center;
+            margin: 0 1rem;
+        }
+
+        /* Styles personnalisés pour les curseurs (Sliders) */
+        input[type=range] {
+             -webkit-appearance: none;
+             appearance: none;
+             background: transparent;
+             cursor: pointer;
+             width: 100%;
+        }
+        /* Piste du curseur */
+        input[type=range]::-webkit-slider-runnable-track {
+            background: #dbeafe;
+            height: 0.75rem;
+            border-radius: 1rem;
+            border: 1px solid #bfdbfe;
+        }
+        input[type=range]::-moz-range-track {
+            background: #dbeafe;
+            height: 0.75rem;
+            border-radius: 1rem;
+            border: 1px solid #bfdbfe;
+        }
+        /* Pouce du curseur */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            margin-top: -6px;
+            background-color: #2563eb;
+            height: 1.5rem;
+            width: 1.5rem;
+            border-radius: 50%;
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+         input[type=range]::-moz-range-thumb {
+            border: none;
+            border-radius: 50%;
+            background-color: #2563eb;
+            height: 1.5rem;
+            width: 1.5rem;
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-blue-800">Préparation des Pistes au NaCl</h1>
+            <div class="flex space-x-4 mt-4 md:mt-0 text-sm md:text-base">
+                <a href="#fondamentaux" class="text-gray-700 hover:text-blue-600 transition duration-150">Fondamentaux</a>
+                <a href="#mecanisme" class="text-gray-700 hover:text-blue-600 transition duration-150">Mécanisme</a>
+                <a href="#application" class="text-gray-700 hover:text-blue-600 transition duration-150">Application</a>
+                <a href="#recommandations" class="text-gray-700 hover:text-blue-600 transition duration-150">Recommandations</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section id="hero" class="text-center p-8 bg-blue-50 border-b-4 border-blue-600 rounded-lg shadow-xl mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-blue-900 mb-4">Guide Pratique d'Utilisation du Sel (NaCl) sur Pistes</h2>
+            <p class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">Une introduction visuelle et des recommandations clés pour les responsables de pistes et entraîneurs, visant une préparation optimale des surfaces de course.</p>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Section 1: Fondamentaux -->
+            <div class="md:col-span-2 lg:col-span-3">
+                <h3 id="fondamentaux" class="text-3xl font-bold text-blue-700 mb-6 border-b pb-2">1. Fondamentaux : Types et Propriétés de la Neige</h3>
+                <p class="text-lg text-gray-700 mb-8">La réussite du salage dépend entièrement de l'état initial de la neige. Le sel a besoin d'eau libre pour se dissoudre et initier le processus de durcissement. Une densité et une humidité suffisantes sont indispensables.</p>
+            </div>
+
+            <div class="card bg-white border-t-4 border-red-500">
+                <h4 class="text-2xl font-bold text-gray-800 mb-3"><span class="text-3xl mr-2">❄️</span>Poudreuse (Sèche)</h4>
+                <p class="text-gray-700 mb-2"><strong>Densité :</strong> 100–300 kg/m³</p>
+                <p class="text-gray-700 mb-4"><strong>Humidité :</strong> Très faible (< 1%)</p>
+                <div class="p-3 bg-red-100 text-red-800 font-bold rounded-lg text-center">Ne convient pas</div>
+                <p class="text-sm text-gray-500 mt-2">Le manque d'eau libre empêche la dissolution et donc l'action du sel.</p>
+            </div>
+
+            <div class="card bg-white border-t-4 border-green-500">
+                <h4 class="text-2xl font-bold text-gray-800 mb-3"><span class="text-3xl mr-2">💧</span>Humide (Mouillée)</h4>
+                <p class="text-gray-700 mb-2"><strong>Densité :</strong> 400–600 kg/m³</p>
+                <p class="text-gray-700 mb-4"><strong>Humidité :</strong> 3–15%</p>
+                <div class="p-3 bg-green-100 text-green-800 font-bold rounded-lg text-center">Idéalement adaptée</div>
+                <p class="text-sm text-gray-500 mt-2">La quantité d'eau libre permet une réaction saline rapide et efficace.</p>
+            </div>
+
+            <div class="card bg-white border-t-4 border-blue-500">
+                <h4 class="text-2xl font-bold text-gray-800 mb-3"><span class="text-3xl mr-2">⚙️</span>Neige Artificielle</h4>
+                <p class="text-gray-700 mb-2"><strong>Densité :</strong> 350–500 kg/m³</p>
+                <p class="text-gray-700 mb-4"><strong>Humidité :</strong> Variable</p>
+                <div class="p-3 bg-blue-100 text-blue-800 font-bold rounded-lg text-center">Bien adaptée</div>
+                <p class="text-sm text-gray-500 mt-2">Réagit de manière fiable, mais nécessite d'être suffisamment compactée et hydratée.</p>
+            </div>
+            
+            <div class="md:col-span-3 lg:col-span-3 card bg-blue-50">
+                <h4 class="text-2xl font-bold text-blue-700 mb-4 text-center">Le Seuil d'Activation du Sel</h4>
+                <div class="flex flex-col md:flex-row justify-around text-center">
+                    <div class="p-4 md:border-r border-blue-200 md:w-1/3">
+                        <p class="text-lg text-gray-700">Humidité Minimale</p>
+                        <p class="text-5xl font-extrabold text-blue-600 mt-2">$\ge 3\%$</p>
+                        <p class="text-sm text-gray-500 mt-1">Nécessaire pour initier la dissolution.</p>
+                    </div>
+                    <div class="p-4 md:w-1/3">
+                        <p class="text-lg text-gray-700">Température de l'Air (Optimale)</p>
+                        <p class="text-5xl font-extrabold text-blue-600 mt-2">$-2^\circ \text{C}$ à $+2^\circ \text{C}$</p>
+                        <p class="text-sm text-gray-500 mt-1">Meilleur équilibre entre fonte et regel.</p>
+                    </div>
+                    <div class="p-4 md:border-l border-blue-200 md:w-1/3">
+                        <p class="text-lg text-gray-700">Densité (Compactage)</p>
+                        <p class="text-5xl font-extrabold text-blue-600 mt-2">$\ge 300~\text{kg/m}^3$</p>
+                        <p class="text-sm text-gray-500 mt-1">Assure une surface suffisamment préparée.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Mécanisme -->
+            <div class="md:col-span-3 lg:col-span-3">
+                <h3 id="mecanisme" class="text-3xl font-bold text-blue-700 mb-6 border-b pb-2 mt-8">2. Le Mécanisme d'Action (Processus de Durcissement)</h3>
+                <p class="text-lg text-gray-700 mb-8">Le salage est un phénomène endothermique : il absorbe de la chaleur, ce qui refroidit la neige et la force à regeler en une structure cristalline plus dure. Le timing de ce processus est vital.</p>
+                <div class="flex flex-wrap justify-center items-center">
+                    <div class="flow-step">
+                        <p class="text-4xl font-extrabold text-blue-900 mb-2">1. Dissolution</p>
+                        <p class="text-gray-600">Le sel absorbe la chaleur latente pour se dissoudre dans l'eau libre de la neige.</p>
+                    </div>
+                    <div class="flow-arrow hidden md:flex">➔</div>
+                    <div class="flow-arrow flex md:hidden justify-center my-2">↓</div>
+                    <div class="flow-step">
+                        <p class="text-4xl font-extrabold text-blue-900 mb-2">2. Abaissement $T_g$</p>
+                        <p class="text-gray-600">Le point de congélation ($T_g$) de la solution saline s'abaisse à $\approx -21^\circ \text{C}$.</p>
+                    </div>
+                    <div class="flow-arrow hidden md:flex">➔</div>
+                    <div class="flow-arrow flex md:hidden justify-center my-2">↓</div>
+                    <div class="flow-step">
+                        <p class="text-4xl font-extrabold text-blue-900 mb-2">3. Fonte Active</p>
+                        <p class="text-gray-600">La glace fond à $0^\circ \text{C}$, car c'est supérieur au $T_g$ de la solution (Endothermique).</p>
+                    </div>
+                    <div class="flow-arrow hidden md:flex">➔</div>
+                    <div class="flow-arrow flex md:hidden justify-center my-2">↓</div>
+                    <div class="flow-step">
+                        <p class="text-4xl font-extrabold text-blue-900 mb-2">4. Solidification</p>
+                        <p class="text-gray-600">La masse de neige refroidie se solidifie en une couche dure, bien en dessous de $0^\circ \text{C}$.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Application & Calculateur -->
+            <div class="md:col-span-3 lg:col-span-3">
+                <h3 id="application" class="text-3xl font-bold text-blue-700 mb-6 border-b pb-2 mt-8">3. Application Pratique et Dosage</h3>
+                <p class="text-lg text-gray-700 mb-8">Le choix du grain de sel et la quantité appliquée sont déterminants pour la vitesse et la profondeur du durcissement.</p>
+            </div>
+
+            <div class="card bg-white border-l-4 border-yellow-500">
+                <h4 class="text-2xl font-bold text-gray-800 mb-3">Sel Fin (0,1–1 mm)</h4>
+                <ul class="text-gray-700 space-y-2">
+                    <li><span class="font-bold">Effet :</span> Surface (1–2 cm)</li>
+                    <li><span class="font-bold">Rapidité :</span> Très rapide (10–20 min)</li>
+                    <li><span class="font-bold">Utilisation :</span> Ajustements rapides ou faible épaisseur de neige.</li>
+                </ul>
+            </div>
+
+            <div class="card bg-white border-l-4 border-blue-500">
+                <h4 class="text-2xl font-bold text-gray-800 mb-3">Sel Gros Grains (2–5 mm)</h4>
+                <ul class="text-gray-700 space-y-2">
+                    <li><span class="font-bold">Effet :</span> Profond (3–6 cm)</li>
+                    <li><span class="font-bold">Rapidité :</span> Lent (30–60 min)</li>
+                    <li><span class="font-bold">Utilisation :</span> Durcissement de base, effet durable.</li>
+                </ul>
+            </div>
+
+            <div class="card bg-blue-100 border-l-4 border-blue-700">
+                <h4 class="text-2xl font-bold text-blue-800 mb-3">Mélange Idéal</h4>
+                <p class="text-gray-700 text-lg"><strong>Ratio :</strong> 60% Gros, 40% Fin</p>
+                <p class="text-gray-600 mt-2">Le mélange offre le meilleur des deux mondes : un début d'action rapide suivi d'un durcissement en profondeur.</p>
+            </div>
+
+            <!-- Calculateur Interactif -->
+            <div class="md:col-span-3 lg:col-span-3 card">
+                <h4 class="text-2xl font-bold text-blue-800 mb-6 text-center">Calculateur de Dosage Interactif</h4>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    
+                    <!-- Sliders -->
+                    <div class="space-y-6">
+                        <div>
+                            <label for="temp-slider" class="flex justify-between font-semibold text-gray-700 mb-2">
+                                <span>Température de l'Air/Neige</span>
+                                <span id="temp-value" class="font-bold text-blue-700 text-lg">0 °C</span>
+                            </label>
+                            <input id="temp-slider" type="range" min="-5" max="5" value="0" step="0.5" class="w-full">
+                        </div>
+                        <div>
+                            <label for="humidity-slider" class="flex justify-between font-semibold text-gray-700 mb-2">
+                                <span>Humidité de la Neige (Eau Libre)</span>
+                                <span id="humidity-value" class="font-bold text-blue-700 text-lg">6 %</span>
+                            </label>
+                            <input id="humidity-slider" type="range" min="0" max="15" value="6" step="0.5" class="w-full">
+                        </div>
+                    </div>
+
+                    <!-- Resultats -->
+                    <div class="bg-blue-50 p-6 rounded-lg border border-blue-200 text-center">
+                        <p class="text-lg font-semibold text-blue-900">Dosage Recommandé</p>
+                        <p id="dosage-result" class="text-6xl font-extrabold text-blue-700 my-2">150</p>
+                        <p class="text-xl font-bold text-blue-900">g/m²</p>
+                        
+                        <!-- Visual Bar -->
+                        <div class="w-full bg-blue-200 rounded-full h-4 mt-4 overflow-hidden border border-blue-300">
+                            <div id="dosage-bar" class="bg-blue-600 h-full rounded-full transition-all duration-300" style="width: 50%;"></div>
+                        </div>
+                        
+                        <p id="dosage-message" class="text-sm text-gray-600 mt-4 h-10">Conditions modérées. Mélange standard (60% gros / 40% fin) recommandé.</p>
+                    </div>
+
+                </div>
+                 <p class="text-center text-sm text-gray-500 mt-6">Attention: un surdosage (plus de $300~\text{g/m}^2$) est inefficace et coûteux. La neige ne peut pas absorber une quantité infinie de sel.</p>
+            </div>
+
+            <!-- Section 4: Recommandations -->
+            <div class="md:col-span-3 lg:col-span-3">
+                <h3 id="recommandations" class="text-3xl font-bold text-blue-700 mb-6 border-b pb-2 mt-8">4. Recommandations et Chronologie</h3>
+                <p class="text-lg text-gray-700 mb-8">Le respect d'un flux de travail précis garantit que le durcissement est maximal au moment de la course ou de l'entraînement.</p>
+            </div>
+
+            <div class="md:col-span-3 lg:col-span-3 card bg-green-50">
+                <h4 class="text-2xl font-bold text-green-700 mb-4">La Chronologie Optimale (T = Heure d'Ouverture de Piste)</h4>
+                <div class="relative w-full overflow-x-auto">
+                    <div class="flex items-center justify-between min-w-[700px] py-4">
+                        <div class="absolute top-1/2 left-0 w-full h-1 bg-gray-300 transform -translate-y-1/2"></div>
+                        <!-- Step T-60 -->
+                        <div class="flex-1 text-center relative z-10">
+                            <div class="w-8 h-8 bg-blue-600 border-4 border-white rounded-full mx-auto mb-2 shadow-md"></div>
+                            <p class="font-bold text-lg text-blue-800">T-60 Min.</p>
+                            <p class="text-xs text-gray-600">Compaction / Lissage Initial</p>
+                        </div>
+                        <!-- Step T-45 -->
+                        <div class="flex-1 text-center relative z-10">
+                            <div class="w-8 h-8 bg-blue-600 border-4 border-white rounded-full mx-auto mb-2 shadow-md"></div>
+                            <p class="font-bold text-lg text-blue-800">T-45 Min.</p>
+                            <p class="text-xs text-gray-600">Épandage du Sel</p>
+                        </div>
+                        <!-- Step T-30 -->
+                        <div class="flex-1 text-center relative z-10">
+                            <div class="w-8 h-8 bg-blue-600 border-4 border-white rounded-full mx-auto mb-2 shadow-md"></div>
+                            <p class="font-bold text-lg text-blue-800">T-30 Min.</p>
+                            <p class="text-xs text-gray-600 font-extrabold text-red-600">Lissage Clé (Skieurs)</p>
+                        </div>
+                        <!-- Step T-15 -->
+                        <div class="flex-1 text-center relative z-10">
+                            <div class="w-8 h-8 bg-blue-600 border-4 border-white rounded-full mx-auto mb-2 shadow-md"></div>
+                            <p class="font-bold text-lg text-blue-800">T-15 Min.</p>
+                            <p class="text-xs text-gray-600">Regel / Contrôle</p>
+                        </div>
+                        <!-- Step T-0 -->
+                        <div class="flex-1 text-center relative z-10">
+                            <div class="w-8 h-8 bg-blue-600 border-4 border-white rounded-full mx-auto mb-2 shadow-md"></div>
+                            <p class="font-bold text-lg text-blue-800">T-0</p>
+                            <p class="text-xs text-gray-600">Ouverture de Piste</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 bg-white rounded-lg border border-green-300">
+                    <h5 class="text-xl font-bold text-green-700">Le Lissage Crucial à T-30 Min.</h5>
+                    <p class="text-gray-700 mt-2">Le moment où le sel a fait fondre la neige est critique. L'intervention de $\approx 4-5$ skieurs de course pour lisser la surface pendant cette phase permet de créer une couche finale homogène et dure.</p>
+                </div>
+            </div>
+            
+            <div class="card md:col-span-2 lg:col-span-3">
+                <h4 class="text-2xl font-bold text-blue-800 mb-4">Agir de Manière Responsable</h4>
+                <ul class="list-disc list-inside space-y-3 text-gray-700 text-lg ml-4">
+                    <li><span class="font-bold text-blue-600">Documentation :</span> Toujours documenter l'application (dosage, conditions) pour apprendre et ajuster les futures préparations.</li>
+                    <li><span class="font-bold text-blue-600">Environnement :</span> Respecter strictement les réglementations (e.g., distance minimale de $10~\text{m}$ des cours d'eau).</li>
+                    <li><span class="font-bold text-blue-600">Formation :</span> S'assurer que seul le personnel formé et compétent effectue l'épandage.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center py-8 text-gray-600 text-sm border-t mt-12">
+        <p>Source : Osi Inglin, basé sur les méthodes de préparation de piste au $\text{NaCl}$.</p>
+        <p>Infographie générée par IA.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Logique du Calculateur Interactif ---
+            const tempSlider = document.getElementById('temp-slider');
+            const humiditySlider = document.getElementById('humidity-slider');
+            const tempValue = document.getElementById('temp-value');
+            const humidityValue = document.getElementById('humidity-value');
+            const dosageResult = document.getElementById('dosage-result');
+            const dosageBar = document.getElementById('dosage-bar');
+            const dosageMessage = document.getElementById('dosage-message');
+
+            const maxDosage = 300; // g/m² max pour la barre visuelle
+
+            function updateDosage() {
+                if (!tempSlider) return;
+
+                const temp = parseFloat(tempSlider.value);
+                const humidity = parseFloat(humiditySlider.value);
+
+                // Mise à jour des valeurs affichées à côté des sliders
+                tempValue.textContent = `${temp.toFixed(1)} °C`;
+                humidityValue.textContent = `${humidity.toFixed(1)} %`;
+
+                let dosage = 0;
+                let message = "";
+
+                // Logique décisionnelle basée sur les abaques standards
+                if (humidity < 3.0) {
+                    dosage = 0;
+                    message = "Neige trop sèche. Salage non recommandé (manque d'eau libre).";
+                } else if (temp > 3.0 && humidity > 8.0) {
+                    dosage = 250;
+                    message = "Conditions très humides. Utiliser sel gros grains pour effet profond.";
+                } else if (temp > 0.5 && humidity > 5.0) {
+                    dosage = 200;
+                    message = "Neige humide. Mélange standard (60% gros / 40% fin) recommandé.";
+                } else if (temp >= -1.0 && humidity > 3.0) {
+                    dosage = 150;
+                    message = "Conditions modérées. Mélange standard ou sel fin si action rapide requise.";
+                } else if (temp < -1.0 && humidity > 3.0) {
+                    dosage = 100;
+                    message = "Légèrement humide/froid. Utiliser sel fin pour action de surface rapide.";
+                } else {
+                     dosage = 0;
+                     message = "Conditions non optimales ou humidité insuffisante.";
+                }
+
+                // Mise à jour de l'interface
+                dosageResult.textContent = dosage;
+                dosageMessage.textContent = message;
+
+                // Animation de la barre de jauge
+                const barPercentage = (dosage / maxDosage) * 100;
+                dosageBar.style.width = `${barPercentage}%`;
+                
+                // Changement de couleur en cas de dosage nul
+                if (dosage === 0) {
+                    dosageBar.classList.remove('bg-blue-600');
+                    dosageBar.classList.add('bg-red-500');
+                } else {
+                    dosageBar.classList.add('bg-blue-600');
+                    dosageBar.classList.remove('bg-red-500');
+                }
+            }
+
+            // Initialisation des écouteurs
+            if (tempSlider && humiditySlider) {
+                tempSlider.addEventListener('input', updateDosage);
+                humiditySlider.addEventListener('input', updateDosage);
+                updateDosage(); // Premier calcul au chargement
+            }
+
+            // --- Défilement fluide (Smooth Scroll) ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(this.getAttribute('href'));
+                    if(targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
