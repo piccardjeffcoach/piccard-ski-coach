@@ -441,6 +441,170 @@
             font-weight: 500;
         }
 
+        /* Quiz Styles */
+        .quiz-section {
+            background-color: var(--light-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 3rem 0;
+        }
+
+        .quiz-container {
+            background-color: white;
+            border: 2px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .quiz-question-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            background-color: var(--light-bg);
+            border: 2px solid var(--border-color);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--secondary-color);
+            background-color: #F9F9F9;
+            transform: translateX(5px);
+        }
+
+        .quiz-option input[type="radio"] {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+        }
+
+        .quiz-option.correct {
+            background-color: #D5F4E6;
+            border-color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .quiz-option.correct::after {
+            content: " ✓";
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-left: auto;
+        }
+
+        .quiz-option.incorrect {
+            background-color: #FADBD8;
+            border-color: var(--accent-color);
+        }
+
+        .quiz-option.incorrect::after {
+            content: " ✗";
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-left: auto;
+        }
+
+        .quiz-button {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .quiz-button:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .quiz-button:disabled {
+            background-color: #BDC3C7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .quiz-progress {
+            background-color: var(--border-color);
+            height: 8px;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: var(--text-light);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-completed {
+            background-color: #D5F4E6;
+            border: 2px solid var(--success-color);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .quiz-completed h3 {
+            color: var(--success-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .restart-button {
+            background-color: var(--success-color);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .restart-button:hover {
+            background-color: #229954;
+            transform: translateY(-2px);
+        }
+
         .badge {
             display: inline-block;
             background-color: var(--secondary-color);
@@ -779,6 +943,21 @@
             </div>
         </section>
 
+        <!-- Quiz Section -->
+        <section id="quiz" class="quiz-section">
+            <h2>🎓 Quiz Interactif</h2>
+            <p style="margin-bottom: 1.5rem;">Testez vos connaissances avec 10 questions à choix multiple. Cliquez sur une réponse pour la sélectionner. La bonne réponse s'affichera en vert.</p>
+
+            <div class="quiz-progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p class="progress-text" id="progressText">Question 1 sur 10</p>
+
+            <div class="quiz-container" id="quizContainer">
+                <!-- Les questions seront générées par JavaScript -->
+            </div>
+        </section>
+
         <!-- Environment Section -->
         <section id="environment">
             <h2>Responsabilité Environnementale</h2>
@@ -910,6 +1089,152 @@
             section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(section);
         });
+
+        // ===== QUIZ CODE =====
+        const quizData = [
+            {
+                question: "Quel est le point de fusion de la neige sans sel ?",
+                options: ["-5°C", "0°C", "-10°C", "5°C"],
+                correct: 1
+            },
+            {
+                question: "À quel point de fusion le sel abaisse-t-il la neige ?",
+                options: ["À -3°C", "À -6°C", "À -12°C", "À -1°C"],
+                correct: 1
+            },
+            {
+                question: "Quel est le dosage optimal de sel par mètre carré ?",
+                options: ["50-75 g/m²", "100-200 g/m²", "300-400 g/m²", "10-20 g/m²"],
+                correct: 1
+            },
+            {
+                question: "Combien de temps faut-il pour que le sel durcisse complètement la neige ?",
+                options: ["5-10 minutes", "15-20 minutes", "30-60 minutes", "2-3 heures"],
+                correct: 2
+            },
+            {
+                question: "Quel type de neige est le plus réactif au sel ?",
+                options: ["Neige poudreuse", "Neige artificielle", "Neige mouillée", "Neige très sèche"],
+                correct: 2
+            },
+            {
+                question: "À quel moment avant l'événement faut-il appliquer le sel ?",
+                options: ["2-3 heures avant", "30-60 minutes avant", "5-10 minutes avant", "La veille"],
+                correct: 1
+            },
+            {
+                question: "Quelle est la température idéale pour appliquer le sel ?",
+                options: ["Entre -10°C et -5°C", "Entre -2°C et 0°C", "Entre 5°C et 10°C", "Entre -20°C et -15°C"],
+                correct: 1
+            },
+            {
+                question: "Quelle est la distance minimale à respecter entre l'application de sel et les sources d'eau ?",
+                options: ["2 mètres", "5 mètres", "10 mètres", "20 mètres"],
+                correct: 2
+            },
+            {
+                question: "Quel type de granulométrie est recommandé pour un effet équilibré ?",
+                options: ["Fin (0.1-1 mm)", "Grossier (2-5 mm)", "Mélange (0.5-3 mm)", "Très fin (< 0.1 mm)"],
+                correct: 2
+            },
+            {
+                question: "Quel est le rôle principal du sel dans la préparation des pistes ?",
+                options: ["Augmenter la température", "Réduire le point de fusion et créer une surface dure", "Fondre la neige", "Augmenter l'humidité"],
+                correct: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let answered = false;
+
+        function initQuiz() {
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const container = document.getElementById('quizContainer');
+            const data = quizData[currentQuestion];
+            
+            let html = `
+                <div class="quiz-question-title">Question ${currentQuestion + 1} sur 10</div>
+                <div class="quiz-question-title" style="border: none; font-size: 1.2rem; margin-bottom: 1.5rem;">${data.question}</div>
+                <div class="quiz-options">
+            `;
+
+            data.options.forEach((option, index) => {
+                html += `
+                    <div class="quiz-option" onclick="selectAnswer(${index})">
+                        <input type="radio" name="answer" value="${index}" id="option${index}">
+                        <label for="option${index}" style="cursor: pointer; flex: 1; margin: 0;">${option}</label>
+                    </div>
+                `;
+            });
+
+            html += `
+                </div>
+                <button class="quiz-button" onclick="nextQuestion()" id="nextBtn" disabled>Suivant</button>
+            `;
+
+            container.innerHTML = html;
+            updateProgress();
+            answered = false;
+        }
+
+        function selectAnswer(index) {
+            if (answered) return;
+
+            const options = document.querySelectorAll('.quiz-option');
+            const correctIndex = quizData[currentQuestion].correct;
+
+            options.forEach((option, i) => {
+                option.classList.remove('correct', 'incorrect');
+                if (i === correctIndex) {
+                    option.classList.add('correct');
+                }
+                if (i === index && i !== correctIndex) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            document.getElementById('nextBtn').disabled = false;
+            answered = true;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                displayQuestion();
+                document.getElementById('quizContainer').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                showCompletion();
+            }
+        }
+
+        function showCompletion() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = `
+                <div class="quiz-completed">
+                    <h3>🎉 Félicitations !</h3>
+                    <p>Vous avez complété le quiz sur l'utilisation du sel pour la préparation des pistes.</p>
+                    <button class="restart-button" onclick="restartQuiz()">Recommencer le Quiz</button>
+                </div>
+            `;
+            document.getElementById('progressBar').style.width = '100%';
+            document.getElementById('progressText').textContent = 'Quiz complété !';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            displayQuestion();
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / quizData.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `Question ${currentQuestion + 1} sur ${quizData.length}`;
+        }
+
+        initQuiz();
     </script>
 </body>
 </html>
