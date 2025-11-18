@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographie et Quiz : Le Harcèlement dans le Sport</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px;
+            }
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #3357FF, #FF5733);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black uppercase gradient-text mb-2">Briser le Silence</h1>
+            <p class="text-lg md:text-xl text-gray-600">Le harcèlement dans le monde du sport : une réalité en chiffres.</p>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <section class="md:col-span-2 lg:col-span-3 bg-white rounded-lg shadow-lg p-6 flex flex-col md:flex-row items-center justify-center text-center">
+                <div class="w-full md:w-1/2">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Une Réalité Inquiétante</h2>
+                    <p class="text-gray-600 mb-4">Le harcèlement, sous toutes ses formes, est une menace omniprésente dans le sport. Les données révèlent qu'une part significative des athlètes, en particulier les plus jeunes, ont été victimes d'au moins une forme de violence psychologique ou physique au cours de leur carrière. Cette statistique alarmante met en évidence l'urgence d'agir.</p>
+                </div>
+                <div class="w-full md:w-1/2">
+                    <div class="chart-container h-64 md:h-80">
+                         <canvas id="prevalenceChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lg:col-span-2 bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4 text-center">Les Visages du Harcèlement</h2>
+                <p class="text-gray-600 mb-6 text-center">Le harcèlement n'est pas monolithique. Il se manifeste de plusieurs manières, la violence psychologique étant la forme la plus courante. Comprendre ces différentes formes est la première étape pour les identifier et les combattre efficacement.</p>
+                <div class="chart-container">
+                    <canvas id="typesChart"></canvas>
+                </div>
+            </section>
+            
+            <section class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4 text-center">Sources du Harcèlement</h2>
+                <p class="text-gray-600 mb-6 text-center">Les agresseurs peuvent provenir de n'importe quel cercle de l'environnement sportif, y compris ceux qui sont censés protéger et encadrer les athlètes.</p>
+                <div class="chart-container">
+                    <canvas id="sourceChart"></canvas>
+                </div>
+            </section>
+            
+            <section class="md:col-span-2 lg:col-span-3 bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4 text-center">Disparités de Genre dans la Victimisation</h2>
+                <p class="text-gray-600 mb-6 text-center">Bien que le harcèlement touche tous les athlètes, les données montrent que les athlètes féminines sont touchées de manière disproportionnée par certaines formes de violence, notamment psychologiques et sexuelles. Cette vulnérabilité accrue nécessite une attention et des mesures de protection spécifiques.</p>
+                <div class="chart-container max-w-4xl h-96">
+                    <canvas id="genderChart"></canvas>
+                </div>
+            </section>
+
+            <section class="md:col-span-2 lg:col-span-3 bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4 text-center">L'Impact Durable sur les Athlètes</h2>
+                 <p class="text-gray-600 mb-8 text-center">Les conséquences du harcèlement vont bien au-delà de l'instant. Elles peuvent laisser des cicatrices psychologiques et émotionnelles profondes, affectant la performance, le bien-être et menant parfois à l'abandon pur et simple du sport.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="text-4xl mb-2">😟</div>
+                        <h3 class="font-bold text-lg">Anxiété et Dépression</h3>
+                        <p class="text-sm text-gray-600">Augmentation du stress et des troubles de santé mentale.</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="text-4xl mb-2">📉</div>
+                        <h3 class="font-bold text-lg">Baisse de Performance</h3>
+                        <p class="text-sm text-gray-600">Perte de concentration et de confiance en soi.</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="text-4xl mb-2">💔</div>
+                        <h3 class="font-bold text-lg">Perte de Plaisir</h3>
+                        <p class="text-sm text-gray-600">Le sport devient une source de peur plutôt que de joie.</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="text-4xl mb-2">🏃‍♀️</div>
+                        <h3 class="font-bold text-lg">Abandon Sportif</h3>
+                        <p class="text-sm text-gray-600">La conséquence ultime pour échapper à un environnement toxique.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="md:col-span-2 lg:col-span-3 bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4 text-center">Créer un Environnement Sportif Sûr</h2>
+                 <p class="text-gray-600 mb-8 text-center">La lutte contre le harcèlement est une responsabilité collective. Chaque acteur du monde sportif a un rôle à jouer pour construire une culture de respect, de sécurité et de bienveillance.</p>
+                 <div class="flex flex-col md:flex-row justify-around items-center space-y-6 md:space-y-0 md:space-x-6">
+                    <div class="flex flex-col items-center text-center w-48">
+                        <div class="flex items-center justify-center w-20 h-20 rounded-full bg-blue-100 text-blue-600 text-3xl font-bold border-4 border-blue-500">1</div>
+                        <h3 class="mt-4 font-bold">Écouter</h3>
+                        <p class="text-sm text-gray-600">Croire les victimes et créer des espaces de parole sécurisés.</p>
+                    </div>
+                    <div class="text-4xl text-blue-500 hidden md:block">&rarr;</div>
+                    <div class="flex flex-col items-center text-center w-48">
+                        <div class="flex items-center justify-center w-20 h-20 rounded-full bg-orange-100 text-orange-600 text-3xl font-bold border-4 border-orange-500">2</div>
+                        <h3 class="mt-4 font-bold">Éduquer</h3>
+                        <p class="text-sm text-gray-600">Former les entraîneurs, parents et athlètes à reconnaître et prévenir.</p>
+                    </div>
+                     <div class="text-4xl text-orange-500 hidden md:block">&rarr;</div>
+                    <div class="flex flex-col items-center text-center w-48">
+                        <div class="flex items-center justify-center w-20 h-20 rounded-full bg-yellow-100 text-yellow-600 text-3xl font-bold border-4 border-yellow-500">3</div>
+                        <h3 class="mt-4 font-bold">Soutenir</h3>
+                        <p class="text-sm text-gray-600">Mettre en place un soutien psychologique accessible pour les victimes.</p>
+                    </div>
+                     <div class="text-4xl text-yellow-500 hidden md:block">&rarr;</div>
+                    <div class="flex flex-col items-center text-center w-48">
+                        <div class="flex items-center justify-center w-20 h-20 rounded-full bg-purple-100 text-purple-600 text-3xl font-bold border-4 border-purple-500">4</div>
+                        <h3 class="mt-4 font-bold">Signaler</h3>
+                        <p class="text-sm text-gray-600">Instaurer des procédures de signalement claires, confidentielles et impartiales.</p>
+                    </div>
+                 </div>
+            </section>
+
+        </main>
+        
+        <section id="quizSection" class="mt-12 md:col-span-2 lg:col-span-3">
+            <h2 class="text-3xl font-bold text-gray-900 text-center mb-6">Testez Vos Connaissances (Quiz)</h2>
+            <div id="quizContainer" class="bg-white rounded-lg shadow-xl p-8 max-w-2xl mx-auto">
+                <div id="quizContent"></div>
+                <div id="quizResults" class="hidden text-center"></div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-12 text-gray-500 text-sm">
+            <p>Les données présentées sont des estimations synthétisées à partir de diverses études sur le harcèlement dans le sport.</p>
+            <p>Cet infographique a pour but de sensibiliser et d'encourager la prévention.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const FONT_COLOR = '#212529';
+        const GRID_COLOR = '#E5E7EB';
+        const CHART_PALETTE = ['#3357FF', '#FF5733', '#FFC300', '#581845', '#9B59B6'];
+        
+        const processLabel = (label) => {
+            if (label.length > 16) {
+                const words = label.split(' ');
+                let currentLine = '';
+                const lines = [];
+                words.forEach(word => {
+                    if ((currentLine + ' ' + word).trim().length > 16) {
+                        lines.push(currentLine.trim());
+                        currentLine = word;
+                    } else {
+                        currentLine = (currentLine + ' ' + word).trim();
+                    }
+                });
+                lines.push(currentLine.trim());
+                return lines;
+            }
+            return label;
+        };
+        
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+              return label.join(' ');
+            }
+            return label;
+        };
+
+        const globalChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: FONT_COLOR,
+                        font: {
+                            family: "'Inter', sans-serif"
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    },
+                    bodyFont: {
+                       family: "'Inter', sans-serif"
+                    },
+                    titleFont: {
+                       family: "'Inter', sans-serif"
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: FONT_COLOR,
+                        font: {
+                            family: "'Inter', sans-serif"
+                        }
+                    },
+                    grid: {
+                        color: GRID_COLOR
+                    }
+                },
+                y: {
+                     ticks: {
+                        color: FONT_COLOR,
+                        font: {
+                            family: "'Inter', sans-serif"
+                        }
+                    },
+                    grid: {
+                        color: GRID_COLOR
+                    }
+                }
+            }
+        };
+
+        const prevalenceCtx = document.getElementById('prevalenceChart').getContext('2d');
+        new Chart(prevalenceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Ayant subi du harcèlement', 'N\'ayant pas subi de harcèlement'],
+                datasets: [{
+                    label: 'Prévalence du Harcèlement',
+                    data: [44, 56],
+                    backgroundColor: [CHART_PALETTE[1], GRID_COLOR],
+                    borderColor: '#FFFFFF',
+                    borderWidth: 4,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                 ...globalChartOptions,
+                 cutout: '70%',
+                 plugins: {
+                     ...globalChartOptions.plugins,
+                     title: {
+                        display: true,
+                        text: '44% des athlètes étudiants',
+                        position: 'bottom',
+                        font: { size: 18, weight: 'bold', family: "'Inter', sans-serif" },
+                        color: FONT_COLOR,
+                        padding: { top: 20 }
+                    }
+                 },
+                 scales: { x: { display: false }, y: { display: false } }
+            }
+        });
+
+        const typesCtx = document.getElementById('typesChart').getContext('2d');
+        const originalTypeLabels = ['Harcèlement psychologique', 'Négligence', 'Harcèlement physique', 'Harcèlement sexuel'];
+        new Chart(typesCtx, {
+            type: 'bar',
+            data: {
+                labels: originalTypeLabels.map(processLabel),
+                datasets: [{
+                    label: '% des cas de harcèlement signalés',
+                    data: [75, 35, 21, 18],
+                    backgroundColor: CHART_PALETTE[0],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                ...globalChartOptions,
+                indexAxis: 'y',
+                plugins: {
+                    ...globalChartOptions.plugins,
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: { display: true, text: '%', color: FONT_COLOR },
+                    },
+                    y: { grid: { display: false } }
+                }
+            }
+        });
+        
+        const sourceCtx = document.getElementById('sourceChart').getContext('2d');
+        new Chart(sourceCtx, {
+            type: 'polarArea',
+            data: {
+                labels: ['Entraîneurs', 'Coéquipiers', 'Parents', 'Spectateurs'],
+                datasets: [{
+                    label: 'Source',
+                    data: [45, 34, 15, 6],
+                    backgroundColor: CHART_PALETTE,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...globalChartOptions,
+                 scales: {
+                    r: {
+                        ticks: { backdropColor: 'transparent', color: FONT_COLOR },
+                        grid: { color: GRID_COLOR },
+                        pointLabels: { font: { size: 12, family: "'Inter', sans-serif" }, color: FONT_COLOR }
+                    }
+                },
+            }
+        });
+        
+        const genderCtx = document.getElementById('genderChart').getContext('2d');
+        const originalGenderLabels = ['Harcèlement psychologique', 'Harcèlement sexuel', 'Harcèlement physique'];
+        new Chart(genderCtx, {
+            type: 'bar',
+            data: {
+                labels: originalGenderLabels.map(processLabel),
+                datasets: [
+                    {
+                        label: 'Athlètes Féminines',
+                        data: [82, 25, 18],
+                        backgroundColor: CHART_PALETTE[1],
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'Athlètes Masculins',
+                        data: [68, 8, 24],
+                        backgroundColor: CHART_PALETTE[0],
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                ...globalChartOptions,
+                scales: {
+                     y: {
+                        beginAtZero: true,
+                        title: { display: true, text: '% des athlètes déclarant ce type', color: FONT_COLOR },
+                    },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+        
+        
+        
+        const quizData = [
+             {
+                "question": "Quelle est la principale raison pour laquelle les entraîneurs sont la source de harcèlement la plus souvent signalée ?",
+                "options": [
+                    { "text": "Ils passent le plus de temps avec les athlètes.", "isCorrect": false, "rationale": "Bien que le temps passé soit un facteur, la raison principale est liée à leur position de pouvoir." },
+                    { "text": "Leur position d'autorité et de pouvoir crée une dynamique de dépendance chez l'athlète.", "isCorrect": true, "rationale": "L'abus de pouvoir et l'autorité sont les facteurs clés qui facilitent le harcèlement de la part des entraîneurs." },
+                    { "text": "Ils sont généralement moins formés sur les politiques anti-harcèlement.", "isCorrect": false, "rationale": "Le manque de formation peut être un facteur, mais l'abus est intrinsèquement lié à la dynamique de pouvoir." }
+                ]
+            },
+            {
+                "question": "Outre l'abandon sportif, quelle est une conséquence courante et grave du harcèlement sur le bien-être physique de l'athlète ?",
+                "options": [
+                    { "text": "Une augmentation de la masse musculaire due au stress.", "isCorrect": false, "rationale": "Le stress du harcèlement est plus susceptible d'entraîner une perte de masse musculaire ou d'autres problèmes physiques, pas un gain." },
+                    { "text": "Des troubles de l'alimentation ou des troubles somatiques (maux de tête, d'estomac).", "isCorrect": true, "rationale": "Le stress intense causé par le harcèlement se manifeste souvent par des symptômes physiques et des troubles de l'alimentation." },
+                    { "text": "Une amélioration inattendue de la vitesse de course.", "isCorrect": false, "rationale": "Le stress et l'anxiété sont des obstacles à la performance physique, et non des catalyseurs d'amélioration." }
+                ]
+            },
+            {
+                "question": "Quel terme décrit le mieux le fait qu'un entraîneur ne fournisse pas d'équipement de sécurité adéquat à un athlète ?",
+                "options": [
+                    { "text": "Harcèlement physique", "isCorrect": false, "rationale": "Ceci implique un acte violent direct, alors que l'absence d'équipement est un manquement à une obligation." },
+                    { "text": "Négligence", "isCorrect": true, "rationale": "La négligence est définie par le manquement à fournir les soins, le soutien ou les ressources nécessaires à la sécurité de l'athlète." },
+                    { "text": "Abus de pouvoir", "isCorrect": false, "rationale": "Bien que cela découle d'un abus de pouvoir, le terme spécifique pour le manque de soins est la négligence." }
+                ]
+            },
+            {
+                "question": "Quel pourcentage d'athlètes étudiants signale avoir été victime d'une forme de harcèlement, selon les statistiques ?",
+                "options": [
+                    { "text": "Moins de 10%", "isCorrect": false, "rationale": "Ce chiffre sous-estime considérablement la prévalence réelle du harcèlement dans le milieu sportif." },
+                    { "text": "Environ 44%", "isCorrect": true, "rationale": "Les données indiquent qu'environ 44% des athlètes étudiants ont été victimes d'au moins une forme de harcèlement." },
+                    { "text": "Plus de 65%", "isCorrect": false, "rationale": "Bien que le problème soit grave, ce pourcentage est généralement plus élevé que la réalité statistique documentée." }
+                ]
+            },
+            {
+                "question": "Quelle est la principale forme de harcèlement subie de manière disproportionnée par les athlètes féminines ?",
+                "options": [
+                    { "text": "Le harcèlement racial", "isCorrect": false, "rationale": "Le harcèlement racial cible l'ethnie, mais la disparité la plus notable pour les femmes concerne une autre catégorie." },
+                    { "text": "Le harcèlement sexuel", "isCorrect": true, "rationale": "Les études démontrent que les athlètes féminines sont victimes de harcèlement sexuel à des taux beaucoup plus élevés que les hommes." },
+                    { "text": "Le harcèlement psychologique", "isCorrect": false, "rationale": "Le harcèlement psychologique est le plus fréquent en général, mais n'est pas disproportionné pour les femmes comme une autre catégorie." }
+                ]
+            },
+            {
+                "question": "Quelle action est considérée comme la plus efficace pour prévenir le harcèlement dans une organisation sportive ?",
+                "options": [
+                    { "text": "Augmenter le nombre d'entraînements par semaine.", "isCorrect": false, "rationale": "Ceci augmenterait la pression et pourrait exacerber les tensions, sans prévenir l'abus." },
+                    { "text": "Établir des voies de signalement confidentielles et une formation obligatoire sur l'éthique sportive.", "isCorrect": true, "rationale": "La formation et la sécurité du signalement sont essentielles pour changer la culture et permettre aux victimes de parler." },
+                    { "text": "Mettre en place des sanctions plus sévères pour la mauvaise performance.", "isCorrect": false, "rationale": "Ceci renforcerait la culture de la pression et pourrait être une source de harcèlement psychologique." }
+                ]
+            },
+            {
+                "question": "Lequel des éléments suivants est un exemple de harcèlement psychologique dans le sport ?",
+                "options": [
+                    { "text": "Un entraîneur qui frappe un athlète pour une faute commise.", "isCorrect": false, "rationale": "Ceci est un exemple de harcèlement physique, pas psychologique." },
+                    { "text": "L'isolement délibéré d'un athlète et l'humiliation publique constante de ses efforts.", "isCorrect": true, "rationale": "L'humiliation et l'isolement sont des formes classiques d'abus émotionnel et psychologique." },
+                    { "text": "Un coéquipier qui ne partage pas son équipement de rechange.", "isCorrect": false, "rationale": "Ceci est une mauvaise conduite ou un manque de camaraderie, mais pas nécessairement du harcèlement psychologique." }
+                ]
+            },
+            {
+                "question": "La différence fondamentale entre une critique constructive et une attaque psychologique ?",
+                "options": [
+                    { "text": "La critique constructive vise l'amélioration de l'action, l'attaque psychologique vise la destruction de la personne.", "isCorrect": true, "rationale": "La différence réside dans l'intention : aider à progresser contre nuire à l'individu." },
+                    { "text": "La critique constructive est générale, l'attaque psychologique est très spécifique.", "isCorrect": false, "rationale": "C'est l'inverse : la critique constructive est spécifique (l'action), l'attaque psychologique est personnelle (l'athlète)." },
+                    { "text": "La critique constructive vient de l'entraîneur, l'attaque psychologique vient des coéquipiers.", "isCorrect": false, "rationale": "Les deux peuvent venir de l'entraîneur ; la source n'est pas l'élément différenciateur." }
+                ]
+            },
+            {
+                "question": "L'abandon sportif est souvent le résultat de la combinaison de quels facteurs liés au harcèlement ?",
+                "options": [
+                    { "text": "Mauvaise performance et désintérêt pour le sport.", "isCorrect": false, "rationale": "Ces facteurs peuvent être des symptômes, mais l'abandon est causé par des facteurs plus profonds liés à l'environnement." },
+                    { "text": "Stress chronique, peur de l'agresseur et sentiment d'insécurité.", "isCorrect": true, "rationale": "Ces trois facteurs psychologiques et émotionnels créent un environnement invivable, menant à la décision d'abandonner." },
+                    { "text": "Blessures récurrentes et mauvaise condition physique.", "isCorrect": false, "rationale": "Ces éléments sont physiques, tandis que l'abandon dû au harcèlement est principalement psychologique." }
+                ]
+            },
+            {
+                "question": "Dans le contexte des disparités de genre, les athlètes masculins sont statistiquement plus susceptibles de signaler quelle forme de harcèlement ?",
+                "options": [
+                    { "text": "La négligence de la part des officiels.", "isCorrect": false, "rationale": "La négligence affecte les deux sexes de manière similaire et n'est pas la forme la plus souvent signalée par les hommes." },
+                    { "text": "Le harcèlement lié à l'exigence de « dureté » ou de « masculinité ».", "isCorrect": true, "rationale": "Les stéréotypes de genre, notamment la pression d'être 'dur', sont souvent à l'origine du harcèlement chez les hommes." },
+                    { "text": "Le harcèlement sexuel par des coéquipières.", "isCorrect": false, "rationale": "Le harcèlement sexuel est principalement signalé par les femmes." }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        const quizContent = document.getElementById('quizContent');
+        const quizResults = document.getElementById('quizResults');
+        
+        function renderQuiz() {
+            if (currentQuestionIndex >= quizData.length) {
+                showResults();
+                return;
+            }
+
+            const q = quizData[currentQuestionIndex];
+            answered = false;
+
+            let optionsHtml = q.options.map((option, index) => `
+                <button
+                    data-index="${index}"
+                    onclick="checkAnswer(${index})"
+                    class="quiz-option w-full text-left p-4 mb-3 rounded-lg shadow-sm hover:shadow-md transition duration-200 bg-gray-50 hover:bg-gray-100 text-gray-800 border-2 border-gray-200">
+                    ${option.text}
+                </button>
+            `).join('');
+
+            quizContent.innerHTML = `
+                <p class="text-sm font-semibold text-blue-600 mb-2">Question ${currentQuestionIndex + 1} / ${quizData.length}</p>
+                <h3 class="text-xl font-bold mb-6">${q.question}</h3>
+                <div id="optionsContainer" class="space-y-3">
+                    ${optionsHtml}
+                </div>
+                <div id="feedback" class="mt-4 p-4 rounded-lg hidden"></div>
+                <button id="nextButton" onclick="nextQuestion()" class="mt-6 w-full py-3 px-6 text-white font-bold rounded-lg transition duration-200 bg-gray-400 cursor-not-allowed" disabled>
+                    Question Suivante
+                </button>
+            `;
+        }
+
+        function checkAnswer(selectedIndex) {
+            if (answered) return;
+            answered = true;
+
+            const q = quizData[currentQuestionIndex];
+            const selectedOption = q.options[selectedIndex];
+            const feedbackDiv = document.getElementById('feedback');
+            const optionsContainer = document.getElementById('optionsContainer');
+            const options = optionsContainer.querySelectorAll('.quiz-option');
+
+            options.forEach((btn, index) => {
+                const option = q.options[index];
+                btn.disabled = true;
+                btn.classList.remove('hover:bg-gray-100', 'hover:shadow-md');
+                
+                if (option.isCorrect) {
+                    btn.classList.add('bg-green-100', 'border-green-600');
+                } else if (index === selectedIndex) {
+                    btn.classList.add('bg-red-100', 'border-red-600');
+                }
+            });
+
+            if (selectedOption.isCorrect) {
+                score++;
+                feedbackDiv.className = 'mt-4 p-4 rounded-lg bg-green-50 border-l-4 border-green-600 text-green-800 font-semibold';
+                feedbackDiv.innerHTML = `✅ Bonne Réponse!`;
+            } else {
+                feedbackDiv.className = 'mt-4 p-4 rounded-lg bg-red-50 border-l-4 border-red-600 text-red-800 font-semibold';
+                feedbackDiv.innerHTML = `❌ Mauvaise Réponse. <span class="block mt-1 font-normal text-sm">Explication : ${selectedOption.rationale}</span>`;
+            }
+            
+            feedbackDiv.classList.remove('hidden');
+
+            const nextButton = document.getElementById('nextButton');
+            nextButton.disabled = false;
+            nextButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+            nextButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            
+            if (currentQuestionIndex === quizData.length - 1) {
+                nextButton.textContent = 'Voir les Résultats';
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            renderQuiz();
+        }
+
+        function showResults() {
+            quizContent.classList.add('hidden');
+            quizResults.classList.remove('hidden');
+
+            const percentage = (score / quizData.length) * 100;
+            let message = '';
+            let color = '';
+
+            if (percentage >= 80) {
+                message = "Excellent travail ! Vous maîtrisez parfaitement le sujet.";
+                color = 'text-green-600';
+            } else if (percentage >= 50) {
+                message = "Bon effort ! Revoyez les concepts clés pour améliorer votre score.";
+                color = 'text-yellow-600';
+            } else {
+                message = "Poursuivez vos efforts. Consultez l'infographie ci-dessus pour réviser.";
+                color = 'text-red-600';
+            }
+
+            quizResults.innerHTML = `
+                <h3 class="text-2xl font-bold mb-4">Résultats du Quiz</h3>
+                <p class="text-6xl font-black ${color} mb-4">${percentage.toFixed(0)}%</p>
+                <p class="text-xl mb-6">Vous avez obtenu ${score} bonnes réponses sur ${quizData.length}.</p>
+                <p class="${color} font-semibold mb-6">${message}</p>
+                <button onclick="currentQuestionIndex = 0; score = 0; quizContent.classList.remove('hidden'); quizResults.classList.add('hidden'); renderQuiz();"
+                        class="py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition duration-200">
+                    Recommencer le Quiz
+                </button>
+            `;
+        }
+        
+        window.onload = function() {
+            renderQuiz();
+        };
+
+    </script>
+</body>
+</html>
