@@ -1,0 +1,559 @@
+Skip to content
+Navigation Menu
+piccardjeffcoach
+piccard-ski-coach
+ 
+Type / to search
+Code
+Issues
+Pull requests
+Actions
+Projects
+1
+Wiki
+Security
+1
+Insights
+Settings
+Commit d445389
+piccardjeffcoach
+piccardjeffcoach
+authored
+18 hours ago
+·
+·
+Verified
+Create salt
+main
+1 parent 
+11ce26e
+ commit 
+d445389
+File tree
+
+salt
+1 file changed
++535
+-0
+lines changed
+
+ 
+‎salt‎
++535
+Lines changed: 535 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+@@ -0,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Piste Salting (NaCl) Guide</title>
+    <!-- Chosen Palette: "Calm Neutral & Deep Blue". Using a warm cream (#FBF9F1), a deep professional blue (#172554), a complementary accent (#3b82f6), and a highlight/alert accent (#f97316). -->
+    <!-- Application Structure Plan: Designed a 6-section thematic SPA, prioritizing user tasks. Starts with an interactive 'Go/No Go' dashboard for quick decisions. Follows with deep dives: 'Fundamentals' (snow types), 'How it Works' (HTML/CSS process flow), 'Application' (interactive grain selector & Chart.js dosage chart), and 'Workflow' (HTML/CSS timeline). This task-oriented structure (quick answer first, details later) is more usable for a busy coach/manager than the report's linear chapters. -->
+    <!-- Visualization & Content Choices:
+        1. Report Info: Crucial Parameters (Temp, Moisture). Goal: Inform/Interact. Viz: Interactive JS 'Go/No Go' Module. Justification: Provides immediate, actionable answer, which is the user's primary goal.
+        2. Report Info: 3 Snow Types. Goal: Compare/Organize. Viz: HTML/CSS Grid. Justification: Clear, static comparison of properties.
+        3. Report Info: 4-Step Mechanism. Goal: Organize/Change. Viz: HTML/CSS Flexbox-based process flow diagram. Justification: Visually shows sequence without SVG/Mermaid.
+        4. Report Info: Grain Size data. Goal: Compare. Viz: Interactive JS-powered Toggler (clickable cards). Justification: Allows user to explore options.
+        5. Report Info: Dosage vs. Condition (Page 6 Chart). Goal: Compare. Viz: Chart.js Bar Chart. Interaction: JS onClick updates a summary text box. Justification: Best way to show quantitative comparison.
+        6. Report Info: Workflow (T-60, etc). Goal: Change/Organize. Viz: HTML/CSS vertical timeline. Justification: Clearly shows temporal sequence, highlighting the critical 'gliding' step.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FBF9F1; /* Warm Cream */
+            color: #1e293b; /* slate-800 */
+        }
+        header {
+            background-color: #172554; /* Deep Navy */
+        }
+        .nav-link {
+            color: #e2e8f0;
+            transition: all 0.2s;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .nav-link:hover {
+            color: #ffffff;
+            background-color: rgba(59, 130, 246, 0.5); /* Blue-500 */
+        }
+        h1, h2, h3 {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            color: #172554; /* Deep Navy */
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            transition: all 0.2s;
+        }
+        .btn-blue {
+            background-color: #3b82f6; /* Blue-500 */
+        }
+        .btn-blue:hover {
+            background-color: #2563eb; /* Blue-600 */
+        }
+        .grain-card {
+            border: 2px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .grain-card:hover, .grain-card.active {
+            border-color: #3b82f6; /* Blue-500 */
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+        .go {
+            color: #15803d; /* Green-700 */
+            background-color: #dcfce7; /* Green-100 */
+            border: 1px solid #4ade80; /* Green-400 */
+        }
+        .no-go {
+            color: #b91c1c; /* Red-700 */
+            background-color: #fee2e2; /* Red-100 */
+            border: 1px solid #f87171; /* Red-400 */
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy': '#172554',
+                        'cream': '#FBF9F1',
+                        'accent': '#3b82f6',
+                        'highlight': '#f97316',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="antialiased">
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 shadow-lg">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center py-4">
+            <h1 class="text-2xl font-bold text-white">Guide Interactif Salage de Piste (NaCl)</h1>
+            <div class="flex flex-wrap gap-x-4 gap-y-2 mt-4 md:mt-0">
+                <a href="#dashboard" class="nav-link">Tableau de Bord</a>
+                <a href="#fundamentals" class="nav-link">Fondamentaux</a>
+                <a href="#mechanism" class="nav-link">Mécanisme</a>
+                <a href="#application" class="nav-link">Application</a>
+                <a href="#workflow" class="nav-link">Workflow</a>
+            </div>
+        </nav>
+    </header>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Section 1: At-a-Glance Dashboard -->
+        <section id="dashboard" class="mb-16">
+            <h2 class="text-4xl font-bold mb-4">Tableau de Bord de Salage des Pistes</h2>
+            <p class="text-lg text-slate-700 mb-8">
+                Bienvenue, Entraîneur/Manager. Cet outil vous aide à prendre des décisions rapides et scientifiquement fondées sur le salage des pistes. Commencez ici pour voir si le salage est une option viable aujourd'hui.
+            </p>
+            <div class="card p-6 lg:p-8">
+                <h3 class="text-2xl font-bold mb-6 text-center">Outil de Décision Interactif : Go ou No-Go ?</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    
+                    <!-- Inputs -->
+                    <div class="space-y-4">
+                        <div>
+                            <label for="snow-type" class="block text-sm font-medium text-slate-700">1. Sélectionner le type de Neige :</label>
+                            <select id="snow-type" class="mt-1 block w-full p-2 border border-slate-300 rounded-md shadow-sm focus:ring-accent focus:border-accent">
+                                <option value="wet">Neige Mouillée (Humide)</option>
+                                <option value="artificial">Neige Artificielle (Compactée)</option>
+                                <option value="powder">Neige Poudreuse (Sèche)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="snow-temp" class="block text-sm font-medium text-slate-700">2. Sélectionner la Température de la Neige (°C) :</label>
+                            <select id="snow-temp" class="mt-1 block w-full p-2 border border-slate-300 rounded-md shadow-sm focus:ring-accent focus:border-accent">
+                                <option value="ideal">Idéale (-2°C à +2°C)</option>
+                                <option value="warm">Chaude (> +2°C)</option>
+                                <option value="cold">Froide (< -2°C)</option>
+                                <option value="very-cold">Très Froide (< -5°C)</option>
+                            </select>
+                        </div>
+                         <div>
+                            <label class="block text-sm font-medium text-slate-700">3. Sélectionner l'Humidité :</label>
+                            <div class="mt-2 flex gap-2">
+                                <button id="btn-moist" class="flex-1 p-2 rounded-md border-2 border-accent bg-blue-100 text-accent font-semibold">Humide (> 3%)</button>
+                                <button id="btn-dry" class="flex-1 p-2 rounded-md border-2 border-slate-300 bg-white text-slate-600 font-semibold">Sèche (< 3%)</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Result -->
+                    <div class="md:col-span-2 card p-6 h-full flex flex-col justify-center items-center text-center" style="background-color: #f8fafc;">
+                        <div id="decision-result" class="p-8 rounded-lg text-3xl font-bold go">
+                            GO - Salage Recommandé
+                        </div>
+                        <p id="decision-reason" class="mt-4 text-slate-600 max-w-md">
+                            Conditions idéales : Neige humide avec suffisamment d'humidité et une température dans la plage optimale.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Section 2: Fundamentals -->
+        <section id="fundamentals" class="mb-16 pt-16">
+            <h2 class="text-4xl font-bold mb-4">1. Les Fondamentaux : Connaître Votre Neige</h2>
+            <p class="text-lg text-slate-700 mb-8">
+                Le salage réussi dépend de la compréhension des propriétés de la neige. La neige n'est pas homogène. Sa structure, sa densité et son humidité sont les facteurs critiques qui influencent directement l'efficacité de toutes les mesures de préparation.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Powder Snow -->
+                <div class="card p-6 border-l-4 border-red-500">
+                    <h3 class="text-2xl font-bold mb-3">❄️ Neige Poudreuse (Sèche)</h3>
+                    <p class="text-slate-600 mb-2"><strong>Densité :</strong> 100-300 kg/m³</p>
+                    <p class="text-slate-600 mb-2"><strong>Température :</strong> Typiquement < -5°C</p>
+                    <p class="text-slate-600 mb-4"><strong>Humidité :</strong> Très Faible</p>
+                    <strong class="text-red-700">Aptitude au Salage : NON ADAPTÉ</strong>
+                    <p class="text-sm text-slate-500 mt-2">Pas d'eau libre présente, donc le sel ne peut pas se dissoudre et reste inefficace.</p>
+                </div>
+                <!-- Wet Snow -->
+                <div class="card p-6 border-l-4 border-green-500">
+                    <h3 class="text-2xl font-bold mb-3">💧 Neige Mouillée (Humide)</h3>
+                    <p class="text-slate-600 mb-2"><strong>Densité :</strong> 400-600 kg/m³</p>
+                    <p class="text-slate-600 mb-2"><strong>Température :</strong> Autour de 0°C</p>
+                    <p class="text-slate-600 mb-4"><strong>Humidité :</strong> Élevée (3-15%)</p>
+                    <strong class="text-green-700">Aptitude au Salage : IDÉALEMENT ADAPTÉ</strong>
+                    <p class="text-sm text-slate-500 mt-2">Conditions idéales. Suffisamment d'eau libre est disponible pour que le sel se dissolve et agisse.</p>
+                </div>
+                <!-- Artificial Snow -->
+                <div class="card p-6 border-l-4 border-blue-500">
+                    <h3 class="text-2xl font-bold mb-3">⚙️ Neige Artificielle</h3>
+                    <p class="text-slate-600 mb-2"><strong>Densité :</strong> 350-500 kg/m³</p>
+                    <p class="text-slate-600 mb-2"><strong>Température :</strong> Variable</p>
+                    <p class="text-slate-600 mb-4"><strong>Structure :</strong> Grains Ronds</p>
+                    <strong class="text-blue-700">Aptitude au Salage : BIEN ADAPTÉ</strong>
+                    <p class="text-sm text-slate-500 mt-2">Réagit de manière fiable au sel, souvent plus efficacement que la neige naturelle si l'humidité est présente.</p>
+                </div>
+            </div>
+        </section>
+        <!-- Section 3: Mechanism -->
+        <section id="mechanism" class="mb-16 pt-16">
+            <h2 class="text-4xl font-bold mb-4">2. Comment Cela Fonctionne : Le Processus en 4 Étapes</h2>
+            <p class="text-lg text-slate-700 mb-8">
+                Le sel ne fait pas que "brûler" la neige. Il déclenche un processus physico-chimique précis qui extrait de la chaleur, ce qui provoque le regel de la neige en une couche plus dure et plus compacte.
+            </p>
+            
+            <!-- HTML/CSS Process Flow -->
+            <div class="flex flex-col md:flex-row justify-between items-stretch gap-4">
+                <!-- Step 1 -->
+                <div class="card p-4 flex-1 text-center">
+                    <div class="text-3xl font-bold text-white bg-navy w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">1</div>
+                    <h3 class="text-xl font-bold mb-2">Dissolution</h3>
+                    <p class="text-sm text-slate-600">Le sel (NaCl) se dissout dans l'eau libre de la neige humide. Ce processus est <strong>endothermique</strong> — il absorbe la chaleur de la neige, la refroidissant.</p>
+                </div>
+                
+                <div class="flex items-center justify-center text-4xl text-accent font-bold mx-2 md:rotate-0 rotate-90">→</div>
+                <!-- Step 2 -->
+                <div class="card p-4 flex-1 text-center">
+                    <div class="text-3xl font-bold text-white bg-navy w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">2</div>
+                    <h3 class="text-xl font-bold mb-2">Abaissement Cryoscopique</h3>
+                    <p class="text-sm text-slate-600">La nouvelle solution saline a un point de congélation inférieur (jusqu'à -21°C) à celui de l'eau pure (0°C).</p>
+                </div>
+                
+                <div class="flex items-center justify-center text-4xl text-accent font-bold mx-2 md:rotate-0 rotate-90">→</div>
+                <!-- Step 3 -->
+                <div class="card p-4 flex-1 text-center">
+                    <div class="text-3xl font-bold text-white bg-navy w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">3</div>
+                    <h3 class="text-xl font-bold mb-2">Fonte à Court Terme</h3>
+                    <p class="text-sm text-slate-600">Comme la solution saline est "trop froide" pour être solide, la glace existante fond pour la diluer. Ceci est également endothermique, absorbant <strong>plus de chaleur</strong> de la neige.</p>
+                </div>
+                
+                <div class="flex items-center justify-center text-4xl text-accent font-bold mx-2 md:rotate-0 rotate-90">→</div>
+                <!-- Step 4 -->
+                <div class="card p-4 flex-1 text-center border-2 border-accent">
+                    <div class="text-3xl font-bold text-white bg-accent w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">4</div>
+                    <h3 class="text-xl font-bold text-accent mb-2">Solidification</h3>
+                    <p class="text-sm text-slate-600">La neige, maintenant significativement refroidie par l'extraction de chaleur, regel en une couche de glace plus dure, plus compacte et durable.</p>
+                </div>
+            </div>
+        </section>
+        <!-- Section 4: Application & Dosage -->
+        <section id="application" class="mb-16 pt-16">
+            <h2 class="text-4xl font-bold mb-4">3. Guide d'Application et de Dosage</h2>
+            <p class="text-lg text-slate-700 mb-8">
+                L'application correcte est cruciale. Le "Sel Doit Voler !" signifie que la distribution doit être uniforme. La taille des grains détermine la vitesse et la profondeur de l'effet, tandis que le dosage dépend des conditions.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Grain Size Selector -->
+                <div class="card p-6">
+                    <h3 class="text-2xl font-bold mb-4">Sélecteur de Taille de Grain</h3>
+                    <div class="space-y-3 mb-4">
+                        <div class="grain-card active" data-grain="mixture">
+                            <h4 class="font-bold text-lg text-accent">Mélange (Recommandé)</h4>
+                            <p class="text-sm text-slate-600">60% Gros / 40% Fin. La solution universelle.</p>
+                        </div>
+                        <div class="grain-card" data-grain="fine">
+                            <h4 class="font-bold text-lg">Sel Fin (0.1-1mm)</h4>
+                            <p class="text-sm text-slate-600">Action rapide, niveau de surface.</p>
+                        </div>
+                        <div class="grain-card" data-grain="coarse">
+                            <h4 class="font-bold text-lg">Gros Sel (2-5mm)</h4>
+                            <p class="text-sm text-slate-600">Action lente, durcissement en profondeur.</p>
+                        </div>
+                    </div>
+                    <div id="grain-details" class="p-4 bg-blue-50 rounded-lg">
+                        <h5 class="font-bold text-navy">Mélange (60% Gros, 40% Fin)</h5>
+                        <p class="text-sm text-slate-700 mt-1"><strong>Effet :</strong> Combine un durcissement rapide en surface avec un effet profond et durable. Le composant fin agit immédiatement tandis que le composant gros assure la stabilité. <br><strong>Idéal pour :</strong> Usage universel.</p>
+                    </div>
+                </div>
+                <!-- Dosage Chart -->
+                <div class="card p-6">
+                    <h3 class="text-2xl font-bold mb-4">Graphique de Dosage Interactif</h3>
+                    <p class="text-sm text-slate-600 mb-4">Cliquez sur une barre du graphique pour voir le dosage recommandé. La plage standard est de 100-200 g/m², mais augmente dans des conditions plus chaudes et plus humides.</p>
+                    <div class="chart-container">
+                        <canvas id="dosageChart"></canvas>
+                    </div>
+                    <p class="text-center text-navy font-semibold mt-4">
+                        Sélectionné : <span id="dosage-selection" class="text-accent font-bold">Mouillé, +1°C à +3°C (~180 g/m²)</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+        <!-- Section 5: Workflow -->
+        <section id="workflow" class="mb-16 pt-16">
+            <h2 class="text-4xl font-bold mb-4">4. Le Workflow : T-60 au Temps de la Course</h2>
+            <p class="text-lg text-slate-700 mb-8">
+                Le timing est primordial. L'application du sel est un processus qui doit être lancé bien avant la course pour permettre à la réaction chimique de s'achever. L'étape du "lissage" est critique pour une surface uniforme.
+            </p>
+            <!-- HTML/CSS Vertical Timeline -->
+            <div class="relative max-w-2xl mx-auto border-l-4 border-accent pl-8 py-4">
+                <!-- T-60 -->
+                <div class="mb-8 relative">
+                    <div class="absolute -left-11 -top-1 w-6 h-6 bg-navy rounded-full border-4 border-cream"></div>
+                    <h3 class="text-xl font-bold text-navy">T-60 Minutes : Préparation</h3>
+                    <p class="text-slate-600">Vérifier les conditions de neige (humidité, température). Préparer le sel (mélange de grains correct) et l'équipement d'épandage (épandeurs mécaniques).</p>
+                </div>
+                <!-- T-45 -->
+                <div class="mb-8 relative">
+                    <div class="absolute -left-11 -top-1 w-6 h-6 bg-navy rounded-full border-4 border-cream"></div>
+                    <h3 class="text-xl font-bold text-navy">T-45 Minutes : Épandage</h3>
+                    <p class="text-slate-600">Distribuer le sel uniformément sur les zones cibles (ligne de course, virages clés). Travailler avec le vent.</p>
+                </div>
+                <!-- T-30 (CRITICAL) -->
+                <div class="mb-8 relative p-4 rounded-lg bg-orange-50 border-2 border-highlight">
+                    <div class="absolute -left-12 -top-1 w-8 h-8 bg-highlight rounded-full border-4 border-cream shadow-lg"></div>
+                    <h3 class="text-xl font-bold text-highlight-dark">T-30 à T-25 Min : LISSAGE CRITIQUE</h3>
+                    <p class="text-slate-700 font-semibold">Après 5-10 minutes de repos, la surface est molle. 4-5 "skieurs glisseurs" expérimentés doivent glisser (sans tourner) sur les zones salées. Cela compacte la surface fondante et assure son regel en une couche de glace lisse et homogène.</p>
+                </div>
+                <!-- T-10 -->
+                <div class="mb-8 relative">
+                    <div class="absolute -left-11 -top-1 w-6 h-6 bg-navy rounded-full border-4 border-cream"></div>
+                    <h3 class="text-xl font-bold text-navy">T-10 Minutes : Contrôle</h3>
+                    <p class="text-slate-600">Le manager de piste vérifie la dureté, l'adhérence et l'uniformité. Retraiter les zones molles si nécessaire (avec du sel fin).</p>
+                </div>
+                <!-- T-0 -->
+                <div class="relative">
+                    <div class="absolute -left-11 -top-1 w-6 h-6 bg-green-500 rounded-full border-4 border-cream"></div>
+                    <h3 class="text-xl font-bold text-green-700">T-0 : Départ</h3>
+                    <p class="text-slate-600">La piste est prête. La surface est dure, adhérente et cohérente.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-navy text-cream/70 p-8 text-center mt-16">
+        <p>Ce guide interactif est basé sur le rapport "Use of NaCl for Piste Preparation" de Osi Inglin.</p>
+        <p class="text-sm mt-2">Application conçue pour démonstration. Aucun SVG ou Mermaid JS utilisé.</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 1. Go/No-Go Dashboard Logic ---
+            const snowType = document.getElementById('snow-type');
+            const snowTemp = document.getElementById('snow-temp');
+            const btnMoist = document.getElementById('btn-moist');
+            const btnDry = document.getElementById('btn-dry');
+            const resultBox = document.getElementById('decision-result');
+            const reasonText = document.getElementById('decision-reason');
+            let isMoist = true;
+            function updateDecision() {
+                const type = snowType.value;
+                const temp = snowTemp.value;
+                
+                let go = true;
+                let reason = '';
+                if (type === 'powder') {
+                    go = false;
+                    reason = 'NON: Le salage n\'est pas adapté à la neige poudreuse (trop sèche).';
+                } else if (temp === 'very-cold') {
+                    go = false;
+                    reason = 'NON: Température < -5°C. La neige est trop sèche pour que le sel se dissolve.';
+                } else if (!isMoist) {
+                    go = false;
+                    reason = 'NON: Humidité < 3%. Le sel nécessite de l\'eau libre pour se dissoudre et agir.';
+                } else if (temp === 'cold') {
+                    go = true;
+                    reason = 'GO (Prudence): Conditions froides (-2°C à -5°C). L\'effet sera lent. Assurez-vous d\'avoir > 3% d\'humidité.';
+                } else if (temp === 'warm') {
+                    go = true;
+                    reason = 'GO (Dosage Élevé): Conditions chaudes (> +2°C). Le sel fonctionnera, mais nécessite un dosage plus élevé (voir graphique).';
+                } else {
+                    go = true;
+                    reason = 'GO: Conditions idéales. La neige est humide et dans la plage de température optimale (-2°C à +2°C).';
+                }
+                if (go) {
+                    resultBox.textContent = reason.split(':')[0].trim();
+                    resultBox.classList.remove('no-go');
+                    resultBox.classList.add('go');
+                } else {
+                    resultBox.textContent = reason.split(':')[0].trim();
+                    resultBox.classList.remove('go');
+                    resultBox.classList.add('no-go');
+                }
+                reasonText.textContent = reason.split(':')[1].trim();
+            }
+            btnMoist.addEventListener('click', () => {
+                isMoist = true;
+                btnMoist.classList.add('border-accent', 'bg-blue-100', 'text-accent');
+                btnMoist.classList.remove('border-slate-300', 'bg-white', 'text-slate-600');
+                btnDry.classList.add('border-slate-300', 'bg-white', 'text-slate-600');
+                btnDry.classList.remove('border-accent', 'bg-blue-100', 'text-accent');
+                updateDecision();
+            });
+            btnDry.addEventListener('click', () => {
+                isMoist = false;
+                btnDry.classList.add('border-accent', 'bg-blue-100', 'text-accent');
+                btnDry.classList.remove('border-slate-300', 'bg-white', 'text-slate-600');
+                btnMoist.classList.add('border-slate-300', 'bg-white', 'text-slate-600');
+                btnMoist.classList.remove('border-accent', 'bg-blue-100', 'text-accent');
+                updateDecision();
+            });
+            snowType.addEventListener('change', updateDecision);
+            snowTemp.addEventListener('change', updateDecision);
+            updateDecision(); // Initial check
+            // --- 2. Grain Size Selector Logic ---
+            const grainCards = document.querySelectorAll('.grain-card');
+            const grainDetails = document.getElementById('grain-details');
+            const grainData = {
+                mixture: {
+                    title: 'Mélange (60% Gros, 40% Fin)',
+                    desc: '<strong>Effet :</strong> Combine un durcissement rapide en surface avec un effet profond et durable. Le composant fin agit immédiatement tandis que le composant gros assure la stabilité. <br><strong>Idéal pour :</strong> Usage universel.'
+                },
+                fine: {
+                    title: 'Sel Fin (0.1-1mm)',
+                    desc: '<strong>Effet :</strong> Surface (1-2 cm).<br><strong>Vitesse :</strong> Très Rapide (10-20 min).<br><strong>Idéal pour :</strong> Durcissement de dernière minute, réajustements, ou amélioration de la surface.'
+                },
+                coarse: {
+                    title: 'Gros Sel (2-5mm)',
+                    desc: '<strong>Effet :</strong> Profondeur (3-6 cm).<br><strong>Vitesse :</strong> Lente (30-60 min).<br><strong>Idéal pour :</strong> Durcissement de base de toute la pente, effet durable, consolidation stable.'
+                }
+            };
+            grainCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    grainCards.forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    const grainType = card.dataset.grain;
+                    grainDetails.innerHTML = `<h5 class="font-bold text-navy">${grainData[grainType].title}</h5><p class="text-sm text-slate-700 mt-1">${grainData[grainType].desc}</p>`;
+                });
+            });
+            // --- 3. Dosage Chart.js Logic ---
+            const ctx = document.getElementById('dosageChart');
+            const dosageSelection = document.getElementById('dosage-selection');
+            const dosageLabels = ['Légèrement humide, -1°C', 'Modérément humide, 0°C', 'Mouillé, +1°C à +3°C', 'Très mouillé, > +3°C'];
+            const dosageData = [80, 120, 180, 250];
+            if (ctx) {
+                const dosageChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: dosageLabels,
+                        datasets: [{
+                            label: 'Dosage (g/m²)',
+                            data: dosageData,
+                            backgroundColor: [
+                                '#93c5fd', // blue-300
+                                '#60a5fa', // blue-400
+                                '#3b82f6', // blue-500
+                                '#2563eb'  // blue-600
+                            ],
+                            borderColor: '#172554',
+                            borderWidth: 1,
+                            borderRadius: 4,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Dosage (g/m²)'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                displayColors: false,
+                                callbacks: {
+                                    title: () => '',
+                                    label: (context) => {
+                                        return `${context.label}: ${context.parsed.y} g/m²`;
+                                    }
+                                }
+                            }
+                        },
+                        onClick: (event, elements) => {
+                            if (elements.length > 0) {
+                                const index = elements[0].index;
+                                const label = dosageLabels[index];
+                                const data = dosageData[index];
+                                dosageSelection.textContent = `${label} (~${data} g/m²)`;
+                            }
+                        }
+                    }
+                });
+            }
+            // --- 4. Smooth Scroll Navigation ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+0 commit comments
+Comments
+0
+ (0)
+Comment
+You're receiving notifications because you're subscribed to this thread.
+Create salt · piccardjeffcoach/piccard-ski-coach@d445389There are no files selected for viewing
