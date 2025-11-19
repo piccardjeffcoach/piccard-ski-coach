@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Appui en Ski Alpin: L'Infographie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'ski-dark': '#001f3f',
+              'ski-primary': '#0074D9',
+              'ski-medium': '#39CCCC',
+              'ski-light': '#7FDBFF',
+              'ski-bg': '#F7FAFC',
+              'ski-success': '#2ecc71', /* Ajout d'une couleur verte pour le feedback de réussite */
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #F7FAFC;
+        color: #001f3f;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 300px;
+        max-height: 400px;
+      }
+      @media (min-width: 768px) {
+        .chart-container {
+          height: 350px;
+        }
+      }
+      blockquote {
+        border-left: 4px solid #0074D9;
+        padding-left: 1rem;
+        font-style: italic;
+        color: #001f3f;
+      }
+      .quiz-button {
+        transition: all 0.2s;
+      }
+      .quiz-button:not([disabled]):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+</head>
+<body class="bg-ski-bg">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-ski-dark mb-4">L’Appui comme Clé de Voûte du Virage</h1>
+            <blockquote class="text-xl md:text-2xl max-w-3xl mx-auto">
+                « Le secret d’un bon virage réside dans la qualité de l’appui. »
+                <cite class="block text-right not-italic text-lg text-ski-primary font-semibold mt-2">– Jean-Claude Killy</cite>
+            </blockquote>
+        </header>
+
+        <section class="bg-white rounded-lg shadow-md p-6 md:p-8 mb-12">
+            <h2 class="text-3xl font-bold text-ski-primary mb-4">Qu'est-ce que l'Appui en Ski Alpin ?</h2>
+            <p class="text-lg text-ski-dark leading-relaxed">
+                En ski alpin, l'appui est bien plus qu'un simple point de contact. C'est un <span class="font-bold text-ski-primary">ancrage temporaire</span> sur une surface fondamentalement instable et variable : la neige. Alors que le skieur est en perpétuel déplacement, cet appui devient le point de pivot à partir duquel il peut exercer une force, générer un mouvement, changer de direction ou se stabiliser. La maîtrise de cette interaction complexe entre l'athlète, son matériel et la piste est un défi technique, physique et tactique permanent.
+            </p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-ski-dark mb-6 text-center">Les Deux Grandes Familles d'Appuis</h2>
+            <p class="text-lg text-ski-dark leading-relaxed max-w-4xl mx-auto text-center mb-8">
+                L'analyse du ski alpin révèle deux grandes familles d'appuis, chacune adaptée à des situations, des disciplines et des types de neige spécifiques. Les athlètes de haut niveau naviguent constamment entre ces deux approches pour optimiser leur performance.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col">
+                    <h3 class="text-2xl font-bold text-ski-primary mb-4">1. Appuis Glissés, Pilotés et Filants</h3>
+                    <p class="text-ski-dark mb-4 flex-grow">
+                        Typiques des disciplines de vitesse (Descente, Super-G) et des neiges molles, ces appuis privilégient la fluidité. L'objectif est de conserver la vitesse en étalant les pressions sur des courbes longues et amples, avec une mise en tension corporelle relativement faible.
+                    </p>
+                    <p class="text-ski-dark font-semibold mb-4">Profil de Force : Conservation de Vitesse</p>
+                    <p class="text-sm text-ski-dark/80 mb-4">Ce graphique illustre comment la pression est appliquée de manière progressive et continue tout au long du virage, sans pic brutal, favorisant la glisse.</p>
+                    <div class="chart-container">
+                        <canvas id="glisseChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col">
+                    <h3 class="text-2xl font-bold text-ski-medium mb-4">2. Appuis, Déviation et Changement</h3>
+                    <p class="text-ski-dark mb-4 flex-grow">
+                        Essentiels en disciplines techniques (Slalom, Géant) et sur neige dure ou glacée, ces appuis sont courts, intenses et agressifs. L'objectif est de générer de la vitesse dans la ligne de pente par une mise en tension forte et une restitution d'énergie.
+                    </p>
+                    <p class="text-ski-dark font-semibold mb-4">Profil de Force : Restitution d'Énergie</p>
+                    <p class="text-sm text-ski-dark/80 mb-4">Ce graphique montre un pic de force court et intense (le "Jerk"), représentant le moment précis où le skieur change radicalement de direction et charge le ski pour être propulsé.</p>
+                    <div class="chart-container">
+                        <canvas id="deviationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-md p-6 md:p-8 mb-12">
+            <h2 class="text-3xl font-bold text-ski-primary mb-6 text-center">Comparaison Détaillée</h2>
+            <p class="text-lg text-ski-dark leading-relaxed max-w-4xl mx-auto text-center mb-8">
+                Les caractéristiques de ces deux familles dictent des approches techniques et matérielles radicalement différentes, comme le montre cette comparaison directe.
+            </p>
+            <div class="overflow-x-auto">
+                <table class="w-full min-w-[600px] text-left border-collapse">
+                    <thead>
+                        <tr class="bg-ski-dark text-white">
+                            <th class="p-4 font-semibold border-b border-ski-light/30">Caractéristique</th>
+                            <th class="p-4 font-semibold border-b border-ski-light/30">Appuis Glissés / Pilotés</th>
+                            <th class="p-4 font-semibold border-b border-ski-light/30">Appuis Déviation / Changement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-200">
+                            <td class="p-4 font-semibold">Disciplines</td>
+                            <td class="p-4">Descente, Super-G</td>
+                            <td class="p-4">Slalom, Géant</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 bg-ski-bg/50">
+                            <td class="p-4 font-semibold">Type de Neige</td>
+                            <td class="p-4">Faible densité (molle, fraîche)</td>
+                            <td class="p-4">Dure, compacte, glace</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="p-4 font-semibold">Type de Courbes</td>
+                            <td class="p-4">Longues, amples, étirées</td>
+                            <td class="p-4">Courtes, serrées, radicales</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 bg-ski-bg/50">
+                            <td class="p-4 font-semibold">Forces Engagées</td>
+                            <td class="p-4">Faible tension, pression étalée</td>
+                            <td class="p-4">Forte tension, impact, pic de force</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="p-4 font-semibold">Objectif Principal</td>
+                            <td class="p-4">Conserver et maximiser la vitesse</td>
+                            <td class="p-4">Générer de la vitesse, restitution d'énergie</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-ski-dark mb-6 text-center">L'Architecture de l'Appui Performant</h2>
+            <p class="text-lg text-ski-dark leading-relaxed max-w-4xl mx-auto text-center mb-8">
+                Un appui efficace n'est pas qu'une simple action de la jambe. C'est une synergie complexe qui engage tout le corps, de l'esprit jusqu'aux carres.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-2xl font-bold text-ski-primary mb-4">Mécanique : Alignement et Empilement</h3>
+                    <p class="text-ski-dark mb-6">
+                        L'"empilement" est la connexion intégrale de la chaîne corporelle, permettant de concentrer le centre de gravité sur le ski externe. Un bon alignement anatomique (squelette, muscles, articulations) garantit qu'aucune force n'est perdue.
+                    </p>
+                    
+                    <div class="flex flex-col items-center space-y-2 p-4 bg-ski-bg/50 rounded-lg">
+                        <div class="p-3 w-4/5 text-center bg-white rounded-lg shadow border border-ski-light">Tête (Vision / Perception)</div>
+                        <div class="text-ski-primary font-bold text-2xl">↓</div>
+                        <div class="p-3 w-4/5 text-center bg-white rounded-lg shadow border border-ski-light">Tronc (Stabilité / Gaine)</div>
+                        <div class="text-ski-primary font-bold text-2xl">↓</div>
+                        <div class="p-3 w-4/5 text-center bg-white rounded-lg shadow border border-ski-light">Bassin (Alignement)</div>
+                        <div class="text-ski-primary font-bold text-2xl">↓</div>
+                        <div class="p-3 w-4/5 text-center bg-white rounded-lg shadow border border-ski-light">Genoux / Chevilles (Flexion)</div>
+                        <div class="text-ski-primary font-bold text-2xl">↓</div>
+                        <div class="p-3 w-4/5 text-center bg-ski-primary text-white font-bold rounded-lg shadow">Skis / Carres (Point d'Ancrage)</div>
+                    </div>
+                    
+                    <blockquote class="mt-6 text-base">
+                        "Une chaîne n'a de force que son maillon le plus faible"
+                    </blockquote>
+                </div>
+                
+                <div class="space-y-8">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-2xl font-bold text-ski-primary mb-4">Stabilité : Le Mythe de l'Équilibre</h3>
+                        <p class="text-ski-dark mb-4">
+                            Le skieur n'est jamais en équilibre statique. La performance naît du <span class="font-bold">déséquilibre contrôlé</span>. Le centre de gravité doit être en avance sur le point d'appui pour initier le mouvement et générer de la puissance.
+                        </p>
+                        <blockquote class="text-base text-ski-medium font-semibold">
+                            « L'équilibre n'est pas l'immobilité, mais la capacité à se rétablir continuellement après chaque déséquilibre. »
+                        </blockquote>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-2xl font-bold text-ski-primary mb-4">Perceptif : Les Sens du Skieur</h3>
+                        <p class="text-sm text-ski-dark/80 mb-4">L'appui est aussi une affaire de sensations. Ce radar montre l'importance relative des différents systèmes perceptifs pour adapter l'appui en temps réel.</p>
+                        <div class="chart-container">
+                            <canvas id="perceptionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOUVELLE SECTION QUIZ -->
+        <section class="bg-white rounded-lg shadow-xl p-6 md:p-10 mb-12 border-4 border-ski-medium">
+            <h2 class="text-3xl font-bold text-ski-dark mb-6 text-center border-b pb-4 border-ski-light">Testez vos Connaissances !</h2>
+            
+            <div id="quiz-container">
+                <div id="quiz-header" class="mb-6 text-center">
+                    <p class="text-xl font-semibold text-ski-primary" id="question-number"></p>
+                    <p class="text-2xl font-bold text-ski-dark mt-2" id="quiz-question"></p>
+                </div>
+
+                <div id="answer-buttons" class="grid grid-cols-1 gap-4 md:grid-cols-2 mb-6">
+                    <!-- Les boutons de réponse seront injectés ici par JS -->
+                </div>
+
+                <div id="feedback-area" class="h-10 text-center">
+                    <!-- Feedback de réponse et bouton Suivant -->
+                </div>
+
+                <div id="results-area" class="hidden text-center mt-8">
+                    <h3 class="text-3xl font-bold text-ski-primary mb-4">Résultats du Quiz</h3>
+                    <p class="text-xl text-ski-dark" id="final-score"></p>
+                    <button onclick="restartQuiz()" class="mt-6 px-6 py-3 bg-ski-primary text-white font-semibold rounded-lg quiz-button">Recommencer le Quiz</button>
+                </div>
+            </div>
+        </section>
+        <!-- FIN SECTION QUIZ -->
+
+        <footer class="text-center mt-12 bg-ski-dark text-white rounded-lg shadow-md p-8">
+            <h2 class="text-3xl font-bold text-white mb-4">La Performance par la Maîtrise</h2>
+            <p class="text-lg text-ski-light leading-relaxed max-w-3xl mx-auto mb-6">
+                La maîtrise des appuis repose sur une fusion de force musculaire, d'alignement anatomique et de perception intuitive. C'est en exploitant la biomécanique du corps que le skieur transforme le déséquilibre en performance pure.
+            </p>
+            <blockquote class="text-xl text-white max-w-2xl mx-auto border-ski-medium">
+                "On ne peut pas tirer au canon d'un canoë"
+                <cite class="block text-right not-italic text-lg text-ski-light font-semibold mt-2">– John W. Hatfield</cite>
+            </blockquote>
+        </footer>
+    </div>
+    
+    <script>
+      const quizData = [
+          {
+              question: "Quelle est la caractéristique principale d'un 'Appui Glissé' ?",
+              answers: ["Court et intense", "Conservation de la vitesse", "Changement radical de direction", "Seulement utilisé en Slalom"],
+              correct: 1
+          },
+          {
+              question: "Dans quelles disciplines trouve-t-on les 'Appuis Déviation et Changement' ?",
+              answers: ["Descente et Super-G", "Slalom et Géant", "Saut à ski et Biathlon", "Ski de randonnée"],
+              correct: 1
+          },
+          {
+              question: "Que représente le 'Jerk' dans le contexte des appuis déviation ?",
+              answers: ["Le mouvement de balancier des bras", "La variation brutale de l'accélération", "Le bruit des carres sur la glace", "La durée du virage"],
+              correct: 1
+          },
+          {
+              question: "Quel est l'objectif principal de l'alignement corporel (ou 'empilement') ?",
+              answers: ["Augmenter la résistance au vent", "Économiser les muscles des bras", "Concentrer le centre de gravité sur le ski externe", "Diminuer l'angle de carre"],
+              correct: 2
+          },
+          {
+              question: "Le skieur est-il en équilibre statique durant le virage ?",
+              answers: ["Oui, l'équilibre est constant", "Non, il est en déséquilibre permanent et contrôlé", "Seulement en Super-G", "Seulement à l'arrivée"],
+              correct: 1
+          },
+          {
+              question: "Quel système perceptif est le plus important pour adapter l'appui en temps réel (selon le radar) ?",
+              answers: ["Auditive", "Vestibulaire", "Kinesthésique", "Visuelle"],
+              correct: 2
+          },
+          {
+              question: "Les appuis 'pilotés' sont optimaux pour quel type de courbes ?",
+              answers: ["Courtes et serrées", "Radicales", "Longues et amples", "Uniquement les courbes plates"],
+              correct: 2
+          },
+          {
+              question: "La 'Solidité de l'appui' fait référence à la capacité du skieur à :",
+              answers: ["Ne jamais tomber", "Maintenir un ancrage stable malgré les forces externes", "Sentir la qualité de la neige", "Faire des virages très rapides"],
+              correct: 1
+          },
+          {
+              question: "Quel élément de la chaîne corporelle est considéré comme le point d'ancrage dans l'empilement ?",
+              answers: ["Le Tronc (Stabilité / Gaine)", "La Tête (Vision / Perception)", "Les Skis / Carres (Point d'Ancrage)", "Le Bassin (Alignement)"],
+              correct: 2
+          },
+          {
+              question: "La restitution d'énergie est l'objectif principal des appuis de quel type ?",
+              answers: ["Appuis Glissés", "Appuis Filants", "Appuis Déviation", "Appuis d'économie"],
+              correct: 2
+          }
+      ];
+
+      let currentQuestionIndex = 0;
+      let score = 0;
+      let quizActive = true;
+
+      const questionNumberEl = document.getElementById('question-number');
+      const quizQuestionEl = document.getElementById('quiz-question');
+      const answerButtonsEl = document.getElementById('answer-buttons');
+      const feedbackAreaEl = document.getElementById('feedback-area');
+      const resultsAreaEl = document.getElementById('results-area');
+      const finalScoreEl = document.getElementById('final-score');
+      
+      function displayQuestion() {
+          if (currentQuestionIndex >= quizData.length) {
+              showResults();
+              return;
+          }
+
+          quizActive = true;
+          feedbackAreaEl.innerHTML = '';
+          answerButtonsEl.innerHTML = '';
+          resultsAreaEl.classList.add('hidden');
+
+          const currentQ = quizData[currentQuestionIndex];
+          questionNumberEl.textContent = `Question ${currentQuestionIndex + 1} / ${quizData.length}`;
+          quizQuestionEl.textContent = currentQ.question;
+
+          currentQ.answers.forEach((answer, index) => {
+              const button = document.createElement('button');
+              button.textContent = answer;
+              button.classList.add('quiz-button', 'px-4', 'py-3', 'bg-ski-bg', 'text-ski-dark', 'border', 'border-ski-light', 'rounded-lg', 'shadow-md', 'font-semibold', 'text-left');
+              button.onclick = () => checkAnswer(index, button);
+              answerButtonsEl.appendChild(button);
+          });
+      }
+
+      function checkAnswer(selectedIndex, selectedButton) {
+          if (!quizActive) return;
+
+          quizActive = false;
+          const currentQ = quizData[currentQuestionIndex];
+          const allButtons = answerButtonsEl.querySelectorAll('button');
+          
+          allButtons.forEach(btn => btn.disabled = true);
+          
+          if (selectedIndex === currentQ.correct) {
+              score++;
+              selectedButton.classList.remove('bg-ski-bg', 'border-ski-light', 'text-ski-dark');
+              selectedButton.classList.add('bg-ski-success', 'border-ski-success', 'text-white', 'shadow-lg');
+              feedbackAreaEl.innerHTML = '<p class="text-lg font-bold text-ski-success">✅ Correct !</p>';
+          } else {
+              selectedButton.classList.remove('bg-ski-bg', 'border-ski-light', 'text-ski-dark');
+              selectedButton.classList.add('bg-red-500', 'border-red-500', 'text-white', 'shadow-lg');
+              allButtons[currentQ.correct].classList.remove('bg-ski-bg', 'border-ski-light', 'text-ski-dark');
+              allButtons[currentQ.correct].classList.add('bg-ski-success', 'border-ski-success', 'text-white', 'shadow-lg');
+              feedbackAreaEl.innerHTML = '<p class="text-lg font-bold text-red-500">❌ Incorrect. La bonne réponse est en vert.</p>';
+          }
+
+          const nextButton = document.createElement('button');
+          nextButton.textContent = currentQuestionIndex < quizData.length - 1 ? 'Question Suivante →' : 'Afficher les Résultats';
+          nextButton.classList.add('mt-4', 'px-6', 'py-2', 'bg-ski-primary', 'text-white', 'font-semibold', 'rounded-lg', 'quiz-button');
+          nextButton.onclick = () => {
+              currentQuestionIndex++;
+              displayQuestion();
+          };
+          feedbackAreaEl.appendChild(nextButton);
+      }
+
+      function showResults() {
+          questionNumberEl.textContent = '';
+          quizQuestionEl.textContent = 'Quiz Terminé !';
+          answerButtonsEl.innerHTML = '';
+          feedbackAreaEl.innerHTML = '';
+          
+          resultsAreaEl.classList.remove('hidden');
+          finalScoreEl.textContent = `Votre score final est de ${score} / ${quizData.length}.`;
+      }
+
+      function restartQuiz() {
+          currentQuestionIndex = 0;
+          score = 0;
+          displayQuestion();
+      }
+
+      // --- Chart.js Initialization ---
+      const tooltipTitleCallback = (tooltipItems) => {
+          const item = tooltipItems[0];
+          let label = item.chart.data.labels[item.dataIndex];
+          if (Array.isArray(label)) {
+            return label.join(' ');
+          } else {
+            return label;
+          }
+      };
+
+      const defaultChartOptions = {
+          maintainAspectRatio: false,
+          responsive: true,
+          plugins: {
+              tooltip: {
+                  callbacks: {
+                      title: tooltipTitleCallback
+                  },
+                  backgroundColor: '#001f3f',
+                  titleFont: { weight: 'bold' },
+                  bodyFont: { size: 14 },
+                  padding: 12,
+                  cornerRadius: 6,
+              },
+              legend: {
+                  labels: {
+                      color: '#001f3f',
+                      font: {
+                          size: 14
+                      }
+                  }
+              }
+          },
+          scales: {
+              x: {
+                  ticks: {
+                      color: '#001f3f'
+                  },
+                  grid: {
+                      color: 'rgba(0, 31, 63, 0.1)'
+                  }
+              },
+              y: {
+                  ticks: {
+                      color: '#001f3f'
+                  },
+                  grid: {
+                      color: 'rgba(0, 31, 63, 0.1)'
+                  }
+              }
+          }
+      };
+
+      document.addEventListener('DOMContentLoaded', () => {
+          // Chart 1: Glisse
+          const ctx1 = document.getElementById('glisseChart')?.getContext('2d');
+          if (ctx1) {
+              new Chart(ctx1, {
+                  type: 'line',
+                  data: {
+                      labels: ['Initiation', 'Conduite 1', 'Conduite 2', 'Conduite 3', 'Transition', 'Fin'],
+                      datasets: [{
+                          label: 'Pression Appliquée',
+                          data: [10, 45, 70, 65, 40, 15],
+                          fill: true,
+                          backgroundColor: 'rgba(0, 116, 217, 0.2)',
+                          borderColor: '#0074D9',
+                          tension: 0.4
+                      }]
+                  },
+                  options: { ...defaultChartOptions }
+              });
+          }
+
+          // Chart 2: Déviation
+          const ctx2 = document.getElementById('deviationChart')?.getContext('2d');
+          if (ctx2) {
+              new Chart(ctx2, {
+                  type: 'bar',
+                  data: {
+                      labels: ['Avant', 'Initiation', ['Changement', 'Direction (Jerk)'], 'Sortie', 'Transition'],
+                      datasets: [{
+                          label: 'Pression Appliquée',
+                          data: [10, 30, 100, 45, 15],
+                          backgroundColor: '#39CCCC',
+                          borderColor: '#0074D9',
+                          borderWidth: 2
+                      }]
+                  },
+                  options: { ...defaultChartOptions }
+              });
+          }
+
+          // Chart 3: Perception (Radar)
+          const ctx3 = document.getElementById('perceptionChart')?.getContext('2d');
+          if (ctx3) {
+              new Chart(ctx3, {
+                  type: 'radar',
+                  data: {
+                      labels: ['Kinesthésique', 'Visuelle', 'Tactile', 'Vestibulaire', 'Auditive'],
+                      datasets: [{
+                          label: 'Importance Perceptive',
+                          data: [95, 90, 80, 75, 40],
+                          fill: true,
+                          backgroundColor: 'rgba(0, 116, 217, 0.2)',
+                          borderColor: '#0074D9',
+                          pointBackgroundColor: '#0074D9',
+                          pointBorderColor: '#fff',
+                          pointHoverBackgroundColor: '#fff',
+                          pointHoverBorderColor: '#0074D9'
+                      }]
+                  },
+                  options: {
+                      maintainAspectRatio: false,
+                      responsive: true,
+                      plugins: {
+                          tooltip: {
+                              callbacks: {
+                                  title: tooltipTitleCallback
+                              },
+                              backgroundColor: '#001f3f',
+                              titleFont: { weight: 'bold' },
+                              bodyFont: { size: 14 },
+                              padding: 12,
+                              cornerRadius: 6,
+                          },
+                          legend: {
+                             display: false
+                          }
+                      },
+                      scales: {
+                          r: {
+                              angleLines: {
+                                  color: 'rgba(0, 31, 63, 0.1)'
+                              },
+                              grid: {
+                                  color: 'rgba(0, 31, 63, 0.1)'
+                              },
+                              pointLabels: {
+                                  color: '#001f3f',
+                                  font: {
+                                      size: 14,
+                                      weight: '600'
+                                  }
+                              },
+                              ticks: {
+                                  backdropColor: 'rgba(247, 250, 252, 0.75)',
+                                  color: '#001f3f'
+                              }
+                          }
+                      }
+                  }
+              });
+          }
+          
+          // Start the quiz
+          displayQuestion();
+      });
+    </script>
+
+</body>
+</html>
