@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse Infographique du Virage en Ski Alpin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              'ski-red': '#F94144',
+              'ski-orange': '#F3722C',
+              'ski-yellow': '#F9C74F',
+              'ski-green': '#90BE6D',
+              'ski-teal': '#43AA8B',
+              'ski-blue-grey': '#577590',
+              'ski-bg-light': '#F8F9FA',
+              'ski-text-dark': '#212529',
+              'ski-correct': '#90BE6D', // Vert pour la bonne réponse
+              'ski-incorrect': '#F94144', // Rouge pour la mauvaise réponse
+              'gemini-purple': '#5A4E86',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 300px;
+        max-height: 350px;
+      }
+      @media (min-width: 640px) {
+        .chart-container {
+          height: 350px;
+          max-height: 400px;
+        }
+      }
+      .flow-card {
+        background-color: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        padding: 1.5rem;
+        width: 100%;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .flow-arrow {
+        font-size: 3rem;
+        color: #577590;
+        padding: 1rem;
+        transform: rotate(90deg);
+      }
+      @media (min-width: 768px) {
+        .flow-arrow {
+          transform: rotate(0deg);
+        }
+      }
+      /* Styles spécifiques au quiz one-by-one */
+      .quiz-option {
+        cursor: pointer;
+        transition: background-color 0.15s, border-color 0.15s;
+        border: 2px solid #D1D5DB;
+      }
+      .quiz-option:hover:not(.answered) {
+        background-color: #f0f4f8;
+        border-color: #577590;
+      }
+      .quiz-option.answered {
+        pointer-events: none; /* Désactive le clic après réponse */
+      }
+      .quiz-option.correct-answer {
+        background-color: #d9f3d9 !important; /* Vert très clair */
+        border-color: #90BE6D !important; /* Vert ski-correct */
+        font-weight: bold;
+      }
+      .quiz-option.incorrect-choice {
+        background-color: #f7e0e0 !important; /* Rouge très clair */
+        border-color: #F94144 !important; /* Rouge ski-incorrect */
+      }
+      
+      /* Styles pour les onglets */
+      .tab-button.active {
+          border-bottom: 3px solid #F3722C; /* Orange pour l'actif */
+          color: #F3722C;
+          font-weight: 600;
+      }
+      .tab-content {
+          display: none;
+      }
+      .tab-content.active {
+          display: block;
+      }
+      
+      /* Style de chargement */
+      .loader {
+          border-top-color: #5A4E86;
+          border-left-color: #5A4E86;
+          animation: spin 1s infinite linear;
+      }
+      @keyframes spin {
+          to { transform: rotate(360deg); }
+      }
+    </style>
+</head>
+<body class="bg-ski-bg-light text-ski-text-dark">
+
+    <header class="bg-ski-blue-grey text-white p-8 text-center shadow-lg">
+        <h1 class="text-4xl md:text-5xl font-black tracking-tight">Le Virage en Ski Alpin</h1>
+        <p class="text-xl md:text-2xl font-light mt-2">Une Analyse Fonctionnelle de l'Appui</p>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <!-- Navigation par Onglets -->
+        <nav class="flex border-b border-gray-300 bg-white rounded-t-lg shadow-sm overflow-hidden mb-8">
+            <button id="nav-analyse" onclick="showContent('analyse')" class="tab-button active flex-1 py-4 px-4 text-center text-gray-600 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none">
+                Infographie Détaillée
+            </button>
+            <button id="nav-quiz" onclick="showContent('quiz')" class="tab-button flex-1 py-4 px-4 text-center text-gray-600 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none">
+                Quiz
+            </button>
+            <button id="nav-coach" onclick="showContent('coach')" class="tab-button flex-1 py-4 px-4 text-center text-gray-600 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none">
+                Coach IA ✨
+            </button>
+        </nav>
+
+        <!-- Contenu 1: Analyse Infographique -->
+        <div id="content-analyse" class="tab-content active grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Sections de l'Infographie (non modifiées) -->
+            <section id="usage-vs-outil" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-ski-blue-grey mb-4">Penser l'Usage avant l'Outil</h2>
+                <p class="mb-4 text-base">Trop souvent, l'enseignement se concentre sur les "Outils" (le Comment faire un geste) sans clarifier l' "Usage" (le Pourquoi on le fait). Notre analyse inverse cette approche : l'objectif est de développer l'intelligence motrice, où les outils sont au service d'un usage clair : <strong class="text-ski-teal">créer un appui efficace</strong>.</p>
+                <div class="chart-container" style="max-height: 300px;">
+                    <canvas id="chartUsage"></canvas>
+                </div>
+                <p class="text-center text-sm text-gray-600 mt-2">Visualisation conceptuelle de la priorité d'enseignement : l'Usage (le but) doit primer sur les Outils (les moyens).</p>
+            </section>
+
+            <section id="physique" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-ski-blue-grey mb-4">La Physique de l'Appui</h2>
+                <p class="mb-4 text-base">Un virage est une réponse aux lois physiques. Le skieur doit vaincre son <strong class="text-ski-red">Inertie</strong> (le poussant à aller tout droit) en créant une <strong class="text-ski-green">Force Centripète</strong> (le forçant à tourner). Cette force est la <strong class="text-ski-teal">Réaction</strong> de la neige à une <strong class="text-ski-orange">Action</strong> du skieur.</p>
+                
+                <div class="bg-gray-100 rounded-lg p-6 flex flex-col sm:flex-row items-center justify-around space-y-4 sm:space-y-0 sm:space-x-4">
+                  <div class="text-center">
+                    <p class="text-xl font-bold text-ski-orange">ACTION (Outil)</p>
+                    <p class="text-base">Le skieur pousse <span class="text-4xl font-bold text-ski-orange">&rarr;</span></p>
+                    <p class="text-sm">(Prise de carre)</p>
+                  </div>
+                  <div class="w-full sm:w-2 h-2 sm:h-24 bg-ski-text-dark rounded-full"></div>
+                  <div class="text-center">
+                    <p class="text-xl font-bold text-ski-teal">RÉACTION (Usage)</p>
+                    <p class="text-base"><span class="text-4xl font-bold text-ski-teal">&larr;</span> La neige repousse</p>
+                    <p class="text-sm">(Force centripète = Virage)</p>
+                  </div>
+                </div>
+                <p class="text-center text-sm text-gray-600 mt-4">Diagramme de la 3ème loi de Newton appliquée au ski : l'action du skieur contre la neige crée la réaction qui permet le virage.</p>
+            </section>
+
+            <section id="phases-virage" class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-3xl font-bold text-ski-blue-grey mb-6 text-center">Analyse Dynamique du Virage en 3 Phases</h2>
+                <p class="text-lg text-center mb-8 max-w-3xl mx-auto">L'optimisation de l'appui n'est pas un acte isolé, mais une séquence dynamique. Voici comment les outils techniques s'organisent pour préparer, exploiter et utiliser l'appui à travers le virage.</p>
+                
+                <div class="flex flex-col md:flex-row items-center justify-between w-full space-y-4 md:space-y-0 md:space-x-4">
+                  
+                  <div class="flow-card text-center">
+                    <span class="text-5xl mb-2">1</span>
+                    <h3 class="text-xl font-bold text-ski-orange mb-2">Préparation (L'Entonnoir)</h3>
+                    <p class="font-semibold text-ski-blue-grey mb-2">Usage : Construire une structure solide.</p>
+                    <p class="text-sm">Outils : Alignement, Orientation, Transfert de poids.</p>
+                  </div>
+                  
+                  <div class="flow-arrow">&rarr;</div>
+                  
+                  <div class="flow-card text-center">
+                    <span class="text-5xl mb-2">2</span>
+                    <h3 class="text-xl font-bold text-ski-teal mb-2">Résistance (La Glissière)</h3>
+                    <p class="font-semibold text-ski-blue-grey mb-2">Usage : Changer de direction, stocker l'énergie.</p>
+                    <p class="text-sm">Outils : Gainage, Pression continue.</p>
+                  </div>
+                  
+                  <div class="flow-arrow">&rarr;</div>
+                  
+                  <div class="flow-card text-center">
+                    <span class="text-5xl mb-2">3</span>
+                    <h3 class="text-xl font-bold text-ski-red mb-2">Utilisation (L'Impulsion)</h3>
+                    <p class="font-semibold text-ski-blue-grey mb-2">Usage : Se propulser vers l'avant.</p>
+                    <p class="text-sm">Outils : Pilotage du renvoi, Allègement horizontal, Timing.</p>
+                  </div>
+
+                </div>
+                
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <h3 class="text-xl font-bold text-ski-blue-grey mb-4">Détail des Intentions Techniques</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="p-4 bg-ski-bg-light rounded-lg border-l-4 border-ski-orange">
+                            <p class="font-bold text-lg text-ski-orange">Phase 1 : L'Entonnoir</p>
+                            <p class="text-sm mt-1">L'intention est de <strong class="font-semibold">construire la base biomécanique</strong> avant l'impact maximal. Cela garantit que lorsque la force de réaction arrive, la structure (pied-bassin-épaule) peut la soutenir sans s'effondrer. L'orientation et le transfert précoce permettent de "charger" l'appui.</p>
+                        </div>
+                        <div class="p-4 bg-ski-bg-light rounded-lg border-l-4 border-ski-teal">
+                            <p class="font-bold text-lg text-ski-teal">Phase 2 : La Glissière</p>
+                            <p class="text-sm mt-1">C'est la phase de <strong class="font-semibold">résistance active</strong>. Le skieur utilise le gainage pour maintenir l'angle de prise de carre, exploitant au maximum la force centripète pour changer de direction. Plus la pression est continue, plus l'énergie stockée est importante.</p>
+                        </div>
+                        <div class="p-4 bg-ski-bg-light rounded-lg border-l-4 border-ski-red">
+                            <p class="font-bold text-lg text-ski-red">Phase 3 : L'Impulsion</p>
+                            <p class="text-sm mt-1">L'énergie stockée est <strong class="font-semibold">relâchée et dirigée</strong>. L'allègement horizontal (mouvement du bassin vers l'avant) et le pilotage du renvoi permettent de transformer l'énergie verticale en une projection horizontale, catapultant le skieur vers le prochain virage avec efficacité.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="outils-complementaires" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-ski-blue-grey mb-4">Outils Complémentaires : Régulation Fine</h2>
+                <p class="mb-4 text-base">Les bras et les dissociations ne sont pas des gestes isolés. Ce sont des outils de régulation qui permettent de moduler l'appui principal, soit pour l'amplifier, soit pour le dissiper, tout en maintenant l'équilibre et l'alignement. La dissociation est particulièrement clé pour <strong class="text-ski-teal">ajuster la quantité de pression</strong> en fonction de la vitesse et de la pente sans compromettre l'alignement de la structure.</p>
+                <div class="chart-container">
+                    <canvas id="chartOutils"></canvas>
+                </div>
+                <p class="text-center text-sm text-gray-600 mt-2">Profil d'utilisation conceptuel des outils complémentaires pour moduler l'appui.</p>
+            </section>
+
+            <section id="pedagogie" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-ski-blue-grey mb-4">Pistes Pédagogiques : Enseigner l'Usage</h2>
+                <p class="mb-4 text-base">Pour développer l'intelligence motrice, l'entraîneur conçoit des situations où le skieur découvre l'utilité des outils. Chaque "famille" d'exercices cible un aspect clé de la création et de la gestion de l'appui, permettant au skieur de <strong class="text-ski-orange">choisir le bon outil</strong> face aux contraintes du milieu.</p>
+                <div class="chart-container">
+                    <canvas id="chartPedagogie"></canvas>
+                </div>
+                <p class="text-center text-sm text-gray-600 mt-2">Focus principal des différentes familles d'exercices pédagogiques.</p>
+            </section>
+            <!-- Fin des Sections de l'Infographie -->
+        </div>
+        
+        <!-- Contenu 2: Quiz one-by-one -->
+        <div id="content-quiz" class="tab-content">
+            <section id="quiz" class="mt-8 bg-white rounded-lg shadow-xl p-8 md:p-10 md:col-span-2">
+                <h2 class="text-3xl font-black text-ski-red mb-6 text-center border-b-2 border-ski-red pb-3">Quiz : Testez Votre Intelligence Motrice</h2>
+                <p class="text-lg text-center mb-6" id="quiz-intro">Répondez à la question ci-dessous. La bonne réponse s'affichera immédiatement en vert.</p>
+                
+                <div id="quiz-container" class="space-y-6">
+                    <!-- La question et les options seront insérées ici par JS -->
+                    <div id="question-display" class="bg-ski-bg-light p-4 rounded-lg shadow-inner">
+                        <!-- Contenu de la question actuelle -->
+                    </div>
+                    <div id="feedback-area" class="p-4 rounded-md text-center font-bold text-lg mt-4 hidden">
+                        <!-- Feedback de la réponse (Correct / Incorrect) -->
+                    </div>
+                    <button id="next-button" class="mt-4 w-full py-3 bg-ski-blue-grey text-white font-bold rounded-lg shadow-md hover:bg-ski-teal transition duration-200" disabled>
+                        Question Suivante (0/10)
+                    </button>
+                </div>
+                
+                <div id="quiz-results" class="mt-8 p-6 bg-ski-yellow rounded-lg text-center font-black text-2xl hidden">
+                    Quiz Terminé ! Votre Score : <span id="score-display" class="text-ski-blue-grey"></span> / 10
+                </div>
+            </section>
+        </div>
+
+        <!-- Contenu 3: Coach IA (Nouveau) -->
+        <div id="content-coach" class="tab-content">
+            <section class="mt-8 bg-white rounded-lg shadow-xl p-8 md:p-10 md:col-span-2">
+                <h2 class="text-3xl font-black text-gemini-purple mb-6 text-center border-b-2 border-gemini-purple pb-3">Votre Coach IA Personnel ✨</h2>
+                <p class="text-lg text-center mb-8 text-gray-700">Utilisez les outils Gemini ci-dessous pour approfondir votre compréhension ou générer des exercices sur mesure.</p>
+
+                <!-- Tool 1: Explication Flash -->
+                <div class="mb-10 p-6 border border-gray-200 rounded-xl bg-gray-50">
+                    <h3 class="text-2xl font-bold text-ski-blue-grey mb-4">1. Explication Flash sur un Outil</h3>
+                    <p class="mb-4 text-gray-600">Entrez un terme ou un concept (ex: 'angulation', 'dissociation', 'force centripète') et l'IA vous fournira une explication concise et fonctionnelle.</p>
+                    
+                    <textarea id="explanation-prompt" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-gemini-purple focus:border-gemini-purple mb-4" rows="2" placeholder="Exemple : Expliquez l'effet de l'allègement horizontal."></textarea>
+                    
+                    <button onclick="generateExplanation()" id="explain-button" class="w-full bg-gemini-purple text-white font-bold py-3 rounded-lg shadow-md hover:bg-opacity-90 transition duration-200 flex items-center justify-center">
+                        <span id="explain-text">Expliquer ✨</span>
+                        <div id="explain-loader" class="loader w-6 h-6 border-4 border-t-white border-r-white rounded-full ml-3 hidden"></div>
+                    </button>
+                    
+                    <div id="explanation-output" class="mt-4 p-4 bg-white border border-gemini-purple text-gray-700 rounded-lg hidden whitespace-pre-wrap"></div>
+                </div>
+
+                <!-- Tool 2: Générateur d'Exercices -->
+                <div class="p-6 border border-gray-200 rounded-xl bg-gray-50">
+                    <h3 class="text-2xl font-bold text-ski-blue-grey mb-4">2. Générateur d'Exercices sur une Phase</h3>
+                    <p class="mb-4 text-gray-600">Choisissez la phase du virage que vous souhaitez améliorer. L'IA générera 3 exercices pédagogiques adaptés.</p>
+                    
+                    <select id="exercise-phase" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-gemini-purple focus:border-gemini-purple mb-4">
+                        <option value="Entonnoir (Préparation)">1. Entonnoir (Préparation : construire la structure)</option>
+                        <option value="Glissière (Résistance)">2. Glissière (Résistance : changer de direction)</option>
+                        <option value="Impulsion (Utilisation)">3. Impulsion (Utilisation : se propulser)</option>
+                    </select>
+                    
+                    <button onclick="generateExercises()" id="exercise-button" class="w-full bg-ski-teal text-white font-bold py-3 rounded-lg shadow-md hover:bg-opacity-90 transition duration-200 flex items-center justify-center">
+                        <span id="exercise-text">Générer 3 Exercices ✨</span>
+                        <div id="exercise-loader" class="loader w-6 h-6 border-4 border-t-white border-r-white rounded-full ml-3 hidden"></div>
+                    </button>
+                    
+                    <div id="exercise-output" class="mt-4 p-4 bg-white border border-ski-teal text-gray-700 rounded-lg hidden whitespace-pre-wrap"></div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <footer class="bg-ski-blue-grey text-white p-8 text-center mt-8">
+        <p class="text-lg font-bold">Conclusion : L'Intelligence Motrice</p>
+        <p class="mt-2 max-w-3xl mx-auto">En plaçant l'usage (créer un appui) au centre, les outils techniques (gestes) deviennent des solutions logiques à un problème physique. Le skieur n'imite plus une forme, il choisit intelligemment les bons outils pour transformer la gravité en trajectoires gagnantes.</p>
+    </footer>
+
+    <script>
+        // --- Configuration LLM ---
+        const API_KEY = ""; // Laissez vide pour l'environnement Canvas
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`;
+        const MAX_RETRIES = 5;
+
+        // --- Fonctions utilitaires d'API ---
+
+        /**
+         * Appelle l'API Gemini avec gestion d'erreurs et backoff exponentiel.
+         * @param {Object} payload - Le corps de la requête API.
+         * @param {number} attempt - Tentative actuelle (pour le backoff).
+         * @returns {Promise<Object>} La réponse JSON de l'API.
+         */
+        async function fetchWithRetry(payload, attempt = 1) {
+            if (attempt > MAX_RETRIES) {
+                throw new Error("Erreur critique : Échec de la connexion à l'API Gemini après plusieurs tentatives.");
+            }
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    // Si le statut est 429 (Too Many Requests) ou autre erreur serveur, on retente
+                    if (response.status === 429 || response.status >= 500) {
+                        const delay = Math.pow(2, attempt) * 1000; // 2s, 4s, 8s, ...
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        return fetchWithRetry(payload, attempt + 1);
+                    }
+                    throw new Error(`Erreur HTTP: ${response.status} - ${response.statusText}`);
+                }
+
+                return response.json();
+            } catch (error) {
+                // Pour les erreurs réseau (e.g., timeout), on retente
+                const delay = Math.pow(2, attempt) * 1000;
+                await new Promise(resolve => setTimeout(resolve, delay));
+                return fetchWithRetry(payload, attempt + 1);
+            }
+        }
+
+        /**
+         * Appelle l'API Gemini et extrait le texte de la réponse.
+         * @param {string} userQuery - La question de l'utilisateur.
+         * @param {string} systemPrompt - Instruction de rôle pour le modèle.
+         * @param {Object} generationConfig - Configuration optionnelle pour la réponse.
+         * @returns {Promise<string>} Le texte généré.
+         */
+        async function callGeminiApi(userQuery, systemPrompt, generationConfig = {}) {
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                generationConfig: generationConfig,
+            };
+
+            const result = await fetchWithRetry(payload);
+
+            const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (text) {
+                return text;
+            }
+            throw new Error("L'IA n'a pas réussi à générer de contenu pertinent.");
+        }
+
+
+        // --- Logique du Coach IA (Explication Flash) ---
+
+        async function generateExplanation() {
+            const prompt = document.getElementById('explanation-prompt').value.trim();
+            const outputDiv = document.getElementById('explanation-output');
+            const button = document.getElementById('explain-button');
+            const loader = document.getElementById('explain-loader');
+            const textSpan = document.getElementById('explain-text');
+
+            if (!prompt) {
+                outputDiv.textContent = "Veuillez entrer un concept à expliquer.";
+                outputDiv.classList.remove('hidden');
+                outputDiv.classList.add('border-ski-incorrect');
+                outputDiv.classList.remove('border-gemini-purple');
+                return;
+            }
+            
+            // État de chargement
+            button.disabled = true;
+            textSpan.textContent = "Explication en cours...";
+            loader.classList.remove('hidden');
+            outputDiv.classList.add('hidden');
+            outputDiv.classList.remove('border-ski-incorrect');
+            outputDiv.classList.add('border-gemini-purple');
+            
+            const systemPrompt = `Vous êtes un entraîneur de ski alpin expert. Votre tâche est de fournir une explication concise (maximum 3 phrases) et fonctionnelle sur un concept technique de ski. Focalisez-vous sur le "Pourquoi" (l'Usage) et le résultat du mouvement. La réponse doit être en français.`;
+            const userQuery = `Expliquez le concept suivant: ${prompt}.`;
+
+            try {
+                const responseText = await callGeminiApi(userQuery, systemPrompt);
+                outputDiv.textContent = responseText;
+                outputDiv.classList.remove('hidden');
+            } catch (error) {
+                console.error("Erreur Gemini (Explication):", error);
+                outputDiv.textContent = "Erreur: Impossible de contacter le Coach IA pour l'instant. Veuillez réessayer.";
+                outputDiv.classList.remove('hidden');
+                outputDiv.classList.add('border-ski-incorrect');
+                outputDiv.classList.remove('border-gemini-purple');
+            } finally {
+                // Rétablir l'état du bouton
+                button.disabled = false;
+                textSpan.textContent = "Expliquer ✨";
+                loader.classList.add('hidden');
+            }
+        }
+        
+        // --- Logique du Coach IA (Générateur d'Exercices) ---
+        
+        async function generateExercises() {
+            const phaseSelect = document.getElementById('exercise-phase');
+            const phase = phaseSelect.value;
+            const outputDiv = document.getElementById('exercise-output');
+            const button = document.getElementById('exercise-button');
+            const loader = document.getElementById('exercise-loader');
+            const textSpan = document.getElementById('exercise-text');
+
+            // État de chargement
+            button.disabled = true;
+            textSpan.textContent = "Génération...";
+            loader.classList.remove('hidden');
+            outputDiv.classList.add('hidden');
+            outputDiv.classList.remove('border-ski-incorrect');
+            outputDiv.classList.add('border-ski-teal');
+
+            const systemPrompt = `Vous êtes un concepteur d'exercices de ski alpin. Générez 3 exercices pédagogiques spécifiques qui ciblent l'amélioration de la phase du virage demandée. Pour chaque exercice, incluez : Titre de l'exercice, Objectif fonctionnel (1 phrase), et Description (2-3 étapes courtes). Le résultat doit être formaté en Markdown clair, sans préambule ni conclusion, et en français.`;
+            const userQuery = `Générer 3 exercices pour améliorer la phase du virage suivante : ${phase}.`;
+            
+            try {
+                const responseText = await callGeminiApi(userQuery, systemPrompt);
+                outputDiv.textContent = responseText;
+                outputDiv.classList.remove('hidden');
+            } catch (error) {
+                console.error("Erreur Gemini (Exercices):", error);
+                outputDiv.textContent = "Erreur: Impossible de contacter le Coach IA pour générer les exercices. Veuillez réessayer.";
+                outputDiv.classList.remove('hidden');
+                outputDiv.classList.add('border-ski-incorrect');
+                outputDiv.classList.remove('border-ski-teal');
+            } finally {
+                // Rétablir l'état du bouton
+                button.disabled = false;
+                textSpan.textContent = "Générer 3 Exercices ✨";
+                loader.classList.add('hidden');
+            }
+        }
+
+
+        // --- Logique du Quiz (existante) et Onglets ---
+
+        // Les questions du quiz restent les mêmes que la version précédente
+        let score = 0;
+        let currentQuestionIndex = 0;
+        const totalQuestions = 10;
+        
+        const questions = [
+            {
+                question: "Quel est l'Usage principal du virage en ski alpin ?",
+                options: ["A. Fléchir les jambes", "B. Créer un appui", "C. Faire le mouvement du bâton", "D. Dissocier le haut et le bas du corps"],
+                answer: 1,
+                feedback: "L'usage principal est bien de **Créer un appui** (Force de réaction) pour changer la trajectoire. Les autres sont des outils."
+            },
+            {
+                question: "Par quelle loi physique la force de réaction (l'appui) est-elle régie ?",
+                options: ["A. 1ère Loi de Newton (Inertie)", "B. Loi de la Gravité", "C. 3ème Loi de Newton (Action-Réaction)", "D. Loi de l'énergie cinétique"],
+                answer: 2,
+                feedback: "L'appui est une **Réaction** de la neige à une **Action** du skieur, c'est la 3ème Loi de Newton."
+            },
+            {
+                question: "Comment nomme-t-on la force qui contraint le skieur à dévier de sa trajectoire rectiligne ?",
+                options: ["A. Force centrifuge", "B. Force d'inertie", "C. Force de réaction (centripète)", "D. Force de propulsion"],
+                answer: 2,
+                feedback: "C'est la **Force de réaction (centripète)** qui oblige le skieur à tourner, en contrant l'inertie."
+            },
+            {
+                question: "Quelle phase du virage correspond à 'La Résistance (La Glissière)' ?",
+                options: ["A. Phase 1 (Préparation)", "B. Phase 2 (Résistance)", "C. Phase 3 (Utilisation)", "D. Phase de transition"],
+                answer: 1,
+                feedback: "La Glissière correspond à la **Phase 2 (Résistance)**, où l'on maintient le gainage pour exploiter l'appui."
+            },
+            {
+                question: "Quel outil technique est l'intention principale de la Phase 1 (Préparation) ?",
+                options: ["A. Pilotage du renvoi", "B. Gainage", "C. Alignement biomécanique", "D. Allègement horizontal"],
+                answer: 2,
+                feedback: "La Phase 1 (L'Entonnoir) vise à construire la structure : l'**Alignement biomécanique**."
+            },
+            {
+                question: "Quel est l'Usage visé par la Phase 2 (Résistance) ?",
+                options: ["A. Libérer l'énergie", "B. Vaincre la gravité", "C. Changer de direction et stocker l'énergie", "D. Orienter les skis"],
+                answer: 2,
+                feedback: "La Phase 2 vise à **Changer de direction et stocker l'énergie** grâce à la résistance active."
+            },
+            {
+                question: "Quel outil est utilisé dans la Phase 3 (Utilisation) pour favoriser la projection vers l'avant plutôt que l'élévation ?",
+                options: ["A. Gainage", "B. Allègement horizontal", "C. Transfert de poids", "D. Prise de carre"],
+                answer: 1,
+                feedback: "L'**Allègement horizontal** (mouvement du bassin vers l'avant) permet de diriger l'énergie de renvoi vers le prochain virage."
+            },
+            {
+                question: "Quel est l'un des rôles principaux des Dissociations (outils complémentaires) ?",
+                options: ["A. Amplifier la pression sur l'appui", "B. Moduler la quantité de pression sur l'appui", "C. Accélérer la vitesse", "D. Équilibrer le mouvement de balancier"],
+                answer: 1,
+                feedback: "Les dissociations servent principalement à la **Modulation fine de la pression**."
+            },
+            {
+                question: "La 'Famille des Placements' dans les pistes pédagogiques vise à faire comprendre l'usage de quel outil ?",
+                options: ["A. Le rythme", "B. La prise de carre", "C. Le gainage", "D. Le transfert de poids"],
+                answer: 2,
+                feedback: "La Famille des Placements cible le **Gainage** et la résistance, nécessaires pour maintenir la structure."
+            },
+            {
+                question: "Quelle est la conséquence d'un enseignement trop axé sur les outils ('Comment') sans clarifier l'usage ('Pourquoi') ?",
+                options: ["A. Développement d'une intelligence motrice", "B. Création de 'robots' qui imitent une forme sans en comprendre la fonction", "C. Amélioration du timing", "D. Optimisation du centre de masse"],
+                answer: 1,
+                feedback: "Cela mène à la **Création de 'robots'** : les skieurs copient sans adapter ou comprendre la fonction du geste."
+            }
+        ];
+
+        const questionDisplay = document.getElementById('question-display');
+        const feedbackArea = document.getElementById('feedback-area');
+        const nextButton = document.getElementById('next-button');
+        const quizResults = document.getElementById('quiz-results');
+        const scoreDisplay = document.getElementById('score-display');
+
+        function updateNextButtonText() {
+            if (currentQuestionIndex < totalQuestions) {
+                nextButton.textContent = `Question Suivante (${currentQuestionIndex + 1}/${totalQuestions})`;
+            } else {
+                nextButton.textContent = `Afficher les Résultats`;
+            }
+        }
+
+        function renderQuestion(index) {
+            if (index >= totalQuestions) {
+                showResults();
+                return;
+            }
+
+            const q = questions[index];
+            questionDisplay.classList.remove('answered'); // Reset l'état de la question
+            feedbackArea.classList.add('hidden');
+            nextButton.disabled = true;
+
+            const qElement = document.createElement('div');
+            qElement.className = 'p-4 rounded-lg';
+            qElement.innerHTML = `<p class="font-black text-ski-text-dark mb-4 text-xl">Question ${index + 1}/${totalQuestions}: ${q.question}</p>`;
+
+            const optionsContainer = document.createElement('div');
+            optionsContainer.className = 'grid grid-cols-1 sm:grid-cols-2 gap-3';
+
+            q.options.forEach((optionText, oIndex) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'quiz-option p-3 rounded-md text-base font-medium transition duration-150 ease-in-out';
+                optionElement.textContent = optionText;
+                optionElement.onclick = () => checkAnswer(index, oIndex, optionElement, optionsContainer);
+                optionsContainer.appendChild(optionElement);
+            });
+
+            qElement.appendChild(optionsContainer);
+            
+            // Remplacer le contenu
+            questionDisplay.innerHTML = '';
+            questionDisplay.appendChild(qElement);
+            updateNextButtonText();
+        }
+
+        function checkAnswer(qIndex, selectedOptionIndex, selectedElement, optionsContainer) {
+            if (optionsContainer.classList.contains('answered')) {
+                return;
+            }
+
+            const questionData = questions[qIndex];
+            const correctOptionIndex = questionData.answer;
+            const allOptions = optionsContainer.children;
+
+            optionsContainer.classList.add('answered'); // Marquer comme répondu
+
+            // 1. Marquer la bonne réponse en VERT
+            allOptions[correctOptionIndex].classList.add('correct-answer');
+
+            if (selectedOptionIndex === correctOptionIndex) {
+                // Réponse Correcte
+                score++;
+                feedbackArea.textContent = `Correct ! ${questionData.feedback}`;
+                feedbackArea.className = 'p-4 rounded-md text-center font-bold text-lg mt-4 bg-ski-correct text-white';
+            } else {
+                // Réponse Incorrecte
+                selectedElement.classList.add('incorrect-choice');
+                feedbackArea.textContent = `Incorrect. ${questionData.feedback}`;
+                feedbackArea.className = 'p-4 rounded-md text-center font-bold text-lg mt-4 bg-ski-incorrect text-white';
+            }
+            
+            feedbackArea.classList.remove('hidden');
+            nextButton.disabled = false;
+
+            // Désactiver le clic sur toutes les options
+            Array.from(allOptions).forEach(option => {
+                option.classList.add('answered');
+            });
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < totalQuestions) {
+                renderQuestion(currentQuestionIndex);
+                // Scroll vers la question
+                document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            questionDisplay.style.display = 'none';
+            feedbackArea.style.display = 'none';
+            nextButton.style.display = 'none';
+            document.getElementById('quiz-intro').style.display = 'none';
+            
+            scoreDisplay.textContent = score;
+            quizResults.classList.remove('hidden');
+            
+            // Scroll vers les résultats
+            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /**
+         * Gère le changement d'onglet.
+         */
+        function showContent(contentId) {
+            // Masquer tous les contenus
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            // Désactiver tous les boutons de navigation
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Afficher le contenu de l'onglet actif et activer le bouton
+            document.getElementById(`content-${contentId}`).classList.add('active');
+            document.getElementById(`nav-${contentId}`).classList.add('active');
+
+            // Si c'est l'onglet quiz, assurez-vous qu'il est rendu
+            if (contentId === 'quiz' && questionDisplay.innerHTML === '') {
+                renderQuestion(currentQuestionIndex);
+            }
+        }
+
+        // --- Initialisation des graphiques et des onglets ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Afficher l'onglet 'analyse' par défaut
+            showContent('analyse');
+            
+            // Initialisation du quiz
+            nextButton.onclick = nextQuestion;
+            renderQuestion(currentQuestionIndex); // Prépare la première question
+
+            // --- Initialisation des Graphiques Chart.js (Reste du code JS) ---
+            const createTooltipTitleCallback = () => {
+                return {
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) {
+                                      return label.join(' ');
+                                    } else {
+                                      return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+            };
+            
+            const chartOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+            };
+
+            const ctxUsage = document.getElementById('chartUsage').getContext('2d');
+            new Chart(ctxUsage, {
+                type: 'doughnut',
+                data: {
+                    labels: ['L\'Usage (Le Pourquoi)', 'Les Outils (Le Comment)'],
+                    datasets: [{
+                        label: 'Focus Pédagogique',
+                        data: [75, 25],
+                        backgroundColor: [
+                            '#43AA8B',
+                            '#F9C74F'
+                        ],
+                        borderColor: '#FFFFFF',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    ...chartOptions,
+                    ...createTooltipTitleCallback(),
+                    plugins: {
+                        ...createTooltipTitleCallback().plugins,
+                        legend: {
+                            position: 'bottom',
+                        },
+                    }
+                }
+            });
+
+            const ctxOutils = document.getElementById('chartOutils').getContext('2d');
+            new Chart(ctxOutils, {
+                type: 'radar',
+                data: {
+                    labels: ['Amplifier Pression', 'Équilibre', 'Gérer Rotation Buste', 'Moduler Pression', 'Dissiper Énergie'],
+                    datasets: [
+                        {
+                            label: 'Rôle des Bras',
+                            data: [8, 9, 7, 4, 2],
+                            backgroundColor: 'rgba(249, 65, 68, 0.2)',
+                            borderColor: '#F94144',
+                            pointBackgroundColor: '#F94144',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#F94144'
+                        },
+                        {
+                            label: 'Rôle des Dissociations',
+                            data: [5, 6, 8, 10, 8],
+                            backgroundColor: 'rgba(67, 170, 139, 0.2)',
+                            borderColor: '#43AA8B',
+                            pointBackgroundColor: '#43AA8B',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#43AA8B'
+                        }
+                    ]
+                },
+                options: {
+                    ...chartOptions,
+                    ...createTooltipTitleCallback(),
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: '#DDD'
+                            },
+                            grid: {
+                                color: '#DDD'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 10
+                                }
+                            },
+                            ticks: {
+                                backdropColor: 'transparent',
+                                stepSize: 2
+                            }
+                        }
+                    },
+                    plugins: {
+                        ...createTooltipTitleCallback().plugins,
+                        legend: {
+                            position: 'bottom',
+                        },
+                    }
+                }
+            });
+
+            const ctxPedagogie = document.getElementById('chartPedagogie').getContext('2d');
+            new Chart(ctxPedagogie, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        ['Famille des', '"Pas"'], 
+                        ['Famille des', '"Placements"'], 
+                        ['Famille des', '"Orientations"'], 
+                        ['Famille des', '"Pressions"']
+                    ],
+                    datasets: [{
+                        label: 'Focus Pédagogique Principal',
+                        data: [
+                            { x: 'Transfert de poids', y: 10 },
+                            { x: 'Gainage / Résistance', y: 10 },
+                            { x: 'Prise de carre / Création', y: 10 },
+                            { x: 'Rythme / Gestion', y: 10 }
+                        ],
+                        backgroundColor: [
+                            '#F94144',
+                            '#F3722C',
+                            '#F9C74F',
+                            '#90BE6D'
+                        ],
+                        borderWidth: 0,
+                        barThickness: 'flex',
+                        maxBarThickness: 40,
+                        categoryPercentage: 0.8,
+                        barPercentage: 0.9,
+                    }]
+                },
+                options: {
+                    ...chartOptions,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            display: false,
+                            beginAtZero: true,
+                            max: 12
+                        },
+                        y: {
+                            ticks: {
+                                autoSkip: false,
+                                font: {
+                                    size: 14,
+                                    weight: '600'
+                                }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        ...createTooltipTitleCallback().plugins,
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            ...createTooltipTitleCallback().plugins.tooltip,
+                            callbacks: {
+                                ...createTooltipTitleCallback().plugins.tooltip.callbacks,
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += context.parsed.x; 
+                                    return 'Cible l\'usage de: ' + context.raw.x;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
