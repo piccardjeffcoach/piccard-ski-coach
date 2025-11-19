@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographie: L'Art de l'Appui en Ski Alpin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Palette de couleurs choisie: Energetic & Playful -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .chart-container-radar {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 450px;
+        }
+        @media (min-width: 768px) {
+            .chart-container-radar {
+                height: 400px;
+            }
+        }
+        .table-header {
+            background-color: #073B4C;
+            color: white;
+        }
+        .code-green { background-color: #06D6A0; color: #073B4C; }
+        .code-blue { background-color: #118AB2; color: white; }
+        .code-red { background-color: #FF6B6B; color: white; }
+        .code-black { background-color: #073B4C; color: white; }
+        .quiz-option {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quiz-option:hover:not(.selected) {
+            background-color: #E0F2F7; 
+        }
+        .correct {
+            background-color: #06D6A0; 
+            color: #073B4C;
+            font-weight: bold;
+        }
+        .incorrect {
+            background-color: #FF6B6B; 
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ski-red': '#FF6B6B',
+                        'ski-yellow': '#FFD166',
+                        'ski-green': '#06D6A0',
+                        'ski-blue': '#118AB2',
+                        'ski-navy': '#073B4C',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-100 text-ski-navy">
+
+    <header class="bg-ski-navy text-white p-6 shadow-xl">
+        <h1 class="text-3xl md:text-4xl font-bold text-center">Le Virage en Ski Alpin : L'Art de l'Appui</h1>
+        <p class="text-xl text-center text-ski-blue mt-2">Une analyse fonctionnelle pour développer l'intelligence motrice</p>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <div class="lg:col-span-3 bg-white rounded-lg shadow-xl p-6">
+                <h2 class="text-2xl font-bold text-ski-blue mb-4">🎯 Le Principe Fondamental : L'Usage avant l'Outil</h2>
+                <p class="mb-4 text-lg">Trop souvent, l'enseignement se concentre sur "comment" faire un geste (l'Outil) sans clarifier "pourquoi" (l'Usage). L'intelligence motrice naît de la compréhension de l'objectif : créer un appui efficace. La technique n'est qu'un moyen au service de ce but.</p>
+                <div class="flex flex-col md:flex-row items-center justify-around p-4 bg-slate-50 rounded-lg">
+                    <div class="text-center m-2">
+                        <div class="p-4 bg-ski-blue text-white rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold">L'USAGE (Le Pourquoi)</h3>
+                            <p class="text-lg">Problème : Changer de direction</p>
+                        </div>
+                        <div class="text-4xl my-2 text-ski-blue">⬇️</div>
+                        <div class="p-4 bg-ski-green text-white rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold">Solution Fonctionnelle</h3>
+                            <p class="text-lg">Créer & Utiliser un APPUI</p>
+                        </div>
+                    </div>
+                    <div class="text-4xl mx-8 text-ski-navy hidden md:block">➡️</div>
+                    <div class="text-center m-2">
+                        <div class="p-4 bg-ski-navy text-white rounded-lg shadow-md">
+                            <h3 class="text-xl font-bold">LES OUTILS (Le Comment)</h3>
+                            <p class="text-lg">Moyens : Prise de carre, Alignement, Gainage, Dissociation...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 bg-white rounded-lg shadow-xl p-6">
+                <h2 class="text-2xl font-bold text-ski-blue mb-4">⚖️ La Physique du Virage : Vaincre l'Inertie</h2>
+                <p class="mb-4 text-lg">Un skieur en ligne droite est contraint par l'inertie. Pour tourner, il doit créer une force externe. La solution universelle est la 3ème loi de Newton : l'Action-Réaction. L'appui n'est pas le virage ; c'est l'action qui provoque la réaction de la neige, et cette réaction (la force centripète) fait tourner le skieur.</p>
+                <div class="flex flex-col md:flex-row items-stretch justify-between text-center gap-2">
+                    <div class="flex-1 p-4 bg-slate-50 rounded-lg shadow-inner">
+                        <h3 class="text-xl font-bold text-ski-red">1. Problème : L'Inertie</h3>
+                        <p class="text-5xl my-3">📏</p>
+                        <p>Le skieur tend à conserver sa trajectoire rectiligne.</p>
+                    </div>
+                    <div class="flex items-center justify-center text-3xl font-bold text-ski-navy">➡️</div>
+                    <div class="flex-1 p-4 bg-ski-yellow rounded-lg shadow-inner">
+                        <h3 class="text-xl font-bold text-ski-navy">2. ACTION du Skieur</h3>
+                        <p class="text-5xl my-3">🎿</p>
+                        <p>Crée un appui via la prise de carre et exerce une force latérale sur la neige.</p>
+                    </div>
+                    <div class="flex items-center justify-center text-3xl font-bold text-ski-navy">➡️</div>
+                    <div class="flex-1 p-4 bg-ski-green rounded-lg shadow-inner">
+                        <h3 class="text-xl font-bold text-ski-navy">3. RÉACTION de la Neige</h3>
+                        <p class="text-5xl my-3">❄️</p>
+                        <p>La neige oppose une force de réaction (Force Centripète) qui courbe la trajectoire.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 bg-white rounded-lg shadow-xl p-6">
+                <h2 class="text-2xl font-bold text-ski-blue mb-4">⏱️ Analyse Fonctionnelle du Virage en 3 Phases</h2>
+                <p class="mb-4 text-lg">Le virage de compétition est une séquence dynamique. La pression sur l'appui n'est pas constante : elle augmente, atteint un pic, puis diminue. L'intention du skieur doit s'adapter à chaque phase pour gérer cette force et l'utiliser à son avantage.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-semibold text-center mb-2">Courbe de Pression de l'Appui</h3>
+                        <div class="chart-container">
+                            <canvas id="forceChart"></canvas>
+                        </div>
+                        <p class="text-center mt-2">Le skieur gère activement l'intensité de la force centripète tout au long de la trajectoire.</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="p-4 rounded-lg shadow-inner bg-slate-50">
+                            <h4 class="text-lg font-bold text-ski-blue">1. L'Entonnoir (Préparation)</h4>
+                            <p>Le skieur s'oriente et construit son alignement (pied-bassin-épaule) pour préparer la structure à recevoir l'impact.</p>
+                            <p class="font-semibold italic mt-1">Intention : "Je construis ma structure pour l'impact."</p>
+                        </div>
+                        <div class="p-4 rounded-lg shadow-inner bg-ski-yellow">
+                            <h4 class="text-lg font-bold text-ski-navy">2. La Glissière (Résistance)</h4>
+                            <p>C'est le cœur du virage, la pression est maximale. Le skieur doit être gainé et solide pour résister à l'écrasement et dévier sa trajectoire.</p>
+                            <p class="font-semibold italic mt-1">Intention : "Je me gaine et je résiste à la pression."</p>
+                        </div>
+                        <div class="p-4 rounded-lg shadow-inner bg-ski-green">
+                            <h4 class="text-lg font-bold text-ski-navy">3. L'Impulsion (Utilisation)</h4>
+                            <p>La pression diminue. Le skieur pilote la libération de l'énergie (le renvoi) non pas vers le haut, mais vers l'avant (allègement horizontal).</p>
+                            <p class="font-semibold italic mt-1">Intention : "J'utilise le renvoi pour me projeter vers l'avant."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-1 bg-white rounded-lg shadow-xl p-6">
+                <h2 class="text-2xl font-bold text-ski-blue mb-4">🚀 Efficacité de la Projection</h2>
+                <p class="mb-4">En Phase 3, l'utilisation du renvoi est cruciale. Une projection verticale (élévation) est une perte d'énergie. Une projection horizontale efficace transfère l'énergie vers le virage suivant.</p>
+                <div class="chart-container" style="height: 250px; max-height: 300px;">
+                    <canvas id="projectionChart"></canvas>
+                </div>
+            </div>
+
+            <div class="md:col-span-1 lg:col-span-2 bg-white rounded-lg shadow-xl p-6">
+                <h2 class="text-2xl font-bold text-ski-blue mb-4">🏗️ L'Architecture de l'Appui Solide</h2>
+                <p class="mb-4">Pour résister à la force en phase 2 (La Glissière), le corps doit être organisé comme une structure solide. L'efficacité biomécanique est la clé pour transmettre la force sans déperdition.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 bg-slate-50 rounded-lg text-center shadow-inner">
+                        <p class="text-4xl mb-2">🔗</p>
+                        <h3 class="text-lg font-bold">Alignement</h3>
+                        <p>Synergie squelettique (pied-bassin-épaule) pour transmettre la force économiquement.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg text-center shadow-inner">
+                        <p class="text-4xl mb-2">🧱</p>
+                        <h3 class="text-lg font-bold">Empilement</h3>
+                        <p>Connexion intégrale de la chaîne (carres au tronc) pour "peser" sur le ski et contrôler.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg text-center shadow-inner">
+                        <p class="text-4xl mb-2">💪</p>
+                        <h3 class="text-lg font-bold">Solidité (Gainage)</h3>
+                        <p>Capacité à maintenir l'alignement sous pression pour ne pas s'écraser.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 bg-white rounded-lg shadow-xl p-6">
+                <h2 class="text-2xl font-bold text-ski-blue mb-4">🔄 Les Deux Grandes Familles d'Appuis</h2>
+                <p class="mb-4 text-lg">L'intelligence motrice, c'est aussi choisir le bon *type* d'appui. En fonction de l'objectif (vitesse ou changement de direction), l'appui n'a pas les mêmes caractéristiques. Les disciplines de vitesse privilégient la conservation d'énergie, tandis que les disciplines techniques exigent un changement de direction intense.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+                    <div>
+                        <div class="p-4 rounded-lg shadow-inner bg-ski-blue text-white mb-4">
+                            <h3 class="text-xl font-bold">Appuis Glissés, Pilotés, Filants</h3>
+                            <p>Mouvement fluide, trajectoire longue. L'objectif est la conservation de la vitesse. Typique de la Descente et du Super-G.</p>
+                        </div>
+                        <div class="p-4 rounded-lg shadow-inner bg-ski-yellow text-ski-navy">
+                            <h3 class="text-xl font-bold">Appuis de Déviation & Changement</h3>
+                            <p>Mouvement court, intense, courbes serrées. L'objectif est le changement radical de direction. Typique du Slalom et du Géant.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-center mb-2">Profil Comparatif des Appuis</h3>
+                        <div class="chart-container-radar">
+                            <canvas id="familiesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-1 bg-white rounded-lg shadow-xl p-6">
+                <h2 class="text-2xl font-bold text-ski-blue mb-4">🧑‍🏫 Mix Pédagogique</h2>
+                <p class="mb-4">Pour développer l'intelligence motrice, l'entraîneur combine plusieurs méthodes. L'objectif est d'aider l'athlète à construire ses propres solutions motrices efficaces.</p>
+                <div class="chart-container" style="height: 280px; max-height: 350px;">
+                    <canvas id="pedagogyChart"></canvas>
+                </div>
+            </div>
+
+            <div class="md:col-span-1 lg:col-span-2 bg-white rounded-lg shadow-xl p-6">
+                <h2 class="text-2xl font-bold text-ski-blue mb-4">🌍 Prise en Compte du Milieu</h2>
+                <p class="mb-4">L'efficacité de l'entraînement dépend de l'adaptation aux conditions. L'entraîneur ajuste son approche (exercices, feedback) en fonction de la surface, du niveau de l'athlète et de l'objectif.</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="table-header">
+                                <th class="p-3 font-bold">Code</th>
+                                <th class="p-3 font-bold">Description du Contexte</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="code-green border-b border-ski-navy">
+                                <td class="p-3 font-semibold">CODE VERT</td>
+                                <td class="p-3">Neige artificielle, Piste Bleue, Tracé simple ou Ski Libre</td>
+                            </tr>
+                            <tr class="code-blue border-b border-ski-navy">
+                                <td class="p-3 font-semibold">CODE BLEU</td>
+                                <td class="p-3">Neige variée, Piste Rouge, Tracé couloir de portes, Chgt de rythme</td>
+                            </tr>
+                            <tr class="code-red border-b border-ski-navy">
+                                <td class="p-3 font-semibold">CODE ROUGE</td>
+                                <td class="p-3">Neige dure (préparée), Pistes variées, Tracé Nat-Fis et Courses</td>
+                            </tr>
+                            <tr class="code-black">
+                                <td class="p-3 font-semibold">CODE NOIR</td>
+                                <td class="p-3">Neige qui tape, Piste Noire, Tracé Fis-CE en Course de Ref</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 bg-ski-navy text-white rounded-lg shadow-xl p-6 text-center">
+                <h2 class="text-2xl font-bold text-ski-green mb-4">🧠 Conclusion : Les 3 Piliers de la Maîtrise</h2>
+                <p class="text-lg">La performance est le résultat d'une séquence motrice intelligente. L'entraîneur doit travailler sur trois piliers fondamentaux pour transformer un déséquilibre contrôlé en performance pure.</p>
+                <div class="flex flex-col md:flex-row justify-around items-center mt-6 gap-4">
+                    <div class="flex-1">
+                        <p class="text-4xl mb-2">🤸</p>
+                        <h3 class="text-xl font-bold text-ski-yellow">Organisation Corporelle</h3>
+                        <p>(Alignement & Gainage)</p>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-4xl mb-2">⚡</p>
+                        <h3 class="text-xl font-bold text-ski-yellow">Gestion des Forces</h3>
+                        <p>(Pression & Renvoi)</p>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-4xl mb-2">👁️</p>
+                        <h3 class="text-xl font-bold text-ski-yellow">Finesse Perceptive</h3>
+                        <p>(Lecture du Terrain & Kinesthésie)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NOUVELLE SECTION QUIZ INTERACTIF -->
+            <div class="lg:col-span-3 bg-white rounded-lg shadow-xl p-6 mt-8">
+                <h2 class="text-2xl font-bold text-ski-red mb-4 text-center">🧠 Quiz Interactif : Testez votre Appui ! (10 Questions)</h2>
+                <div id="quiz-container" class="space-y-4">
+                    <!-- Question and Options will be rendered here -->
+                </div>
+                <div id="quiz-feedback" class="mt-4 p-4 rounded-lg hidden"></div>
+                <div class="flex justify-end mt-6">
+                    <button id="next-button" class="bg-ski-blue text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-ski-navy transition duration-300 hidden" disabled>Question Suivante</button>
+                    <button id="restart-button" class="bg-ski-green text-ski-navy font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-ski-navy hover:text-white transition duration-300 hidden">Recommencer le Quiz</button>
+                </div>
+            </div>
+            <!-- FIN NOUVELLE SECTION QUIZ INTERACTIF -->
+
+
+        </div>
+    </main>
+
+    <footer class="text-center p-4 mt-8 text-slate-500">
+        <!-- CRITICAL CONFIRMATION: NO MERMAID JS OR SVG USED. All diagrams are either Canvas (Chart.js) or styled HTML/CSS. -->
+        <p>Infographie SPA générée à partir de "L'Analyse Fonctionnelle du Virage en Ski Alpin".</p>
+    </footer>
+
+    <script>
+        const quizData = [
+            {
+                questionNumber: 1,
+                question: "Selon le principe fondamental, quel est l'Usage (le Pourquoi) du skieur dans un virage ?",
+                answerOptions: [
+                    { text: "Exécuter une dissociation haut/bas", rationale: "Ceci est un Outil (le Comment), un moyen technique, et non l'Usage (le Pourquoi) fonctionnel.", isCorrect: false },
+                    { text: "Créer et utiliser un appui efficace", rationale: "L'appui est la solution fonctionnelle au problème de changer de direction, c'est l'Usage principal à maîtriser.", isCorrect: true },
+                    { text: "Garder les skis parallèles", rationale: "Ceci est une description de la technique de base, pas l'objectif fonctionnel ultime du virage.", isCorrect: false },
+                    { text: "Se projeter vers le haut", rationale: "La projection vers le haut est une forme d'utilisation de l'énergie, mais l'Usage est de créer le virage lui-même.", isCorrect: false }
+                ],
+                hint: "Pensez à la distinction entre le but à atteindre et les moyens pour y arriver."
+            },
+            {
+                questionNumber: 2,
+                question: "Quelle est l'intention principale du skieur lors de la phase de la Glissière (Phase 2, où la pression est maximale) ?",
+                answerOptions: [
+                    { text: "Relâcher la pression pour amorcer le virage suivant", rationale: "Le relâchement se produit dans la phase suivante (Impulsion), pas au pic de pression.", isCorrect: false },
+                    { text: "Incliner son corps vers l'intérieur de la courbe", rationale: "L'inclinaison est un outil d'alignement, l'intention principale est de résister à la force qui s'exerce.", isCorrect: false },
+                    { text: "Se gainer et résister à la pression pour dévier la trajectoire", rationale: "Cette phase exige solidité et gainage pour transmettre la force centripète et éviter l'écrasement sous la pression maximale.", isCorrect: true },
+                    { text: "Orienter les skis avec les pieds", rationale: "L'orientation fait partie de la Phase 1 (Entonnoir) et de l'ajustement continu, mais la Phase 2 est celle de la résistance pure.", isCorrect: false }
+                ],
+                hint: "Concentrez-vous sur l'action nécessaire pour supporter le moment le plus intense du virage."
+            },
+            {
+                questionNumber: 3,
+                question: "Selon la 3ème loi de Newton (Action-Réaction), quelle force est opposée par la neige pour incurver la trajectoire du skieur ?",
+                answerOptions: [
+                    { text: "La Force de Gravité", rationale: "La gravité tire le skieur vers le bas de la pente, elle n'est pas la force de réaction latérale qui fait tourner.", isCorrect: false },
+                    { text: "La Force de Frottement", rationale: "Le frottement ralentit le skieur, mais ne courbe pas directement sa trajectoire.", isCorrect: false },
+                    { text: "La Force Centrifuge", rationale: "La force centrifuge est la force d'inertie 'ressentie' par le skieur, non la force appliquée par la neige.", isCorrect: false },
+                    { text: "La Force Centripète", rationale: "La force centripète est la réaction de la neige à l'action du skieur sur la carre, et c'est elle qui provoque le changement de direction.", isCorrect: true }
+                ],
+                hint: "C'est la force qui 'centre' la trajectoire vers le rayon du virage."
+            },
+            {
+                questionNumber: 4,
+                question: "Qu'est-ce qui caractérise la projection efficace du skieur lors de la phase de l'Impulsion (renvoi) ?",
+                answerOptions: [
+                    { text: "Une élévation verticale du corps (saut)", rationale: "Une projection verticale (élévation) est généralement considérée comme une perte d'énergie dans le sens de la progression.", isCorrect: false },
+                    { text: "Une projection vers l'avant (allègement horizontal)", rationale: "L'utilisation efficace du renvoi consiste à transformer l'énergie latérale en vitesse vers le virage suivant, d'où l'allègement horizontal.", isCorrect: true },
+                    { text: "Un pivotement des épaules vers l'extérieur", rationale: "Le pivotement des épaules vers l'extérieur nuirait à l'alignement pour le virage suivant.", isCorrect: false },
+                    { text: "Un écrasement des genoux pour augmenter l'appui", rationale: "Cette action est typique de la phase 2 (résistance), pas de la phase 3 (utilisation/renvoi).", isCorrect: false }
+                ],
+                hint: "L'énergie doit être orientée pour servir le virage suivant."
+            },
+            {
+                questionNumber: 5,
+                question: "Dans l'Architecture de l'Appui Solide, quel est le rôle principal de l'Alignement (synergie pied-bassin-épaule) ?",
+                answerOptions: [
+                    { text: "Permettre la dissociation haut/bas", rationale: "L'Alignement est d'abord pour la connexion et la solidité, la dissociation est un mouvement distinct.", isCorrect: false },
+                    { text: "Accélérer la prise de carre", rationale: "L'Alignement facilite le maintien, mais n'est pas l'action d'accélération de la prise de carre.", isCorrect: false },
+                    { text: "Transmettre la force sans déperdition entre la carre et le tronc", rationale: "L'alignement est essentiel pour créer une structure solide et économique, assurant la transmission efficace de la force centripète.", isCorrect: true },
+                    { text: "Augmenter la surface de contact du ski", rationale: "L'alignement ne change pas la surface de contact; la prise de carre le fait.", isCorrect: false }
+                ],
+                hint: "Pensez à la façon dont le corps devient un 'poteau' solide pour les forces."
+            },
+            {
+                questionNumber: 6,
+                question: "Quel type d'appui est privilégié en Slalom et Géant pour le changement radical de direction ?",
+                answerOptions: [
+                    { text: "Appuis Glissés et Filants", rationale: "Ces appuis sont pour la conservation de vitesse (Descente/Super-G) et les trajectoires longues.", isCorrect: false },
+                    { text: "Appuis Verticaux (Sauts)", rationale: "Les sauts sont utilisés pour contourner des obstacles ou des compressions, pas pour un changement de direction radical régulier.", isCorrect: false },
+                    { text: "Appuis de Déviation et Changement", rationale: "Ces appuis sont courts, intenses et optimisés pour la modification rapide de la trajectoire, essentielle dans les disciplines techniques.", isCorrect: true },
+                    { text: "Appuis Simultanés", rationale: "Ce terme n'est pas utilisé dans cette classification fonctionnelle.", isCorrect: false }
+                ],
+                hint: "Les disciplines techniques exigent une capacité à 'casser' rapidement la trajectoire précédente."
+            },
+            {
+                questionNumber: 7,
+                question: "Quel est l'objectif principal de la phase de l'Entonnoir (Phase 1 du virage) ?",
+                answerOptions: [
+                    { text: "Exercer la pression maximale sur l'appui", rationale: "La pression maximale est exercée dans la Phase 2 (Glissière).", isCorrect: false },
+                    { text: "Construire l'alignement et la structure pour préparer l'impact de la pression", rationale: "L'Entonnoir est la phase de préparation où le skieur se positionne et organise son corps pour recevoir et gérer la montée en pression.", isCorrect: true },
+                    { text: "Récupérer de l'énergie pour le virage suivant", rationale: "La récupération d'énergie se fait principalement dans la Phase 3 (Impulsion).", isCorrect: false },
+                    { text: "Dissocier le haut du corps", rationale: "La dissociation est un moyen technique utilisé, mais le but principal est structurel.", isCorrect: false }
+                ],
+                hint: "C'est la phase de 'mise en place' avant l'action intense."
+            },
+            {
+                questionNumber: 8,
+                question: "Quel contexte d'entraînement est associé au CODE ROUGE selon l'analyse fonctionnelle ?",
+                answerOptions: [
+                    { text: "Neige artificielle sur Piste Bleue (débutants)", rationale: "Ceci correspond au CODE VERT, les conditions les plus clémentes.", isCorrect: false },
+                    { text: "Neige variée sur Piste Rouge (niveau intermédiaire)", rationale: "Ceci correspond au CODE BLEU, des conditions intermédiaires.", isCorrect: false },
+                    { text: "Neige dure (préparée) sur des tracés Nationaux ou Fédéraux", rationale: "Le CODE ROUGE indique des conditions de neige plus exigeantes et des tracés de niveau compétitif nécessitant une adaptation fine.", isCorrect: true },
+                    { text: "Neige qui tape sur Piste Noire (compétition élite)", rationale: "Ceci correspond au CODE NOIR, les conditions les plus difficiles.", isCorrect: false }
+                ],
+                hint: "Le 'ROUGE' est associé à une intensité de contrainte élevée, mais pas maximale."
+            },
+            {
+                questionNumber: 9,
+                question: "Parmi les 3 Piliers de la Maîtrise, lequel inclut la compétence de 'Lecture du Terrain et Kinesthésie' ?",
+                answerOptions: [
+                    { text: "L'Organisation Corporelle", rationale: "Ce pilier concerne la structure physique (alignement, gainage).", isCorrect: false },
+                    { text: "La Gestion des Forces", rationale: "Ce pilier concerne la pression et le renvoi.", isCorrect: false },
+                    { text: "La Finesse Perceptive", rationale: "La finesse perceptive est la capacité sensorielle du skieur à analyser, anticiper et sentir les contraintes du milieu et de son corps.", isCorrect: true },
+                    { text: "Le Pilotage de la Vitesse", rationale: "Ceci est une conséquence de la maîtrise des 3 Piliers, pas un pilier en soi.", isCorrect: false }
+                ],
+                hint: "Le pilier lié à la perception et à l'analyse de l'environnement."
+            },
+            {
+                questionNumber: 10,
+                question: "À quel moment du virage l'intensité de la pression (force) sur le ski atteint-elle son pic, selon l'analyse en 3 phases ?",
+                answerOptions: [
+                    { text: "Au début du virage (Phase de l'Entonnoir)", rationale: "La pression est encore en augmentation à ce stade.", isCorrect: false },
+                    { text: "Au milieu du virage (Phase de la Glissière)", rationale: "Le pic de pression est atteint dans la Phase 2, où le skieur exerce et résiste le plus à la force latérale.", isCorrect: true },
+                    { text: "À la fin du virage (Phase de l'Impulsion)", rationale: "La pression est en diminution pour permettre le renvoi et l'allègement.", isCorrect: false },
+                    { text: "Elle est constante tout au long du virage", rationale: "Le graphique montre clairement une courbe dynamique de la pression.", isCorrect: false }
+                ],
+                hint: "Visualisez la courbe de force du graphique et son point le plus haut."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let hasAnswered = false;
+
+        function wrapLabel(label) {
+            const maxLabelWidth = 16;
+            if (typeof label !== 'string' || label.length <= maxLabelWidth) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxLabelWidth && currentLine.length > 0) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            lines.push(currentLine.trim());
+            return lines;
+        }
+
+        const commonTooltipCallback = {
+            title: function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                } else {
+                    return label;
+                }
+            }
+        };
+        
+        const skiRed = '#FF6B6B';
+        const skiYellow = '#FFD166';
+        const skiGreen = '#06D6A0';
+        const skiBlue = '#118AB2';
+        const skiNavy = '#073B4C';
+        const chartColors = [skiBlue, skiGreen, skiYellow, skiRed, skiNavy];
+        
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: skiNavy,
+                        font: { size: 12 }
+                    }
+                },
+                tooltip: {
+                    callbacks: commonTooltipCallback
+                }
+            }
+        };
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            const feedbackDiv = document.getElementById('quiz-feedback');
+            const nextButton = document.getElementById('next-button');
+            const restartButton = document.getElementById('restart-button');
+
+            container.innerHTML = '';
+            feedbackDiv.classList.add('hidden');
+            feedbackDiv.classList.remove('correct', 'incorrect');
+            hasAnswered = false;
+            nextButton.disabled = true;
+
+            if (currentQuestionIndex >= quizData.length) {
+                container.innerHTML = `<div class="text-center p-8 bg-ski-green rounded-lg text-ski-navy">
+                    <h3 class="text-3xl font-bold mb-2">Quiz Terminé !</h3>
+                    <p class="text-xl">Votre score final est de <span class="text-ski-red font-extrabold">${score}</span> / ${quizData.length}.</p>
+                    <p class="mt-4">Bravo pour votre persévérance et votre analyse des principes de l'appui !</p>
+                </div>`;
+                nextButton.classList.add('hidden');
+                restartButton.classList.remove('hidden');
+                return;
+            }
+
+            const q = quizData[currentQuestionIndex];
+            const qElement = document.createElement('div');
+            qElement.className = 'p-4 bg-slate-50 rounded-lg shadow-inner';
+            qElement.innerHTML = `
+                <p class="text-lg font-bold mb-3 text-ski-navy">Question ${q.questionNumber}/${quizData.length} : ${q.question}</p>
+                <div class="space-y-3" id="options-container">
+                    ${q.answerOptions.map((option, index) => `
+                        <div class="quiz-option p-3 border border-ski-navy rounded-lg transition duration-150 ease-in-out" data-index="${index}">
+                            ${option.text}
+                        </div>
+                    `).join('')}
+                </div>
+                <p class="text-sm mt-4 italic text-slate-500">Indice : ${q.hint}</p>
+            `;
+            container.appendChild(qElement);
+            nextButton.classList.remove('hidden');
+            restartButton.classList.add('hidden');
+
+            const options = container.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                option.addEventListener('click', handleAnswer);
+            });
+        }
+
+        function handleAnswer(event) {
+            if (hasAnswered) return;
+
+            hasAnswered = true;
+            const selectedOption = event.currentTarget;
+            const selectedIndex = parseInt(selectedOption.getAttribute('data-index'));
+            const q = quizData[currentQuestionIndex];
+            const feedbackDiv = document.getElementById('quiz-feedback');
+            const nextButton = document.getElementById('next-button');
+            const options = document.querySelectorAll('.quiz-option');
+            let isCorrect = false;
+
+            options.forEach(option => option.removeEventListener('click', handleAnswer));
+            nextButton.disabled = false;
+
+            // Determine if the answer is correct
+            if (q.answerOptions[selectedIndex].isCorrect) {
+                selectedOption.classList.add('correct');
+                feedbackDiv.classList.add('correct');
+                feedbackDiv.classList.remove('incorrect', 'hidden');
+                feedbackDiv.innerHTML = `<p class="font-bold">Correct !</p><p class="mt-1">${q.answerOptions[selectedIndex].rationale}</p>`;
+                score++;
+                isCorrect = true;
+            } else {
+                selectedOption.classList.add('incorrect');
+                feedbackDiv.classList.add('incorrect');
+                feedbackDiv.classList.remove('correct', 'hidden');
+                feedbackDiv.innerHTML = `<p class="font-bold">Incorrect.</p><p class="mt-1">${q.answerOptions[selectedIndex].rationale}</p>`;
+
+                // Highlight the correct answer
+                q.answerOptions.forEach((option, index) => {
+                    if (option.isCorrect) {
+                        const correctOptionElement = document.querySelector(`.quiz-option[data-index="${index}"]`);
+                        if (correctOptionElement) {
+                            correctOptionElement.classList.add('correct');
+                            // Add rationale of the correct answer to the feedback for context
+                            feedbackDiv.innerHTML += `<p class="mt-3 font-semibold text-ski-navy">Réponse Correcte :</p><p>${option.rationale}</p>`;
+                        }
+                    }
+                });
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            renderQuiz();
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            renderQuiz();
+        }
+
+        window.onload = function () {
+            
+            const forceChartCtx = document.getElementById('forceChart').getContext('2d');
+            new Chart(forceChartCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Début (Phase 1)', 'Pic (Phase 2)', 'Fin (Phase 3)'],
+                    datasets: [{
+                        label: 'Intensité de la Force',
+                        data: [0.5, 3, 0.5],
+                        borderColor: skiBlue,
+                        backgroundColor: 'rgba(17, 138, 178, 0.2)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    ...commonChartOptions,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Pression (Unité Arbitraire)', color: skiNavy },
+                            ticks: { color: skiNavy }
+                        },
+                        x: {
+                            title: { display: true, text: 'Temps / Trajectoire', color: skiNavy },
+                            ticks: { color: skiNavy }
+                        }
+                    }
+                }
+            });
+
+            const projectionChartCtx = document.getElementById('projectionChart').getContext('2d');
+            new Chart(projectionChartCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        wrapLabel('Projection Efficace (Horizontale)'),
+                        wrapLabel('Élévation Inefficace (Verticale)')
+                    ],
+                    datasets: [{
+                        label: 'Efficacité de la Projection',
+                        data: [80, 20],
+                        backgroundColor: [skiGreen, skiRed],
+                        borderColor: '#ffffff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    ...commonChartOptions,
+                    plugins: {
+                        ...commonChartOptions.plugins,
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            const familiesChartCtx = document.getElementById('familiesChart').getContext('2d');
+            new Chart(familiesChartCtx, {
+                type: 'radar',
+                data: {
+                    labels: [
+                        'Intensité',
+                        wrapLabel('Vitesse Max'),
+                        wrapLabel('Rayon de Courbe'),
+                        wrapLabel('Changement Direction'),
+                        wrapLabel('Conservation Énergie')
+                    ],
+                    datasets: [{
+                        label: 'Appuis Glissés / Pilotés (Vitesse)',
+                        data: [2, 5, 5, 1, 5],
+                        backgroundColor: 'rgba(17, 138, 178, 0.2)',
+                        borderColor: skiBlue,
+                        borderWidth: 2,
+                        pointBackgroundColor: skiBlue
+                    }, {
+                        label: 'Appuis Déviation / Changement (Technique)',
+                        data: [5, 2, 2, 5, 2],
+                        backgroundColor: 'rgba(255, 209, 102, 0.2)',
+                        borderColor: skiYellow,
+                        borderWidth: 2,
+                        pointBackgroundColor: skiYellow
+                    }]
+                },
+                options: {
+                    ...commonChartOptions,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 5,
+                            min: 0,
+                            ticks: {
+                                stepSize: 1,
+                                backdropColor: 'rgba(255, 255, 255, 0.5)',
+                                color: skiNavy
+                            },
+                            pointLabels: {
+                                color: skiNavy,
+                                font: { size: 12 }
+                            },
+                            grid: {
+                                color: 'rgba(7, 59, 76, 0.2)'
+                            },
+                            angleLines: {
+                                color: 'rgba(7, 59, 76, 0.2)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        ...commonChartOptions.plugins,
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            const pedagogyChartCtx = document.getElementById('pedagogyChart').getContext('2d');
+            new Chart(pedagogyChartCtx, {
+                type: 'pie',
+                data: {
+                    labels: [
+                        wrapLabel('Mise en Situation'),
+                        wrapLabel('Feedback (Vidéo)'),
+                        'Répétition',
+                        'Démonstration',
+                        'Magistrale',
+                        'Différentiel'
+                    ],
+                    datasets: [{
+                        label: 'Mix Pédagogique',
+                        data: [30, 20, 15, 10, 10, 15],
+                        backgroundColor: chartColors,
+                        borderColor: '#ffffff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    ...commonChartOptions,
+                    plugins: {
+                        ...commonChartOptions.plugins,
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Quiz initialization
+            document.getElementById('next-button').addEventListener('click', nextQuestion);
+            document.getElementById('restart-button').addEventListener('click', restartQuiz);
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>
