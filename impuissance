@@ -1,0 +1,68 @@
+HomeHTMLHTML IntroductionTryit: HTML introduction 
+Result Size: 576 x 1042
+
+                // Marquer les réponses
+                buttons[selectedIndex].classList.add(selectedIndex === q.correct ? 'correct' : 'incorrect');
+                if (selectedIndex !== q.correct) {
+                    buttons[q.correct].classList.add('correct');
+                }
+​
+                // Mettre à jour le score
+                if (selectedIndex === q.correct) {
+                    score++;
+                    currentScoreDisplay.textContent = score;
+                    feedbackText.textContent = "✅ Correct !";
+                    feedbackText.className = "font-bold text-green-600 mb-2";
+                } else {
+                    feedbackText.textContent = "❌ Incorrect.";
+                    feedbackText.className = "font-bold text-red-600 mb-2";
+                }
+​
+                // Afficher l'explication
+                feedbackExplanation.textContent = q.explanation;
+                feedbackArea.classList.remove('hidden');
+            }
+​
+            nextBtn.onclick = () => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizData.length) {
+                    loadQuestion();
+                } else {
+                    showResults();
+                }
+            };
+​
+            function showResults() {
+                questionBlock.classList.add('hidden');
+                resultBlock.classList.remove('hidden');
+                finalScoreDisplay.textContent = score;
+                
+                if (score === 5) {
+                    finalMessage.textContent = "Excellent ! Vous maîtrisez parfaitement le sujet.";
+                } else if (score >= 3) {
+                    finalMessage.textContent = "Bien joué ! Vous avez compris les concepts clés.";
+                } else {
+                    finalMessage.textContent = "N'hésitez pas à relire l'infographie pour renforcer vos connaissances.";
+                }
+            }
+​
+            // Exposer la fonction reset pour le bouton 'Recommencer'
+            window.resetQuiz = function() {
+                currentQuestionIndex = 0;
+                score = 0;
+                currentScoreDisplay.textContent = "0";
+                resultBlock.classList.add('hidden');
+                questionBlock.classList.remove('hidden');
+                loadQuestion();
+            };
+​
+            // Démarrer le quiz
+            loadQuestion();
+        });
+    </script>
+</body>
+</html>
+​
+​
+
+
