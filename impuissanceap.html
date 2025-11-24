@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographie : L'Impuissance Acquise dans le Sport</title>
+    <meta name="description" content="Infographie interactive sur l'impuissance acquise dans le sport : comprendre les mécanismes psychologiques et développer la résilience. Avec graphiques, quiz et vidéo éducative.">
+    <meta name="author" content="Psychologie du Sport">
+    <meta name="keywords" content="impuissance acquise, psychologie du sport, résilience, performance mentale, motivation">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/">
+    <meta property="og:title" content="L'Impuissance Acquise dans le Sport - Infographie Interactive">
+    <meta property="og:description" content="De la résignation à la résilience : comprendre et surmonter l'impuissance acquise dans le sport. Infographie interactive avec quiz et données scientifiques.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="L'Impuissance Acquise dans le Sport">
+    <meta property="twitter:description" content="Infographie interactive sur la psychologie sportive et la résilience mentale.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6;
+            color: #1F2937;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        /* Styles spécifiques au Quiz */
+        .option-btn {
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .option-btn.correct {
+            background-color: #10B981 !important;
+            color: white !important;
+            border-color: #10B981 !important;
+        }
+        .option-btn.incorrect {
+            background-color: #EF4444 !important;
+            color: white !important;
+            border-color: #EF4444 !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-blue-700 mb-4">L'Impuissance Acquise dans le Sport</h1>
+            <p class="text-xl md:text-2xl text-gray-600">De la résignation à la résilience : comprendre et surmonter.</p>
+        </header>
+
+        <main class="space-y-12">
+
+            <section class="bg-white p-6 md:p-8 rounded-lg shadow-lg text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Qu'est-ce que l'Impuissance Acquise ?</h2>
+                <p class="text-lg text-gray-700 max-w-3xl mx-auto">
+                    C'est un état psychologique de passivité qui survient lorsque l'athlète est convaincu que ses actions n'ont plus d'impact sur les résultats. Face à des échecs répétés perçus comme incontrôlables, il cesse d'agir, même quand la situation redevient favorable.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-3xl font-bold text-center mb-6">La Triade de l'Impuissance : Les 3 Déficits</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-red-500">
+                        <span class="text-5xl" role="img" aria-label="Graphique en baisse">📉</span>
+                        <h3 class="text-2xl font-semibold mt-4 mb-2">Motivationnel</h3>
+                        <p class="text-gray-600">Baisse de l'effort, abandon rapide, et retard dans l'initiation de l'action.</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-yellow-500">
+                        <span class="text-5xl" role="img" aria-label="Cerveau confus">🧠</span>
+                        <h3 class="text-2xl font-semibold mt-4 mb-2">Cognitif</h3>
+                        <p class="text-gray-600">Difficulté à apprendre que de nouvelles stratégies peuvent fonctionner. L'athlète "n'y croit plus".</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-blue-500">
+                        <span class="text-5xl" role="img" aria-label="Visage triste">😟</span>
+                        <h3 class="text-2xl font-semibold mt-4 mb-2">Émotionnel</h3>
+                        <p class="text-gray-600">Augmentation de l'anxiété, de la frustration, pouvant mener à des états dépressifs.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-3xl font-bold text-center mb-6">Le Vrai Déclencheur : Le Style Explicatif</h2>
+                <p class="text-lg text-center text-gray-700 max-w-3xl mx-auto mb-6">
+                    Ce n'est pas l'échec qui crée l'impuissance, mais l'explication que l'athlète s'en donne. Le Style Explicatif analyse la défaite selon trois dimensions :
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <span class="text-5xl" role="img" aria-label="Cible">📍</span>
+                        <h3 class="text-2xl font-semibold mt-4 mb-2">1. Lieu (Interne / Externe)</h3>
+                        <p class="text-gray-600">"Est-ce de ma faute (interne) ou à cause des circonstances (externe) ?"</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <span class="text-5xl" role="img" aria-label="Sablier">⏳</span>
+                        <h3 class="text-2xl font-semibold mt-4 mb-2">2. Stabilité (Stable / Instable)</h3>
+                        <p class="text-gray-600">"Est-ce permanent (stable) ou est-ce juste temporaire (instable) ?"</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <span class="text-5xl" role="img" aria-label="Globe">🌍</span>
+                        <h3 class="text-2xl font-semibold mt-4 mb-2">3. Globalité (Global / Spécifique)</h3>
+                        <p class="text-gray-600">"Est-ce que cela affecte tout mon jeu (global) ou juste ce geste (spécifique) ?"</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold text-center mb-4">Profil Pessimiste vs. Profil Résilient face à l'Échec</h2>
+                <p class="text-lg text-center text-gray-700 max-w-3xl mx-auto mb-8">
+                    La résilience se joue dans la manière d'interpréter l'échec. Un score élevé sur ce graphique indique une forte tendance à utiliser cette attribution négative, menant à l'impuissance.
+                </p>
+                <div class="chart-container">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-3xl font-bold text-center mb-8">Construire la Résilience : Les 3 Stratégies Clés</h2>
+
+                <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-700">1. La Réattribution Causale (Retraining)</h3>
+                    <p class="text-gray-600 mb-4">Apprendre à changer l'explication de l'échec pour reprendre le contrôle.</p>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0 md:space-x-2">
+                        <div class="bg-gray-200 p-4 rounded-lg text-center shadow">
+                            <h4 class="font-semibold">ÉCHEC</h4>
+                            <p>Défaite en match</p>
+                        </div>
+                        <span class="text-2xl text-blue-600 font-bold self-center transform md:rotate-0 rotate-90">➡️</span>
+                        <div class="bg-red-100 p-4 rounded-lg text-center shadow border border-red-300">
+                            <h4 class="font-semibold text-red-700">Pensée Pessimiste</h4>
+                            <p>"Je suis nul." (Interne, Stable)</p>
+                        </div>
+                        <span class="text-2xl text-blue-600 font-bold self-center transform md:rotate-0 rotate-90">➡️</span>
+                        <div class="bg-green-100 p-4 rounded-lg text-center shadow border border-green-300">
+                            <h4 class="font-semibold text-green-700">Pensée Résiliente</h4>
+                            <p>"Mon revers a manqué de précision." (Spécifique, Instable, Contrôlable)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-blue-700">2. Climat de Maîtrise vs. Résultat</h3>
+                        <p class="text-gray-600 mb-4">L'environnement créé par le coach est crucial.</p>
+                        <div class="border-l-4 border-red-500 pl-4 mb-4">
+                            <h4 class="font-bold">Climat de Résultat (Risqué)</h4>
+                            <ul class="list-none text-gray-600">
+                                <li><span class="mr-2" role="img" aria-label="croix">❌</span> Seule la victoire compte.</li>
+                                <li><span class="mr-2" role="img" aria-label="croix">❌</span> Favorise la comparaison sociale.</li>
+                            </ul>
+                        </div>
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <h4 class="font-bold">Climat de Maîtrise (Protecteur)</h4>
+                            <ul class="list-none text-gray-600">
+                                <li><span class="mr-2" role="img" aria-label="coche">✅</span> Valorise l'effort et le progrès.</li>
+                                <li><span class="mr-2" role="img" aria-label="coche">✅</span> Renforce le sentiment de contrôle.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-blue-700">3. La Technique des "Petits Pas"</h3>
+                        <p class="text-gray-600 mb-4">Pour un athlète en état d'impuissance, il faut recréer le lien entre action et succès.</p>
+                        <ul class="list-none space-y-2">
+                            <li class="flex items-center"><span class="text-blue-600 font-bold text-2xl mr-2">1.</span> Définir des objectifs très faciles.</li>
+                            <li class="flex items-center"><span class="text-blue-600 font-bold text-2xl mr-2">2.</span> Garantir des succès fréquents.</li>
+                            <li class="flex items-center"><span class="text-blue-600 font-bold text-2xl mr-2">3.</span> "Réapprendre" au cerveau que l'action mène à un résultat positif.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-3xl font-bold text-center mb-8">Exemples de Mentalités Résilientes</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-2">Michael Jordan</h3>
+                        <p class="text-gray-600 mb-4 italic">"J'ai échoué encore et encore... Et c'est pourquoi je réussis."</p>
+                        <p class="text-gray-700"><span class="font-semibold text-green-700">Analyse :</span> Il attribue l'échec à une cause <span class="font-bold">Instable</span> (un tir raté) et <span class="font-bold">Spécifique</span>. L'échec est un événement, pas une identité.</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-2">Rafael Nadal</h3>
+                        <p class="text-gray-600 mb-4 italic">"Je joue point par point."</p>
+                        <p class="text-gray-700"><span class="font-semibold text-green-700">Analyse :</span> En se concentrant sur l'action immédiate, il refuse la <span class="font-bold">Globalité</span> ("le match est perdu"). Il garde le contrôle sur le présent <span class="font-bold">Spécifique</span>.</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-2">Usain Bolt</h3>
+                        <p class="text-gray-600 mb-4 italic">(Analyse de son style)</p>
+                        <p class="text-gray-700"><span class="font-semibold text-green-700">Analyse :</span> Capacité à externaliser les revers ("erreur technique", "mauvais jour"). Il protège sa confiance en évitant les attributions <span class="font-bold">Internes</span> et <span class="font-bold">Stables</span>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION VIDÉO EXPÉRIENCE -->
+            <section class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 md:p-8 rounded-lg shadow-lg border border-purple-200">
+                <h2 class="text-3xl font-bold text-center mb-4 text-purple-800">L'Expérience qui a tout démontré</h2>
+                <p class="text-center text-gray-700 mb-6 max-w-3xl mx-auto">
+                    Découvrez l'expérience scientifique fondatrice qui a mis en évidence le phénomène de l'impuissance acquise et ses implications profondes.
+                </p>
+                <div class="max-w-4xl mx-auto">
+                    <div class="relative" style="padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                        <iframe 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                            src="https://www.youtube.com/embed/j9I95BJsINc?start=13" 
+                            title="Expérience sur l'Impuissance Acquise" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            class="rounded-lg shadow-md">
+                        </iframe>
+                    </div>
+                    <p class="text-center text-sm text-gray-500 mt-4">
+                        📺 Vidéo : Comprendre les mécanismes de l'impuissance acquise à travers l'expérience originale
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION QUIZ INTÉGRÉE -->
+            <section id="quiz-section" class="bg-blue-50 p-6 md:p-8 rounded-lg shadow-lg border border-blue-200">
+                <h2 class="text-3xl font-bold text-center mb-2 text-blue-800">Testez vos connaissances</h2>
+                <p class="text-center text-gray-600 mb-8">5 questions pour valider votre compréhension du sujet.</p>
+                
+                <div id="quiz-container" class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-sm">
+                    <!-- État initial / Questions -->
+                    <div id="question-block">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-full">Question <span id="current-q-num">1</span>/5</span>
+                            <span class="text-sm text-gray-500">Score: <span id="current-score">0</span></span>
+                        </div>
+                        <h3 id="question-text" class="text-xl font-bold text-gray-800 mb-6 min-h-[60px]">Chargement...</h3>
+                        <div id="options-container" class="space-y-3">
+                            <!-- Les boutons seront générés ici par JS -->
+                        </div>
+                        <div id="feedback-area" class="hidden mt-6 p-4 rounded-lg bg-gray-50 border border-gray-200">
+                            <p id="feedback-text" class="font-medium mb-2"></p>
+                            <p id="feedback-explanation" class="text-sm text-gray-600 mb-4"></p>
+                            <button id="next-btn" class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition font-semibold">Question Suivante</button>
+                        </div>
+                    </div>
+
+                    <!-- Écran de fin -->
+                    <div id="result-block" class="hidden text-center py-8">
+                        <span class="text-6xl mb-4 block">🏆</span>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Quiz Terminé !</h3>
+                        <p class="text-lg text-gray-600 mb-6">Votre score final : <span id="final-score" class="font-bold text-blue-600 text-2xl"></span>/5</p>
+                        <p id="final-message" class="text-gray-600 mb-8"></p>
+                        <button onclick="resetQuiz()" class="bg-blue-600 text-white py-2 px-6 rounded-full hover:bg-blue-700 transition font-semibold shadow-md">Recommencer</button>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="text-center mt-12 pt-8 border-t border-gray-300">
+                <p class="text-xl font-bold text-blue-700">L'échec est un événement, jamais une personne.</p>
+                <p class="text-gray-600 mt-2">La performance mentale se construit en reprenant le contrôle de nos explications.</p>
+            </footer>
+
+        </main>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+
+            // --- PARTIE GRAPHIQUE (Radar) ---
+            const radarLabels = [
+              'Interne (Aptitude)', 
+              'Stable (Permanent)', 
+              'Global (Généralisé)'
+            ];
+
+            function wrapLabels(label, maxWidth) {
+                if (typeof label !== 'string' || label.length <= maxWidth) {
+                    return label;
+                }
+                const words = label.split(' ');
+                let lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + ' ' + word).trim().length > maxWidth && currentLine.length > 0) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine += (currentLine.length > 0 ? ' ' : '') + word;
+                    }
+                }
+                if (currentLine.length > 0) {
+                    lines.push(currentLine);
+                }
+                return lines;
+            }
+
+            const processedRadarLabels = radarLabels.map(label => wrapLabels(label, 16));
+
+            const radarCtx = document.getElementById('radarChart').getContext('2d');
+            new Chart(radarCtx, {
+                type: 'radar',
+                data: {
+                    labels: processedRadarLabels,
+                    datasets: [
+                        {
+                            label: 'Profil Pessimiste',
+                            data: [9, 8, 9],
+                            backgroundColor: 'rgba(220, 53, 69, 0.2)',
+                            borderColor: 'rgba(220, 53, 69, 1)',
+                            pointBackgroundColor: 'rgba(220, 53, 69, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(220, 53, 69, 1)'
+                        },
+                        {
+                            label: 'Profil Résilient',
+                            data: [2, 3, 2],
+                            backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                            borderColor: 'rgba(40, 167, 69, 1)',
+                            pointBackgroundColor: 'rgba(40, 167, 69, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(40, 167, 69, 1)'
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#D1D5DB' },
+                            grid: { color: '#D1D5DB' },
+                            pointLabels: {
+                                font: { size: 13, weight: '600' },
+                                color: '#1F2937'
+                            },
+                            ticks: { display: false, stepSize: 2 },
+                            min: 0,
+                            max: 10
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { font: { size: 14, weight: '600' } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) {
+                                      return label.join(' ');
+                                    } else {
+                                      return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // --- PARTIE QUIZ ---
+            
+            const quizData = [
+                {
+                    question: "Quel est le facteur psychologique principal qui déclenche l'impuissance acquise ?",
+                    options: [
+                        "La fatigue physique intense",
+                        "La conviction que les événements sont incontrôlables",
+                        "Le manque de talent inné",
+                        "La sévérité de l'entraîneur"
+                    ],
+                    correct: 1,
+                    explanation: "C'est la perception d'incontrôlabilité qui pousse l'athlète à cesser d'agir, et non l'échec lui-même ou la fatigue."
+                },
+                {
+                    question: "Quels sont les 3 déficits de la 'Triade de l'Impuissance' ?",
+                    options: [
+                        "Physique, Technique, Tactique",
+                        "Motivationnel, Cognitif, Émotionnel",
+                        "Force, Vitesse, Endurance",
+                        "Confiance, Estime, Image"
+                    ],
+                    correct: 1,
+                    explanation: "L'impuissance se manifeste par une baisse de motivation, une difficulté d'apprentissage (cognitif) et de l'anxiété (émotionnel)."
+                },
+                {
+                    question: "Quelle attribution causale est la plus dangereuse pour un athlète ?",
+                    options: [
+                        "Interne et Stable (ex: 'Je suis nul')",
+                        "Externe et Instable (ex: 'L'arbitre s'est trompé')",
+                        "Interne et Instable (ex: 'Je n'ai pas assez forcé')",
+                        "Spécifique (ex: 'J'ai raté ce tir')"
+                    ],
+                    correct: 0,
+                    explanation: "Penser que l'échec est dû à une cause interne et permanente (aptitude) bloque tout espoir de changement."
+                },
+                {
+                    question: "En quoi consiste la technique des 'Petits Pas' (Shaping) ?",
+                    options: [
+                        "Courir à petits pas pour s'échauffer",
+                        "Ignorer l'échec et penser à autre chose",
+                        "Définir des objectifs très faciles pour réapprendre le succès",
+                        "Analyser chaque erreur en détail"
+                    ],
+                    correct: 2,
+                    explanation: "Cette technique vise à redonner confiance en garantissant des succès fréquents sur des tâches simples."
+                },
+                {
+                    question: "Comment Michael Jordan interprète-t-il ses échecs ?",
+                    options: [
+                        "Comme la preuve qu'il doit prendre sa retraite",
+                        "Comme des événements globaux qui affectent sa vie",
+                        "Comme des étapes instables et nécessaires à la réussite",
+                        "Il nie avoir échoué"
+                    ],
+                    correct: 2,
+                    explanation: "Il voit l'échec comme temporaire (instable) et utile, ce qui nourrit sa résilience."
+                }
+            ];
+
+            let currentQuestionIndex = 0;
+            let score = 0;
+
+            // Éléments DOM
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const currentQNum = document.getElementById('current-q-num');
+            const currentScoreDisplay = document.getElementById('current-score');
+            const feedbackArea = document.getElementById('feedback-area');
+            const feedbackText = document.getElementById('feedback-text');
+            const feedbackExplanation = document.getElementById('feedback-explanation');
+            const nextBtn = document.getElementById('next-btn');
+            const questionBlock = document.getElementById('question-block');
+            const resultBlock = document.getElementById('result-block');
+            const finalScoreDisplay = document.getElementById('final-score');
+            const finalMessage = document.getElementById('final-message');
+
+            function loadQuestion() {
+                const q = quizData[currentQuestionIndex];
+                questionText.textContent = q.question;
+                currentQNum.textContent = currentQuestionIndex + 1;
+                optionsContainer.innerHTML = '';
+                feedbackArea.classList.add('hidden');
+
+                q.options.forEach((opt, index) => {
+                    const btn = document.createElement('button');
+                    btn.textContent = opt;
+                    btn.className = "option-btn w-full text-left p-3 rounded-lg border border-gray-300 bg-gray-50 hover:bg-white hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300 transition";
+                    btn.onclick = () => checkAnswer(index);
+                    optionsContainer.appendChild(btn);
+                });
+            }
+
+            function checkAnswer(selectedIndex) {
+                const q = quizData[currentQuestionIndex];
+                const buttons = optionsContainer.querySelectorAll('button');
+                
+                // Désactiver tous les boutons
+                buttons.forEach(btn => btn.disabled = true);
+
+                // Marquer les réponses
+                buttons[selectedIndex].classList.add(selectedIndex === q.correct ? 'correct' : 'incorrect');
+                if (selectedIndex !== q.correct) {
+                    buttons[q.correct].classList.add('correct');
+                }
+
+                // Mettre à jour le score
+                if (selectedIndex === q.correct) {
+                    score++;
+                    currentScoreDisplay.textContent = score;
+                    feedbackText.textContent = "✅ Correct !";
+                    feedbackText.className = "font-bold text-green-600 mb-2";
+                } else {
+                    feedbackText.textContent = "❌ Incorrect.";
+                    feedbackText.className = "font-bold text-red-600 mb-2";
+                }
+
+                // Afficher l'explication
+                feedbackExplanation.textContent = q.explanation;
+                feedbackArea.classList.remove('hidden');
+            }
+
+            nextBtn.onclick = () => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizData.length) {
+                    loadQuestion();
+                } else {
+                    showResults();
+                }
+            };
+
+            function showResults() {
+                questionBlock.classList.add('hidden');
+                resultBlock.classList.remove('hidden');
+                finalScoreDisplay.textContent = score;
+                
+                if (score === 5) {
+                    finalMessage.textContent = "Excellent ! Vous maîtrisez parfaitement le sujet.";
+                } else if (score >= 3) {
+                    finalMessage.textContent = "Bien joué ! Vous avez compris les concepts clés.";
+                } else {
+                    finalMessage.textContent = "N'hésitez pas à relire l'infographie pour renforcer vos connaissances.";
+                }
+            }
+
+            // Exposer la fonction reset pour le bouton 'Recommencer'
+            window.resetQuiz = function() {
+                currentQuestionIndex = 0;
+                score = 0;
+                currentScoreDisplay.textContent = "0";
+                resultBlock.classList.add('hidden');
+                questionBlock.classList.remove('hidden');
+                loadQuestion();
+            };
+
+            // Démarrer le quiz
+            loadQuestion();
+        });
+    </script>
+</body>
+</html>
