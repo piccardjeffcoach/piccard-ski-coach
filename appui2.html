@@ -1,694 +1,372 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analyse Infographique du Virage en Ski Alpin</title>
+    <title>Infographie : L'Impuissance Acquise dans le Sport</title>
+    <meta name="description" content="Infographie interactive sur l'impuissance acquise dans le sport : comprendre les mécanismes psychologiques et développer la résilience. Avec graphiques, quiz et vidéo éducative.">
+    <meta name="author" content="Psychologie du Sport">
+    <meta name="keywords" content="impuissance acquise, psychologie du sport, résilience, performance mentale, motivation">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/">
+    <meta property="og:title" content="L'Impuissance Acquise dans le Sport - Infographie Interactive">
+    <meta property="og:description" content="De la résignation à la résilience : comprendre et surmonter l'impuissance acquise dans le sport. Infographie interactive avec quiz et données scientifiques.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="L'Impuissance Acquise dans le Sport">
+    <meta property="twitter:description" content="Infographie interactive sur la psychologie sportive et la résilience mentale.">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            },
-            colors: {
-              'ski-red': '#F94144',
-              'ski-orange': '#F3722C',
-              'ski-yellow': '#F9C74F',
-              'ski-green': '#90BE6D',
-              'ski-teal': '#43AA8B',
-              'ski-blue-grey': '#577590',
-              'ski-bg-light': '#F8F9FA',
-              'ski-text-dark': '#212529',
-              'ski-correct': '#90BE6D', // Vert pour la bonne réponse
-              'ski-incorrect': '#F94144', // Rouge pour la mauvaise réponse
-              'gemini-purple': '#5A4E86',
-            }
-          }
-        }
-      }
-    </script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
     <style>
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-      .chart-container {
-        position: relative;
-        width: 100%;
-        max-width: 500px;
-        margin-left: auto;
-        margin-right: auto;
-        height: 300px;
-        max-height: 350px;
-      }
-      @media (min-width: 640px) {
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6;
+            color: #1F2937;
+        }
         .chart-container {
-          height: 350px;
-          max-height: 400px;
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
         }
-      }
-      .flow-card {
-        background-color: white;
-        border-radius: 0.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        padding: 1.5rem;
-        width: 100%;
-        min-height: 200px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-      .flow-arrow {
-        font-size: 3rem;
-        color: #577590;
-        padding: 1rem;
-        transform: rotate(90deg);
-      }
-      @media (min-width: 768px) {
-        .flow-arrow {
-          transform: rotate(0deg);
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
         }
-      }
-      /* Styles spécifiques au quiz one-by-one */
-      .quiz-option {
-        cursor: pointer;
-        transition: background-color 0.15s, border-color 0.15s;
-        border: 2px solid #D1D5DB;
-      }
-      .quiz-option:hover:not(.answered) {
-        background-color: #f0f4f8;
-        border-color: #577590;
-      }
-      .quiz-option.answered {
-        pointer-events: none; /* Désactive le clic après réponse */
-      }
-      .quiz-option.correct-answer {
-        background-color: #d9f3d9 !important; /* Vert très clair */
-        border-color: #90BE6D !important; /* Vert ski-correct */
-        font-weight: bold;
-      }
-      .quiz-option.incorrect-choice {
-        background-color: #f7e0e0 !important; /* Rouge très clair */
-        border-color: #F94144 !important; /* Rouge ski-incorrect */
-      }
-      
-      /* Styles pour les onglets */
-      .tab-button.active {
-          border-bottom: 3px solid #F3722C; /* Orange pour l'actif */
-          color: #F3722C;
-          font-weight: 600;
-      }
-      .tab-content {
-          display: none;
-      }
-      .tab-content.active {
-          display: block;
-      }
-      
-      /* Style de chargement */
-      .loader {
-          border-top-color: #5A4E86;
-          border-left-color: #5A4E86;
-          animation: spin 1s infinite linear;
-      }
-      @keyframes spin {
-          to { transform: rotate(360deg); }
-      }
+        /* Styles spécifiques au Quiz */
+        .option-btn {
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .option-btn.correct {
+            background-color: #10B981 !important;
+            color: white !important;
+            border-color: #10B981 !important;
+        }
+        .option-btn.incorrect {
+            background-color: #EF4444 !important;
+            color: white !important;
+            border-color: #EF4444 !important;
+        }
     </style>
 </head>
-<body class="bg-ski-bg-light text-ski-text-dark">
+<body class="bg-gray-100">
 
-    <header class="bg-ski-blue-grey text-white p-8 text-center shadow-lg">
-        <h1 class="text-4xl md:text-5xl font-black tracking-tight">Le Virage en Ski Alpin</h1>
-        <p class="text-xl md:text-2xl font-light mt-2">Une Analyse Fonctionnelle de l'Appui</p>
-    </header>
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
 
-    <main class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-blue-700 mb-4">L'Impuissance Acquise dans le Sport</h1>
+            <p class="text-xl md:text-2xl text-gray-600">De la résignation à la résilience : comprendre et surmonter.</p>
+        </header>
 
-        <!-- Navigation par Onglets -->
-        <nav class="flex border-b border-gray-300 bg-white rounded-t-lg shadow-sm overflow-hidden mb-8">
-            <button id="nav-analyse" onclick="showContent('analyse')" class="tab-button active flex-1 py-4 px-4 text-center text-gray-600 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none">
-                Infographie Détaillée
-            </button>
-            <button id="nav-quiz" onclick="showContent('quiz')" class="tab-button flex-1 py-4 px-4 text-center text-gray-600 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none">
-                Quiz
-            </button>
-            <button id="nav-coach" onclick="showContent('coach')" class="tab-button flex-1 py-4 px-4 text-center text-gray-600 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none">
-                Coach IA ✨
-            </button>
-        </nav>
+        <main class="space-y-12">
 
-        <!-- Contenu 1: Analyse Infographique -->
-        <div id="content-analyse" class="tab-content active grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Sections de l'Infographie (non modifiées) -->
-            <section id="usage-vs-outil" class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-ski-blue-grey mb-4">Penser l'Usage avant l'Outil</h2>
-                <p class="mb-4 text-base">Trop souvent, l'enseignement se concentre sur les "Outils" (le Comment faire un geste) sans clarifier l' "Usage" (le Pourquoi on le fait). Notre analyse inverse cette approche : l'objectif est de développer l'intelligence motrice, où les outils sont au service d'un usage clair : <strong class="text-ski-teal">créer un appui efficace</strong>.</p>
-                <div class="chart-container" style="max-height: 300px;">
-                    <canvas id="chartUsage"></canvas>
-                </div>
-                <p class="text-center text-sm text-gray-600 mt-2">Visualisation conceptuelle de la priorité d'enseignement : l'Usage (le but) doit primer sur les Outils (les moyens).</p>
+            <section class="bg-white p-6 md:p-8 rounded-lg shadow-lg text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Qu'est-ce que l'Impuissance Acquise ?</h2>
+                <p class="text-lg text-gray-700 max-w-3xl mx-auto">
+                    C'est un état psychologique de passivité qui survient lorsque l'athlète est convaincu que ses actions n'ont plus d'impact sur les résultats. Face à des échecs répétés perçus comme incontrôlables, il cesse d'agir, même quand la situation redevient favorable.
+                </p>
             </section>
 
-            <section id="physique" class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-ski-blue-grey mb-4">La Physique de l'Appui</h2>
-                <p class="mb-4 text-base">Un virage est une réponse aux lois physiques. Le skieur doit vaincre son <strong class="text-ski-red">Inertie</strong> (le poussant à aller tout droit) en créant une <strong class="text-ski-green">Force Centripète</strong> (le forçant à tourner). Cette force est la <strong class="text-ski-teal">Réaction</strong> de la neige à une <strong class="text-ski-orange">Action</strong> du skieur.</p>
-                
-                <div class="bg-gray-100 rounded-lg p-6 flex flex-col sm:flex-row items-center justify-around space-y-4 sm:space-y-0 sm:space-x-4">
-                  <div class="text-center">
-                    <p class="text-xl font-bold text-ski-orange">ACTION (Outil)</p>
-                    <p class="text-base">Le skieur pousse <span class="text-4xl font-bold text-ski-orange">&rarr;</span></p>
-                    <p class="text-sm">(Prise de carre)</p>
-                  </div>
-                  <div class="w-full sm:w-2 h-2 sm:h-24 bg-ski-text-dark rounded-full"></div>
-                  <div class="text-center">
-                    <p class="text-xl font-bold text-ski-teal">RÉACTION (Usage)</p>
-                    <p class="text-base"><span class="text-4xl font-bold text-ski-teal">&larr;</span> La neige repousse</p>
-                    <p class="text-sm">(Force centripète = Virage)</p>
-                  </div>
-                </div>
-                <p class="text-center text-sm text-gray-600 mt-4">Diagramme de la 3ème loi de Newton appliquée au ski : l'action du skieur contre la neige crée la réaction qui permet le virage.</p>
-            </section>
-
-            <section id="phases-virage" class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-3xl font-bold text-ski-blue-grey mb-6 text-center">Analyse Dynamique du Virage en 3 Phases</h2>
-                <p class="text-lg text-center mb-8 max-w-3xl mx-auto">L'optimisation de l'appui n'est pas un acte isolé, mais une séquence dynamique. Voici comment les outils techniques s'organisent pour préparer, exploiter et utiliser l'appui à travers le virage.</p>
-                
-                <div class="flex flex-col md:flex-row items-center justify-between w-full space-y-4 md:space-y-0 md:space-x-4">
-                  
-                  <div class="flow-card text-center">
-                    <span class="text-5xl mb-2">1</span>
-                    <h3 class="text-xl font-bold text-ski-orange mb-2">Préparation (L'Entonnoir)</h3>
-                    <p class="font-semibold text-ski-blue-grey mb-2">Usage : Construire une structure solide.</p>
-                    <p class="text-sm">Outils : Alignement, Orientation, Transfert de poids.</p>
-                  </div>
-                  
-                  <div class="flow-arrow">&rarr;</div>
-                  
-                  <div class="flow-card text-center">
-                    <span class="text-5xl mb-2">2</span>
-                    <h3 class="text-xl font-bold text-ski-teal mb-2">Résistance (La Glissière)</h3>
-                    <p class="font-semibold text-ski-blue-grey mb-2">Usage : Changer de direction, stocker l'énergie.</p>
-                    <p class="text-sm">Outils : Gainage, Pression continue.</p>
-                  </div>
-                  
-                  <div class="flow-arrow">&rarr;</div>
-                  
-                  <div class="flow-card text-center">
-                    <span class="text-5xl mb-2">3</span>
-                    <h3 class="text-xl font-bold text-ski-red mb-2">Utilisation (L'Impulsion)</h3>
-                    <p class="font-semibold text-ski-blue-grey mb-2">Usage : Se propulser vers l'avant.</p>
-                    <p class="text-sm">Outils : Pilotage du renvoi, Allègement horizontal, Timing.</p>
-                  </div>
-
-                </div>
-                
-                <div class="mt-8 pt-6 border-t border-gray-200">
-                    <h3 class="text-xl font-bold text-ski-blue-grey mb-4">Détail des Intentions Techniques</h3>
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="p-4 bg-ski-bg-light rounded-lg border-l-4 border-ski-orange">
-                            <p class="font-bold text-lg text-ski-orange">Phase 1 : L'Entonnoir</p>
-                            <p class="text-sm mt-1">L'intention est de <strong class="font-semibold">construire la base biomécanique</strong> avant l'impact maximal. Cela garantit que lorsque la force de réaction arrive, la structure (pied-bassin-épaule) peut la soutenir sans s'effondrer. L'orientation et le transfert précoce permettent de "charger" l'appui.</p>
-                        </div>
-                        <div class="p-4 bg-ski-bg-light rounded-lg border-l-4 border-ski-teal">
-                            <p class="font-bold text-lg text-ski-teal">Phase 2 : La Glissière</p>
-                            <p class="text-sm mt-1">C'est la phase de <strong class="font-semibold">résistance active</strong>. Le skieur utilise le gainage pour maintenir l'angle de prise de carre, exploitant au maximum la force centripète pour changer de direction. Plus la pression est continue, plus l'énergie stockée est importante.</p>
-                        </div>
-                        <div class="p-4 bg-ski-bg-light rounded-lg border-l-4 border-ski-red">
-                            <p class="font-bold text-lg text-ski-red">Phase 3 : L'Impulsion</p>
-                            <p class="text-sm mt-1">L'énergie stockée est <strong class="font-semibold">relâchée et dirigée</strong>. L'allègement horizontal (mouvement du bassin vers l'avant) et le pilotage du renvoi permettent de transformer l'énergie verticale en une projection horizontale, catapultant le skieur vers le prochain virage avec efficacité.</p>
-                        </div>
+            <section>
+                <h2 class="text-3xl font-bold text-center mb-6">La Triade de l'Impuissance : Les 3 Déficits</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-red-500">
+                        <span class="text-5xl" role="img" aria-label="Graphique en baisse">📉</span>
+                        <h3 class="text-2xl font-semibold mt-4 mb-2">Motivationnel</h3>
+                        <p class="text-gray-600">Baisse de l'effort, abandon rapide, et retard dans l'initiation de l'action.</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-yellow-500">
+                        <span class="text-5xl" role="img" aria-label="Cerveau confus">🧠</span>
+                        <h3 class="text-2xl font-semibold mt-4 mb-2">Cognitif</h3>
+                        <p class="text-gray-600">Difficulté à apprendre que de nouvelles stratégies peuvent fonctionner. L'athlète "n'y croit plus".</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-blue-500">
+                        <span class="text-5xl" role="img" aria-label="Visage triste">😟</span>
+                        <h3 class="text-2xl font-semibold mt-4 mb-2">Émotionnel</h3>
+                        <p class="text-gray-600">Augmentation de l'anxiété, de la frustration, pouvant mener à des états dépressifs.</p>
                     </div>
                 </div>
             </section>
 
-            <section id="outils-complementaires" class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-ski-blue-grey mb-4">Outils Complémentaires : Régulation Fine</h2>
-                <p class="mb-4 text-base">Les bras et les dissociations ne sont pas des gestes isolés. Ce sont des outils de régulation qui permettent de moduler l'appui principal, soit pour l'amplifier, soit pour le dissiper, tout en maintenant l'équilibre et l'alignement. La dissociation est particulièrement clé pour <strong class="text-ski-teal">ajuster la quantité de pression</strong> en fonction de la vitesse et de la pente sans compromettre l'alignement de la structure.</p>
+            <section>
+                <h2 class="text-3xl font-bold text-center mb-6">Le Vrai Déclencheur : Le Style Explicatif</h2>
+                <p class="text-lg text-center text-gray-700 max-w-3xl mx-auto mb-6">
+                    Ce n'est pas l'échec qui crée l'impuissance, mais l'explication que l'athlète s'en donne. Le Style Explicatif analyse la défaite selon trois dimensions :
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <span class="text-5xl" role="img" aria-label="Cible">📍</span>
+                        <h3 class="text-2xl font-semibold mt-4 mb-2">1. Lieu (Interne / Externe)</h3>
+                        <p class="text-gray-600">"Est-ce de ma faute (interne) ou à cause des circonstances (externe) ?"</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <span class="text-5xl" role="img" aria-label="Sablier">⏳</span>
+                        <h3 class="text-2xl font-semibold mt-4 mb-2">2. Stabilité (Stable / Instable)</h3>
+                        <p class="text-gray-600">"Est-ce permanent (stable) ou est-ce juste temporaire (instable) ?"</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <span class="text-5xl" role="img" aria-label="Globe">🌍</span>
+                        <h3 class="text-2xl font-semibold mt-4 mb-2">3. Globalité (Global / Spécifique)</h3>
+                        <p class="text-gray-600">"Est-ce que cela affecte tout mon jeu (global) ou juste ce geste (spécifique) ?"</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold text-center mb-4">Profil Pessimiste vs. Profil Résilient face à l'Échec</h2>
+                <p class="text-lg text-center text-gray-700 max-w-3xl mx-auto mb-8">
+                    La résilience se joue dans la manière d'interpréter l'échec. Un score élevé sur ce graphique indique une forte tendance à utiliser cette attribution négative, menant à l'impuissance.
+                </p>
                 <div class="chart-container">
-                    <canvas id="chartOutils"></canvas>
+                    <canvas id="radarChart"></canvas>
                 </div>
-                <p class="text-center text-sm text-gray-600 mt-2">Profil d'utilisation conceptuel des outils complémentaires pour moduler l'appui.</p>
             </section>
 
-            <section id="pedagogie" class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-ski-blue-grey mb-4">Pistes Pédagogiques : Enseigner l'Usage</h2>
-                <p class="mb-4 text-base">Pour développer l'intelligence motrice, l'entraîneur conçoit des situations où le skieur découvre l'utilité des outils. Chaque "famille" d'exercices cible un aspect clé de la création et de la gestion de l'appui, permettant au skieur de <strong class="text-ski-orange">choisir le bon outil</strong> face aux contraintes du milieu.</p>
-                <div class="chart-container">
-                    <canvas id="chartPedagogie"></canvas>
-                </div>
-                <p class="text-center text-sm text-gray-600 mt-2">Focus principal des différentes familles d'exercices pédagogiques.</p>
-            </section>
-            <!-- Fin des Sections de l'Infographie -->
-        </div>
-        
-        <!-- Contenu 2: Quiz one-by-one -->
-        <div id="content-quiz" class="tab-content">
-            <section id="quiz" class="mt-8 bg-white rounded-lg shadow-xl p-8 md:p-10 md:col-span-2">
-                <h2 class="text-3xl font-black text-ski-red mb-6 text-center border-b-2 border-ski-red pb-3">Quiz : Testez Votre Intelligence Motrice</h2>
-                <p class="text-lg text-center mb-6" id="quiz-intro">Répondez à la question ci-dessous. La bonne réponse s'affichera immédiatement en vert.</p>
-                
-                <div id="quiz-container" class="space-y-6">
-                    <!-- La question et les options seront insérées ici par JS -->
-                    <div id="question-display" class="bg-ski-bg-light p-4 rounded-lg shadow-inner">
-                        <!-- Contenu de la question actuelle -->
+            <section>
+                <h2 class="text-3xl font-bold text-center mb-8">Construire la Résilience : Les 3 Stratégies Clés</h2>
+
+                <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-700">1. La Réattribution Causale (Retraining)</h3>
+                    <p class="text-gray-600 mb-4">Apprendre à changer l'explication de l'échec pour reprendre le contrôle.</p>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0 md:space-x-2">
+                        <div class="bg-gray-200 p-4 rounded-lg text-center shadow">
+                            <h4 class="font-semibold">ÉCHEC</h4>
+                            <p>Défaite en match</p>
+                        </div>
+                        <span class="text-2xl text-blue-600 font-bold self-center transform md:rotate-0 rotate-90">➡️</span>
+                        <div class="bg-red-100 p-4 rounded-lg text-center shadow border border-red-300">
+                            <h4 class="font-semibold text-red-700">Pensée Pessimiste</h4>
+                            <p>"Je suis nul." (Interne, Stable)</p>
+                        </div>
+                        <span class="text-2xl text-blue-600 font-bold self-center transform md:rotate-0 rotate-90">➡️</span>
+                        <div class="bg-green-100 p-4 rounded-lg text-center shadow border border-green-300">
+                            <h4 class="font-semibold text-green-700">Pensée Résiliente</h4>
+                            <p>"Mon revers a manqué de précision." (Spécifique, Instable, Contrôlable)</p>
+                        </div>
                     </div>
-                    <div id="feedback-area" class="p-4 rounded-md text-center font-bold text-lg mt-4 hidden">
-                        <!-- Feedback de la réponse (Correct / Incorrect) -->
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-blue-700">2. Climat de Maîtrise vs. Résultat</h3>
+                        <p class="text-gray-600 mb-4">L'environnement créé par le coach est crucial.</p>
+                        <div class="border-l-4 border-red-500 pl-4 mb-4">
+                            <h4 class="font-bold">Climat de Résultat (Risqué)</h4>
+                            <ul class="list-none text-gray-600">
+                                <li><span class="mr-2" role="img" aria-label="croix">❌</span> Seule la victoire compte.</li>
+                                <li><span class="mr-2" role="img" aria-label="croix">❌</span> Favorise la comparaison sociale.</li>
+                            </ul>
+                        </div>
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <h4 class="font-bold">Climat de Maîtrise (Protecteur)</h4>
+                            <ul class="list-none text-gray-600">
+                                <li><span class="mr-2" role="img" aria-label="coche">✅</span> Valorise l'effort et le progrès.</li>
+                                <li><span class="mr-2" role="img" aria-label="coche">✅</span> Renforce le sentiment de contrôle.</li>
+                            </ul>
+                        </div>
                     </div>
-                    <button id="next-button" class="mt-4 w-full py-3 bg-ski-blue-grey text-white font-bold rounded-lg shadow-md hover:bg-ski-teal transition duration-200" disabled>
-                        Question Suivante (0/10)
-                    </button>
+
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-blue-700">3. La Technique des "Petits Pas"</h3>
+                        <p class="text-gray-600 mb-4">Pour un athlète en état d'impuissance, il faut recréer le lien entre action et succès.</p>
+                        <ul class="list-none space-y-2">
+                            <li class="flex items-center"><span class="text-blue-600 font-bold text-2xl mr-2">1.</span> Définir des objectifs très faciles.</li>
+                            <li class="flex items-center"><span class="text-blue-600 font-bold text-2xl mr-2">2.</span> Garantir des succès fréquents.</li>
+                            <li class="flex items-center"><span class="text-blue-600 font-bold text-2xl mr-2">3.</span> "Réapprendre" au cerveau que l'action mène à un résultat positif.</li>
+                        </ul>
+                    </div>
                 </div>
+            </section>
+
+            <section>
+                <h2 class="text-3xl font-bold text-center mb-8">Exemples de Mentalités Résilientes</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-2">Michael Jordan</h3>
+                        <p class="text-gray-600 mb-4 italic">"J'ai échoué encore et encore... Et c'est pourquoi je réussis."</p>
+                        <p class="text-gray-700"><span class="font-semibold text-green-700">Analyse :</span> Il attribue l'échec à une cause <span class="font-bold">Instable</span> (un tir raté) et <span class="font-bold">Spécifique</span>. L'échec est un événement, pas une identité.</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-2">Rafael Nadal</h3>
+                        <p class="text-gray-600 mb-4 italic">"Je joue point par point."</p>
+                        <p class="text-gray-700"><span class="font-semibold text-green-700">Analyse :</span> En se concentrant sur l'action immédiate, il refuse la <span class="font-bold">Globalité</span> ("le match est perdu"). Il garde le contrôle sur le présent <span class="font-bold">Spécifique</span>.</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-2">Usain Bolt</h3>
+                        <p class="text-gray-600 mb-4 italic">(Analyse de son style)</p>
+                        <p class="text-gray-700"><span class="font-semibold text-green-700">Analyse :</span> Capacité à externaliser les revers ("erreur technique", "mauvais jour"). Il protège sa confiance en évitant les attributions <span class="font-bold">Internes</span> et <span class="font-bold">Stables</span>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION VIDÉO EXPÉRIENCE -->
+            <section class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 md:p-8 rounded-lg shadow-lg border border-purple-200">
+                <h2 class="text-3xl font-bold text-center mb-4 text-purple-800">L'Expérience qui a tout démontré</h2>
+                <p class="text-center text-gray-700 mb-6 max-w-3xl mx-auto">
+                    Découvrez l'expérience scientifique fondatrice qui a mis en évidence le phénomène de l'impuissance acquise et ses implications profondes.
+                </p>
+                <div class="max-w-4xl mx-auto">
+                    <div class="relative" style="padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                        <iframe 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                            src="https://www.youtube.com/embed/j9I95BJsINc?start=13" 
+                            title="Expérience sur l'Impuissance Acquise" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            class="rounded-lg shadow-md">
+                        </iframe>
+                    </div>
+                    <p class="text-center text-sm text-gray-500 mt-4">
+                        📺 Vidéo : Comprendre les mécanismes de l'impuissance acquise à travers l'expérience originale
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION QUIZ INTÉGRÉE -->
+            <section id="quiz-section" class="bg-blue-50 p-6 md:p-8 rounded-lg shadow-lg border border-blue-200">
+                <h2 class="text-3xl font-bold text-center mb-2 text-blue-800">Testez vos connaissances</h2>
+                <p class="text-center text-gray-600 mb-8">5 questions pour valider votre compréhension du sujet.</p>
                 
-                <div id="quiz-results" class="mt-8 p-6 bg-ski-yellow rounded-lg text-center font-black text-2xl hidden">
-                    Quiz Terminé ! Votre Score : <span id="score-display" class="text-ski-blue-grey"></span> / 10
+                <div id="quiz-container" class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-sm">
+                    <!-- État initial / Questions -->
+                    <div id="question-block">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-full">Question <span id="current-q-num">1</span>/5</span>
+                            <span class="text-sm text-gray-500">Score: <span id="current-score">0</span></span>
+                        </div>
+                        <h3 id="question-text" class="text-xl font-bold text-gray-800 mb-6 min-h-[60px]">Chargement...</h3>
+                        <div id="options-container" class="space-y-3">
+                            <!-- Les boutons seront générés ici par JS -->
+                        </div>
+                        <div id="feedback-area" class="hidden mt-6 p-4 rounded-lg bg-gray-50 border border-gray-200">
+                            <p id="feedback-text" class="font-medium mb-2"></p>
+                            <p id="feedback-explanation" class="text-sm text-gray-600 mb-4"></p>
+                            <button id="next-btn" class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition font-semibold">Question Suivante</button>
+                        </div>
+                    </div>
+
+                    <!-- Écran de fin -->
+                    <div id="result-block" class="hidden text-center py-8">
+                        <span class="text-6xl mb-4 block">🏆</span>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Quiz Terminé !</h3>
+                        <p class="text-lg text-gray-600 mb-6">Votre score final : <span id="final-score" class="font-bold text-blue-600 text-2xl"></span>/5</p>
+                        <p id="final-message" class="text-gray-600 mb-8"></p>
+                        <button onclick="resetQuiz()" class="bg-blue-600 text-white py-2 px-6 rounded-full hover:bg-blue-700 transition font-semibold shadow-md">Recommencer</button>
+                    </div>
                 </div>
             </section>
-        </div>
 
-        <!-- Contenu 3: Coach IA (Nouveau) -->
-        <div id="content-coach" class="tab-content">
-            <section class="mt-8 bg-white rounded-lg shadow-xl p-8 md:p-10 md:col-span-2">
-                <h2 class="text-3xl font-black text-gemini-purple mb-6 text-center border-b-2 border-gemini-purple pb-3">Votre Coach IA Personnel ✨</h2>
-                <p class="text-lg text-center mb-8 text-gray-700">Utilisez les outils Gemini ci-dessous pour approfondir votre compréhension ou générer des exercices sur mesure.</p>
+            <footer class="text-center mt-12 pt-8 border-t border-gray-300">
+                <p class="text-xl font-bold text-blue-700">L'échec est un événement, jamais une personne.</p>
+                <p class="text-gray-600 mt-2">La performance mentale se construit en reprenant le contrôle de nos explications.</p>
+            </footer>
 
-                <!-- Tool 1: Explication Flash -->
-                <div class="mb-10 p-6 border border-gray-200 rounded-xl bg-gray-50">
-                    <h3 class="text-2xl font-bold text-ski-blue-grey mb-4">1. Explication Flash sur un Outil</h3>
-                    <p class="mb-4 text-gray-600">Entrez un terme ou un concept (ex: 'angulation', 'dissociation', 'force centripète') et l'IA vous fournira une explication concise et fonctionnelle.</p>
-                    
-                    <textarea id="explanation-prompt" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-gemini-purple focus:border-gemini-purple mb-4" rows="2" placeholder="Exemple : Expliquez l'effet de l'allègement horizontal."></textarea>
-                    
-                    <button onclick="generateExplanation()" id="explain-button" class="w-full bg-gemini-purple text-white font-bold py-3 rounded-lg shadow-md hover:bg-opacity-90 transition duration-200 flex items-center justify-center">
-                        <span id="explain-text">Expliquer ✨</span>
-                        <div id="explain-loader" class="loader w-6 h-6 border-4 border-t-white border-r-white rounded-full ml-3 hidden"></div>
-                    </button>
-                    
-                    <div id="explanation-output" class="mt-4 p-4 bg-white border border-gemini-purple text-gray-700 rounded-lg hidden whitespace-pre-wrap"></div>
-                </div>
-
-                <!-- Tool 2: Générateur d'Exercices -->
-                <div class="p-6 border border-gray-200 rounded-xl bg-gray-50">
-                    <h3 class="text-2xl font-bold text-ski-blue-grey mb-4">2. Générateur d'Exercices sur une Phase</h3>
-                    <p class="mb-4 text-gray-600">Choisissez la phase du virage que vous souhaitez améliorer. L'IA générera 3 exercices pédagogiques adaptés.</p>
-                    
-                    <select id="exercise-phase" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-gemini-purple focus:border-gemini-purple mb-4">
-                        <option value="Entonnoir (Préparation)">1. Entonnoir (Préparation : construire la structure)</option>
-                        <option value="Glissière (Résistance)">2. Glissière (Résistance : changer de direction)</option>
-                        <option value="Impulsion (Utilisation)">3. Impulsion (Utilisation : se propulser)</option>
-                    </select>
-                    
-                    <button onclick="generateExercises()" id="exercise-button" class="w-full bg-ski-teal text-white font-bold py-3 rounded-lg shadow-md hover:bg-opacity-90 transition duration-200 flex items-center justify-center">
-                        <span id="exercise-text">Générer 3 Exercices ✨</span>
-                        <div id="exercise-loader" class="loader w-6 h-6 border-4 border-t-white border-r-white rounded-full ml-3 hidden"></div>
-                    </button>
-                    
-                    <div id="exercise-output" class="mt-4 p-4 bg-white border border-ski-teal text-gray-700 rounded-lg hidden whitespace-pre-wrap"></div>
-                </div>
-            </section>
-        </div>
-
-    </main>
-
-    <footer class="bg-ski-blue-grey text-white p-8 text-center mt-8">
-        <p class="text-lg font-bold">Conclusion : L'Intelligence Motrice</p>
-        <p class="mt-2 max-w-3xl mx-auto">En plaçant l'usage (créer un appui) au centre, les outils techniques (gestes) deviennent des solutions logiques à un problème physique. Le skieur n'imite plus une forme, il choisit intelligemment les bons outils pour transformer la gravité en trajectoires gagnantes.</p>
-    </footer>
+        </main>
+    </div>
 
     <script>
-        // --- Configuration LLM ---
-        const API_KEY = ""; // Laissez vide pour l'environnement Canvas
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`;
-        const MAX_RETRIES = 5;
+        window.addEventListener('DOMContentLoaded', () => {
 
-        // --- Fonctions utilitaires d'API ---
+            // --- PARTIE GRAPHIQUE (Radar) ---
+            const radarLabels = [
+              'Interne (Aptitude)', 
+              'Stable (Permanent)', 
+              'Global (Généralisé)'
+            ];
 
-        /**
-         * Appelle l'API Gemini avec gestion d'erreurs et backoff exponentiel.
-         * @param {Object} payload - Le corps de la requête API.
-         * @param {number} attempt - Tentative actuelle (pour le backoff).
-         * @returns {Promise<Object>} La réponse JSON de l'API.
-         */
-        async function fetchWithRetry(payload, attempt = 1) {
-            if (attempt > MAX_RETRIES) {
-                throw new Error("Erreur critique : Échec de la connexion à l'API Gemini après plusieurs tentatives.");
-            }
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    // Si le statut est 429 (Too Many Requests) ou autre erreur serveur, on retente
-                    if (response.status === 429 || response.status >= 500) {
-                        const delay = Math.pow(2, attempt) * 1000; // 2s, 4s, 8s, ...
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        return fetchWithRetry(payload, attempt + 1);
-                    }
-                    throw new Error(`Erreur HTTP: ${response.status} - ${response.statusText}`);
+            function wrapLabels(label, maxWidth) {
+                if (typeof label !== 'string' || label.length <= maxWidth) {
+                    return label;
                 }
-
-                return response.json();
-            } catch (error) {
-                // Pour les erreurs réseau (e.g., timeout), on retente
-                const delay = Math.pow(2, attempt) * 1000;
-                await new Promise(resolve => setTimeout(resolve, delay));
-                return fetchWithRetry(payload, attempt + 1);
-            }
-        }
-
-        /**
-         * Appelle l'API Gemini et extrait le texte de la réponse.
-         * @param {string} userQuery - La question de l'utilisateur.
-         * @param {string} systemPrompt - Instruction de rôle pour le modèle.
-         * @param {Object} generationConfig - Configuration optionnelle pour la réponse.
-         * @returns {Promise<string>} Le texte généré.
-         */
-        async function callGeminiApi(userQuery, systemPrompt, generationConfig = {}) {
-            const payload = {
-                contents: [{ parts: [{ text: userQuery }] }],
-                systemInstruction: { parts: [{ text: systemPrompt }] },
-                generationConfig: generationConfig,
-            };
-
-            const result = await fetchWithRetry(payload);
-
-            const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-            if (text) {
-                return text;
-            }
-            throw new Error("L'IA n'a pas réussi à générer de contenu pertinent.");
-        }
-
-
-        // --- Logique du Coach IA (Explication Flash) ---
-
-        async function generateExplanation() {
-            const prompt = document.getElementById('explanation-prompt').value.trim();
-            const outputDiv = document.getElementById('explanation-output');
-            const button = document.getElementById('explain-button');
-            const loader = document.getElementById('explain-loader');
-            const textSpan = document.getElementById('explain-text');
-
-            if (!prompt) {
-                outputDiv.textContent = "Veuillez entrer un concept à expliquer.";
-                outputDiv.classList.remove('hidden');
-                outputDiv.classList.add('border-ski-incorrect');
-                outputDiv.classList.remove('border-gemini-purple');
-                return;
-            }
-            
-            // État de chargement
-            button.disabled = true;
-            textSpan.textContent = "Explication en cours...";
-            loader.classList.remove('hidden');
-            outputDiv.classList.add('hidden');
-            outputDiv.classList.remove('border-ski-incorrect');
-            outputDiv.classList.add('border-gemini-purple');
-            
-            const systemPrompt = `Vous êtes un entraîneur de ski alpin expert. Votre tâche est de fournir une explication concise (maximum 3 phrases) et fonctionnelle sur un concept technique de ski. Focalisez-vous sur le "Pourquoi" (l'Usage) et le résultat du mouvement. La réponse doit être en français.`;
-            const userQuery = `Expliquez le concept suivant: ${prompt}.`;
-
-            try {
-                const responseText = await callGeminiApi(userQuery, systemPrompt);
-                outputDiv.textContent = responseText;
-                outputDiv.classList.remove('hidden');
-            } catch (error) {
-                console.error("Erreur Gemini (Explication):", error);
-                outputDiv.textContent = "Erreur: Impossible de contacter le Coach IA pour l'instant. Veuillez réessayer.";
-                outputDiv.classList.remove('hidden');
-                outputDiv.classList.add('border-ski-incorrect');
-                outputDiv.classList.remove('border-gemini-purple');
-            } finally {
-                // Rétablir l'état du bouton
-                button.disabled = false;
-                textSpan.textContent = "Expliquer ✨";
-                loader.classList.add('hidden');
-            }
-        }
-        
-        // --- Logique du Coach IA (Générateur d'Exercices) ---
-        
-        async function generateExercises() {
-            const phaseSelect = document.getElementById('exercise-phase');
-            const phase = phaseSelect.value;
-            const outputDiv = document.getElementById('exercise-output');
-            const button = document.getElementById('exercise-button');
-            const loader = document.getElementById('exercise-loader');
-            const textSpan = document.getElementById('exercise-text');
-
-            // État de chargement
-            button.disabled = true;
-            textSpan.textContent = "Génération...";
-            loader.classList.remove('hidden');
-            outputDiv.classList.add('hidden');
-            outputDiv.classList.remove('border-ski-incorrect');
-            outputDiv.classList.add('border-ski-teal');
-
-            const systemPrompt = `Vous êtes un concepteur d'exercices de ski alpin. Générez 3 exercices pédagogiques spécifiques qui ciblent l'amélioration de la phase du virage demandée. Pour chaque exercice, incluez : Titre de l'exercice, Objectif fonctionnel (1 phrase), et Description (2-3 étapes courtes). Le résultat doit être formaté en Markdown clair, sans préambule ni conclusion, et en français.`;
-            const userQuery = `Générer 3 exercices pour améliorer la phase du virage suivante : ${phase}.`;
-            
-            try {
-                const responseText = await callGeminiApi(userQuery, systemPrompt);
-                outputDiv.textContent = responseText;
-                outputDiv.classList.remove('hidden');
-            } catch (error) {
-                console.error("Erreur Gemini (Exercices):", error);
-                outputDiv.textContent = "Erreur: Impossible de contacter le Coach IA pour générer les exercices. Veuillez réessayer.";
-                outputDiv.classList.remove('hidden');
-                outputDiv.classList.add('border-ski-incorrect');
-                outputDiv.classList.remove('border-ski-teal');
-            } finally {
-                // Rétablir l'état du bouton
-                button.disabled = false;
-                textSpan.textContent = "Générer 3 Exercices ✨";
-                loader.classList.add('hidden');
-            }
-        }
-
-
-        // --- Logique du Quiz (existante) et Onglets ---
-
-        // Les questions du quiz restent les mêmes que la version précédente
-        let score = 0;
-        let currentQuestionIndex = 0;
-        const totalQuestions = 10;
-        
-        const questions = [
-            {
-                question: "Quel est l'Usage principal du virage en ski alpin ?",
-                options: ["A. Fléchir les jambes", "B. Créer un appui", "C. Faire le mouvement du bâton", "D. Dissocier le haut et le bas du corps"],
-                answer: 1,
-                feedback: "L'usage principal est bien de **Créer un appui** (Force de réaction) pour changer la trajectoire. Les autres sont des outils."
-            },
-            {
-                question: "Par quelle loi physique la force de réaction (l'appui) est-elle régie ?",
-                options: ["A. 1ère Loi de Newton (Inertie)", "B. Loi de la Gravité", "C. 3ème Loi de Newton (Action-Réaction)", "D. Loi de l'énergie cinétique"],
-                answer: 2,
-                feedback: "L'appui est une **Réaction** de la neige à une **Action** du skieur, c'est la 3ème Loi de Newton."
-            },
-            {
-                question: "Comment nomme-t-on la force qui contraint le skieur à dévier de sa trajectoire rectiligne ?",
-                options: ["A. Force centrifuge", "B. Force d'inertie", "C. Force de réaction (centripète)", "D. Force de propulsion"],
-                answer: 2,
-                feedback: "C'est la **Force de réaction (centripète)** qui oblige le skieur à tourner, en contrant l'inertie."
-            },
-            {
-                question: "Quelle phase du virage correspond à 'La Résistance (La Glissière)' ?",
-                options: ["A. Phase 1 (Préparation)", "B. Phase 2 (Résistance)", "C. Phase 3 (Utilisation)", "D. Phase de transition"],
-                answer: 1,
-                feedback: "La Glissière correspond à la **Phase 2 (Résistance)**, où l'on maintient le gainage pour exploiter l'appui."
-            },
-            {
-                question: "Quel outil technique est l'intention principale de la Phase 1 (Préparation) ?",
-                options: ["A. Pilotage du renvoi", "B. Gainage", "C. Alignement biomécanique", "D. Allègement horizontal"],
-                answer: 2,
-                feedback: "La Phase 1 (L'Entonnoir) vise à construire la structure : l'**Alignement biomécanique**."
-            },
-            {
-                question: "Quel est l'Usage visé par la Phase 2 (Résistance) ?",
-                options: ["A. Libérer l'énergie", "B. Vaincre la gravité", "C. Changer de direction et stocker l'énergie", "D. Orienter les skis"],
-                answer: 2,
-                feedback: "La Phase 2 vise à **Changer de direction et stocker l'énergie** grâce à la résistance active."
-            },
-            {
-                question: "Quel outil est utilisé dans la Phase 3 (Utilisation) pour favoriser la projection vers l'avant plutôt que l'élévation ?",
-                options: ["A. Gainage", "B. Allègement horizontal", "C. Transfert de poids", "D. Prise de carre"],
-                answer: 1,
-                feedback: "L'**Allègement horizontal** (mouvement du bassin vers l'avant) permet de diriger l'énergie de renvoi vers le prochain virage."
-            },
-            {
-                question: "Quel est l'un des rôles principaux des Dissociations (outils complémentaires) ?",
-                options: ["A. Amplifier la pression sur l'appui", "B. Moduler la quantité de pression sur l'appui", "C. Accélérer la vitesse", "D. Équilibrer le mouvement de balancier"],
-                answer: 1,
-                feedback: "Les dissociations servent principalement à la **Modulation fine de la pression**."
-            },
-            {
-                question: "La 'Famille des Placements' dans les pistes pédagogiques vise à faire comprendre l'usage de quel outil ?",
-                options: ["A. Le rythme", "B. La prise de carre", "C. Le gainage", "D. Le transfert de poids"],
-                answer: 2,
-                feedback: "La Famille des Placements cible le **Gainage** et la résistance, nécessaires pour maintenir la structure."
-            },
-            {
-                question: "Quelle est la conséquence d'un enseignement trop axé sur les outils ('Comment') sans clarifier l'usage ('Pourquoi') ?",
-                options: ["A. Développement d'une intelligence motrice", "B. Création de 'robots' qui imitent une forme sans en comprendre la fonction", "C. Amélioration du timing", "D. Optimisation du centre de masse"],
-                answer: 1,
-                feedback: "Cela mène à la **Création de 'robots'** : les skieurs copient sans adapter ou comprendre la fonction du geste."
-            }
-        ];
-
-        const questionDisplay = document.getElementById('question-display');
-        const feedbackArea = document.getElementById('feedback-area');
-        const nextButton = document.getElementById('next-button');
-        const quizResults = document.getElementById('quiz-results');
-        const scoreDisplay = document.getElementById('score-display');
-
-        function updateNextButtonText() {
-            if (currentQuestionIndex < totalQuestions) {
-                nextButton.textContent = `Question Suivante (${currentQuestionIndex + 1}/${totalQuestions})`;
-            } else {
-                nextButton.textContent = `Afficher les Résultats`;
-            }
-        }
-
-        function renderQuestion(index) {
-            if (index >= totalQuestions) {
-                showResults();
-                return;
+                const words = label.split(' ');
+                let lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + ' ' + word).trim().length > maxWidth && currentLine.length > 0) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine += (currentLine.length > 0 ? ' ' : '') + word;
+                    }
+                }
+                if (currentLine.length > 0) {
+                    lines.push(currentLine);
+                }
+                return lines;
             }
 
-            const q = questions[index];
-            questionDisplay.classList.remove('answered'); // Reset l'état de la question
-            feedbackArea.classList.add('hidden');
-            nextButton.disabled = true;
+            const processedRadarLabels = radarLabels.map(label => wrapLabels(label, 16));
 
-            const qElement = document.createElement('div');
-            qElement.className = 'p-4 rounded-lg';
-            qElement.innerHTML = `<p class="font-black text-ski-text-dark mb-4 text-xl">Question ${index + 1}/${totalQuestions}: ${q.question}</p>`;
-
-            const optionsContainer = document.createElement('div');
-            optionsContainer.className = 'grid grid-cols-1 sm:grid-cols-2 gap-3';
-
-            q.options.forEach((optionText, oIndex) => {
-                const optionElement = document.createElement('div');
-                optionElement.className = 'quiz-option p-3 rounded-md text-base font-medium transition duration-150 ease-in-out';
-                optionElement.textContent = optionText;
-                optionElement.onclick = () => checkAnswer(index, oIndex, optionElement, optionsContainer);
-                optionsContainer.appendChild(optionElement);
-            });
-
-            qElement.appendChild(optionsContainer);
-            
-            // Remplacer le contenu
-            questionDisplay.innerHTML = '';
-            questionDisplay.appendChild(qElement);
-            updateNextButtonText();
-        }
-
-        function checkAnswer(qIndex, selectedOptionIndex, selectedElement, optionsContainer) {
-            if (optionsContainer.classList.contains('answered')) {
-                return;
-            }
-
-            const questionData = questions[qIndex];
-            const correctOptionIndex = questionData.answer;
-            const allOptions = optionsContainer.children;
-
-            optionsContainer.classList.add('answered'); // Marquer comme répondu
-
-            // 1. Marquer la bonne réponse en VERT
-            allOptions[correctOptionIndex].classList.add('correct-answer');
-
-            if (selectedOptionIndex === correctOptionIndex) {
-                // Réponse Correcte
-                score++;
-                feedbackArea.textContent = `Correct ! ${questionData.feedback}`;
-                feedbackArea.className = 'p-4 rounded-md text-center font-bold text-lg mt-4 bg-ski-correct text-white';
-            } else {
-                // Réponse Incorrecte
-                selectedElement.classList.add('incorrect-choice');
-                feedbackArea.textContent = `Incorrect. ${questionData.feedback}`;
-                feedbackArea.className = 'p-4 rounded-md text-center font-bold text-lg mt-4 bg-ski-incorrect text-white';
-            }
-            
-            feedbackArea.classList.remove('hidden');
-            nextButton.disabled = false;
-
-            // Désactiver le clic sur toutes les options
-            Array.from(allOptions).forEach(option => {
-                option.classList.add('answered');
-            });
-        }
-
-        function nextQuestion() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < totalQuestions) {
-                renderQuestion(currentQuestionIndex);
-                // Scroll vers la question
-                document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
-            } else {
-                showResults();
-            }
-        }
-
-        function showResults() {
-            questionDisplay.style.display = 'none';
-            feedbackArea.style.display = 'none';
-            nextButton.style.display = 'none';
-            document.getElementById('quiz-intro').style.display = 'none';
-            
-            scoreDisplay.textContent = score;
-            quizResults.classList.remove('hidden');
-            
-            // Scroll vers les résultats
-            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        /**
-         * Gère le changement d'onglet.
-         */
-        function showContent(contentId) {
-            // Masquer tous les contenus
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            // Désactiver tous les boutons de navigation
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-
-            // Afficher le contenu de l'onglet actif et activer le bouton
-            document.getElementById(`content-${contentId}`).classList.add('active');
-            document.getElementById(`nav-${contentId}`).classList.add('active');
-
-            // Si c'est l'onglet quiz, assurez-vous qu'il est rendu
-            if (contentId === 'quiz' && questionDisplay.innerHTML === '') {
-                renderQuestion(currentQuestionIndex);
-            }
-        }
-
-        // --- Initialisation des graphiques et des onglets ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // Afficher l'onglet 'analyse' par défaut
-            showContent('analyse');
-            
-            // Initialisation du quiz
-            nextButton.onclick = nextQuestion;
-            renderQuestion(currentQuestionIndex); // Prépare la première question
-
-            // --- Initialisation des Graphiques Chart.js (Reste du code JS) ---
-            const createTooltipTitleCallback = () => {
-                return {
+            const radarCtx = document.getElementById('radarChart').getContext('2d');
+            new Chart(radarCtx, {
+                type: 'radar',
+                data: {
+                    labels: processedRadarLabels,
+                    datasets: [
+                        {
+                            label: 'Profil Pessimiste',
+                            data: [9, 8, 9],
+                            backgroundColor: 'rgba(220, 53, 69, 0.2)',
+                            borderColor: 'rgba(220, 53, 69, 1)',
+                            pointBackgroundColor: 'rgba(220, 53, 69, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(220, 53, 69, 1)'
+                        },
+                        {
+                            label: 'Profil Résilient',
+                            data: [2, 3, 2],
+                            backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                            borderColor: 'rgba(40, 167, 69, 1)',
+                            pointBackgroundColor: 'rgba(40, 167, 69, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(40, 167, 69, 1)'
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#D1D5DB' },
+                            grid: { color: '#D1D5DB' },
+                            pointLabels: {
+                                font: { size: 13, weight: '600' },
+                                color: '#1F2937'
+                            },
+                            ticks: { display: false, stepSize: 2 },
+                            min: 0,
+                            max: 10
+                        }
+                    },
                     plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { font: { size: 14, weight: '600' } }
+                        },
                         tooltip: {
                             callbacks: {
                                 title: function(tooltipItems) {
@@ -703,176 +381,166 @@
                             }
                         }
                     }
-                };
-            };
+                }
+            });
+
+            // --- PARTIE QUIZ ---
             
-            const chartOptions = {
-                maintainAspectRatio: false,
-                responsive: true,
+            const quizData = [
+                {
+                    question: "Quel est le facteur psychologique principal qui déclenche l'impuissance acquise ?",
+                    options: [
+                        "La fatigue physique intense",
+                        "La conviction que les événements sont incontrôlables",
+                        "Le manque de talent inné",
+                        "La sévérité de l'entraîneur"
+                    ],
+                    correct: 1,
+                    explanation: "C'est la perception d'incontrôlabilité qui pousse l'athlète à cesser d'agir, et non l'échec lui-même ou la fatigue."
+                },
+                {
+                    question: "Quels sont les 3 déficits de la 'Triade de l'Impuissance' ?",
+                    options: [
+                        "Physique, Technique, Tactique",
+                        "Motivationnel, Cognitif, Émotionnel",
+                        "Force, Vitesse, Endurance",
+                        "Confiance, Estime, Image"
+                    ],
+                    correct: 1,
+                    explanation: "L'impuissance se manifeste par une baisse de motivation, une difficulté d'apprentissage (cognitif) et de l'anxiété (émotionnel)."
+                },
+                {
+                    question: "Quelle attribution causale est la plus dangereuse pour un athlète ?",
+                    options: [
+                        "Interne et Stable (ex: 'Je suis nul')",
+                        "Externe et Instable (ex: 'L'arbitre s'est trompé')",
+                        "Interne et Instable (ex: 'Je n'ai pas assez forcé')",
+                        "Spécifique (ex: 'J'ai raté ce tir')"
+                    ],
+                    correct: 0,
+                    explanation: "Penser que l'échec est dû à une cause interne et permanente (aptitude) bloque tout espoir de changement."
+                },
+                {
+                    question: "En quoi consiste la technique des 'Petits Pas' (Shaping) ?",
+                    options: [
+                        "Courir à petits pas pour s'échauffer",
+                        "Ignorer l'échec et penser à autre chose",
+                        "Définir des objectifs très faciles pour réapprendre le succès",
+                        "Analyser chaque erreur en détail"
+                    ],
+                    correct: 2,
+                    explanation: "Cette technique vise à redonner confiance en garantissant des succès fréquents sur des tâches simples."
+                },
+                {
+                    question: "Comment Michael Jordan interprète-t-il ses échecs ?",
+                    options: [
+                        "Comme la preuve qu'il doit prendre sa retraite",
+                        "Comme des événements globaux qui affectent sa vie",
+                        "Comme des étapes instables et nécessaires à la réussite",
+                        "Il nie avoir échoué"
+                    ],
+                    correct: 2,
+                    explanation: "Il voit l'échec comme temporaire (instable) et utile, ce qui nourrit sa résilience."
+                }
+            ];
+
+            let currentQuestionIndex = 0;
+            let score = 0;
+
+            // Éléments DOM
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const currentQNum = document.getElementById('current-q-num');
+            const currentScoreDisplay = document.getElementById('current-score');
+            const feedbackArea = document.getElementById('feedback-area');
+            const feedbackText = document.getElementById('feedback-text');
+            const feedbackExplanation = document.getElementById('feedback-explanation');
+            const nextBtn = document.getElementById('next-btn');
+            const questionBlock = document.getElementById('question-block');
+            const resultBlock = document.getElementById('result-block');
+            const finalScoreDisplay = document.getElementById('final-score');
+            const finalMessage = document.getElementById('final-message');
+
+            function loadQuestion() {
+                const q = quizData[currentQuestionIndex];
+                questionText.textContent = q.question;
+                currentQNum.textContent = currentQuestionIndex + 1;
+                optionsContainer.innerHTML = '';
+                feedbackArea.classList.add('hidden');
+
+                q.options.forEach((opt, index) => {
+                    const btn = document.createElement('button');
+                    btn.textContent = opt;
+                    btn.className = "option-btn w-full text-left p-3 rounded-lg border border-gray-300 bg-gray-50 hover:bg-white hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300 transition";
+                    btn.onclick = () => checkAnswer(index);
+                    optionsContainer.appendChild(btn);
+                });
+            }
+
+            function checkAnswer(selectedIndex) {
+                const q = quizData[currentQuestionIndex];
+                const buttons = optionsContainer.querySelectorAll('button');
+                
+                // Désactiver tous les boutons
+                buttons.forEach(btn => btn.disabled = true);
+
+                // Marquer les réponses
+                buttons[selectedIndex].classList.add(selectedIndex === q.correct ? 'correct' : 'incorrect');
+                if (selectedIndex !== q.correct) {
+                    buttons[q.correct].classList.add('correct');
+                }
+
+                // Mettre à jour le score
+                if (selectedIndex === q.correct) {
+                    score++;
+                    currentScoreDisplay.textContent = score;
+                    feedbackText.textContent = "✅ Correct !";
+                    feedbackText.className = "font-bold text-green-600 mb-2";
+                } else {
+                    feedbackText.textContent = "❌ Incorrect.";
+                    feedbackText.className = "font-bold text-red-600 mb-2";
+                }
+
+                // Afficher l'explication
+                feedbackExplanation.textContent = q.explanation;
+                feedbackArea.classList.remove('hidden');
+            }
+
+            nextBtn.onclick = () => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizData.length) {
+                    loadQuestion();
+                } else {
+                    showResults();
+                }
             };
 
-            const ctxUsage = document.getElementById('chartUsage').getContext('2d');
-            new Chart(ctxUsage, {
-                type: 'doughnut',
-                data: {
-                    labels: ['L\'Usage (Le Pourquoi)', 'Les Outils (Le Comment)'],
-                    datasets: [{
-                        label: 'Focus Pédagogique',
-                        data: [75, 25],
-                        backgroundColor: [
-                            '#43AA8B',
-                            '#F9C74F'
-                        ],
-                        borderColor: '#FFFFFF',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    ...chartOptions,
-                    ...createTooltipTitleCallback(),
-                    plugins: {
-                        ...createTooltipTitleCallback().plugins,
-                        legend: {
-                            position: 'bottom',
-                        },
-                    }
+            function showResults() {
+                questionBlock.classList.add('hidden');
+                resultBlock.classList.remove('hidden');
+                finalScoreDisplay.textContent = score;
+                
+                if (score === 5) {
+                    finalMessage.textContent = "Excellent ! Vous maîtrisez parfaitement le sujet.";
+                } else if (score >= 3) {
+                    finalMessage.textContent = "Bien joué ! Vous avez compris les concepts clés.";
+                } else {
+                    finalMessage.textContent = "N'hésitez pas à relire l'infographie pour renforcer vos connaissances.";
                 }
-            });
+            }
 
-            const ctxOutils = document.getElementById('chartOutils').getContext('2d');
-            new Chart(ctxOutils, {
-                type: 'radar',
-                data: {
-                    labels: ['Amplifier Pression', 'Équilibre', 'Gérer Rotation Buste', 'Moduler Pression', 'Dissiper Énergie'],
-                    datasets: [
-                        {
-                            label: 'Rôle des Bras',
-                            data: [8, 9, 7, 4, 2],
-                            backgroundColor: 'rgba(249, 65, 68, 0.2)',
-                            borderColor: '#F94144',
-                            pointBackgroundColor: '#F94144',
-                            pointBorderColor: '#fff',
-                            pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: '#F94144'
-                        },
-                        {
-                            label: 'Rôle des Dissociations',
-                            data: [5, 6, 8, 10, 8],
-                            backgroundColor: 'rgba(67, 170, 139, 0.2)',
-                            borderColor: '#43AA8B',
-                            pointBackgroundColor: '#43AA8B',
-                            pointBorderColor: '#fff',
-                            pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: '#43AA8B'
-                        }
-                    ]
-                },
-                options: {
-                    ...chartOptions,
-                    ...createTooltipTitleCallback(),
-                    scales: {
-                        r: {
-                            angleLines: {
-                                color: '#DDD'
-                            },
-                            grid: {
-                                color: '#DDD'
-                            },
-                            pointLabels: {
-                                font: {
-                                    size: 10
-                                }
-                            },
-                            ticks: {
-                                backdropColor: 'transparent',
-                                stepSize: 2
-                            }
-                        }
-                    },
-                    plugins: {
-                        ...createTooltipTitleCallback().plugins,
-                        legend: {
-                            position: 'bottom',
-                        },
-                    }
-                }
-            });
+            // Exposer la fonction reset pour le bouton 'Recommencer'
+            window.resetQuiz = function() {
+                currentQuestionIndex = 0;
+                score = 0;
+                currentScoreDisplay.textContent = "0";
+                resultBlock.classList.add('hidden');
+                questionBlock.classList.remove('hidden');
+                loadQuestion();
+            };
 
-            const ctxPedagogie = document.getElementById('chartPedagogie').getContext('2d');
-            new Chart(ctxPedagogie, {
-                type: 'bar',
-                data: {
-                    labels: [
-                        ['Famille des', '"Pas"'], 
-                        ['Famille des', '"Placements"'], 
-                        ['Famille des', '"Orientations"'], 
-                        ['Famille des', '"Pressions"']
-                    ],
-                    datasets: [{
-                        label: 'Focus Pédagogique Principal',
-                        data: [
-                            { x: 'Transfert de poids', y: 10 },
-                            { x: 'Gainage / Résistance', y: 10 },
-                            { x: 'Prise de carre / Création', y: 10 },
-                            { x: 'Rythme / Gestion', y: 10 }
-                        ],
-                        backgroundColor: [
-                            '#F94144',
-                            '#F3722C',
-                            '#F9C74F',
-                            '#90BE6D'
-                        ],
-                        borderWidth: 0,
-                        barThickness: 'flex',
-                        maxBarThickness: 40,
-                        categoryPercentage: 0.8,
-                        barPercentage: 0.9,
-                    }]
-                },
-                options: {
-                    ...chartOptions,
-                    indexAxis: 'y',
-                    scales: {
-                        x: {
-                            display: false,
-                            beginAtZero: true,
-                            max: 12
-                        },
-                        y: {
-                            ticks: {
-                                autoSkip: false,
-                                font: {
-                                    size: 14,
-                                    weight: '600'
-                                }
-                            },
-                            grid: {
-                                display: false
-                            }
-                        }
-                    },
-                    plugins: {
-                        ...createTooltipTitleCallback().plugins,
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            ...createTooltipTitleCallback().plugins.tooltip,
-                            callbacks: {
-                                ...createTooltipTitleCallback().plugins.tooltip.callbacks,
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    label += context.parsed.x; 
-                                    return 'Cible l\'usage de: ' + context.raw.x;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+            // Démarrer le quiz
+            loadQuestion();
         });
     </script>
 </body>
